@@ -1,0 +1,444 @@
+text,intent,profession,source
+tuyau ta7t la cuisine yfuiti w bell el ma,find_worker,plumber,hand
+le chauffage central wella bared ma yeskhonch,find_worker,plumber,hand
+el ma taye7 men plafond ta3 hammam,find_worker,plumber,hand
+flexible ta3 douche m9atta3 w yrech f kol jiha,find_worker,plumber,hand
+wc yjri el ma wa7do ma y7besch,find_worker,plumber,hand
+la pompe ta3 el ma ma tjbedch walou,find_worker,plumber,hand
+citerne ta3 stah tfuiti w el ma yenzel 3la l7it,find_worker,plumber,hand
+ri7a khayba tal3a men siphon ta3 cuisine,find_worker,plumber,hand
+n7taj wa7ed yrakebli machine a laver m3a el ma,find_worker,plumber,hand
+melangeur ta3 lavabo ywelli ghir skhoun,find_worker,plumber,hand
+compteur ta3 el ma ydour meme ki nsakrou kolch,find_worker,plumber,hand
+evier y3oum el ma fih w ynzel b chwiya,find_worker,plumber,hand
+dar jdida n7tajou installation sanitaire kamla,find_worker,plumber,hand
+el ma dai3ef ghir fel cuisine,find_worker,plumber,hand
+joint ta3 robinet khasser w y9atter nhar kamel,find_worker,plumber,hand
+الما يرشش من الطويو تحت المجلى,find_worker,plumber,hand
+الشوفاج سونترال ولا بارد ما يسخنش,find_worker,plumber,hand
+الما يطيح من البلافون تاع الحمام,find_worker,plumber,hand
+الفليكسيبل تاع الدوش مقطع يرش على كل جيهة,find_worker,plumber,hand
+التواليت تجري الما وحدها طول الليل,find_worker,plumber,hand
+البومبا تاع الما ما تجبدش والو,find_worker,plumber,hand
+السيترن تاع السطح تفويتي والما ينزل على الحيط,find_worker,plumber,hand
+ريحة خايبة طالعة من البالوعة تاع الكوزينة,find_worker,plumber,hand
+الميلونجور تاع اللافابو يولي غير سخون,find_worker,plumber,hand
+الكونطور تاع الما يدور حتى كي كلش مسكر,find_worker,plumber,hand
+المجلى يعوم الما فيه وينزل بشوية,find_worker,plumber,hand
+دار جديدة نحتاجو تركيب السانيتير كامل,find_worker,plumber,hand
+الما ضعيف غير في الكوزينة,find_worker,plumber,hand
+الجوان تاع الروبيني خسر ويقطر طول النهار,find_worker,plumber,hand
+واحد يركبلي الغسالة مع قنوات الما,find_worker,plumber,hand
+courant yti7 ghir f la moitié ta3 dar,find_worker,electrician,hand
+prise ta3 four dert etincelle w sewdet l7it,find_worker,electrician,hand
+nzidou ligne wa7edha special l la clim,find_worker,electrician,hand
+les fils baynin men l7it lazem gaine,find_worker,electrician,hand
+minuterie ta3 escalier ma tekhdemch,find_worker,electrician,hand
+tableau electrique yeskhon w ri7et plastique ma7rou9,find_worker,electrician,hand
+n7taj mise a la terre l dar kamla,find_worker,electrician,hand
+va et vient ta3 chambre khasser,find_worker,electrician,hand
+installation electrique kamla l appart jdid,find_worker,electrician,hand
+courant faible les lampes yche3lou b nos dou,find_worker,electrician,hand
+compteur ydour bezzaf w la facture tal3et bla sabba,find_worker,electrician,hand
+prise ta3 machine teskhon ki nche3louha,find_worker,electrician,hand
+lampe ta3 cuisine tremch w tzid tech3el,find_worker,electrician,hand
+nrakbou projecteur fel 7ouch,find_worker,electrician,hand
+court circuit f dar w mazal ma l9inach mnin,find_worker,electrician,hand
+الكوران يطيح غير في نص الدار,find_worker,electrician,hand
+البريزة تاع الفور دارت شرارة وسودات الحيط,find_worker,electrician,hand
+نحتاجو خط وحدو للكليمة من الطابلو,find_worker,electrician,hand
+الفيلات باينين من الحيط ولازم غاين,find_worker,electrician,hand
+المينوتري تاع الدرج ما تخدمش,find_worker,electrician,hand
+التابلو يسخن وريحة بلاستيك محروق,find_worker,electrician,hand
+نحتاج ميزالاتير للدار كامل,find_worker,electrician,hand
+الفاي فيان تاع البيت خاسر,find_worker,electrician,hand
+تركيب كهرباء كامل لدار جديدة,find_worker,electrician,hand
+الضو ضعيف واللامبات يشعلو بنص ضو,find_worker,electrician,hand
+الكونطور يدور بزاف والفاكتورة طلعت بلا سبة,find_worker,electrician,hand
+بريزة الغسالة تسخن كي نشعلوها,find_worker,electrician,hand
+لامبة الكوزينة ترمش وتزيد تشعل,find_worker,electrician,hand
+نركبو بروجيكتور في الحوش,find_worker,electrician,hand
+كور سيركوي في الدار ومازال ما لقيناش منين,find_worker,electrician,hand
+split ta3 chambre ma ykhrejch hawa bared,find_worker,ac_repair,hand
+la clim ma tresponduch l telecommande,find_worker,ac_repair,hand
+unité exterieure ta3 clim terjef w ddir bruit,find_worker,ac_repair,hand
+el ma ynzel men split 3la l7it,find_worker,ac_repair,hand
+clim reversible ma tsakhanch f l hiver,find_worker,ac_repair,hand
+demontage w remontage ta3 clim ki n7awlou,find_worker,ac_repair,hand
+filtre ta3 clim mwessekh w ri7a khayba ki tekhdem,find_worker,ac_repair,hand
+clim tekhdem chwiya w t7bes w t3awed,find_worker,ac_repair,hand
+n7tajou nrakbou 3 splits f appart jdid,find_worker,ac_repair,hand
+compresseur ta3 clim ma ymarchich,find_worker,ac_repair,hand
+clim tsob el ma men l unité interieure,find_worker,ac_repair,hand
+clim tban fiha error E4,find_worker,ac_repair,hand
+bruit ta3 clim ma ykhalinach nra9dou,find_worker,ac_repair,hand
+gaz ta3 clim yehrab win ma 3amarnah,find_worker,ac_repair,hand
+clim tech3el w tetfa wa7edha kol d9i9a,find_worker,ac_repair,hand
+السبليت تاع البيت ما يخرجش هوا بارد,find_worker,ac_repair,hand
+الكليمة ما تجاوبش للتيليكوموند,find_worker,ac_repair,hand
+الوحدة الخارجية تاع الكليمة ترجف وتدير حس,find_worker,ac_repair,hand
+الما ينزل من السبليت على الحيط,find_worker,ac_repair,hand
+الكليمة الريفرسيبل ما تسخنش في البرد,find_worker,ac_repair,hand
+نفكو ونركبو الكليمة كي نتحولو,find_worker,ac_repair,hand
+الفيلتر تاع الكليمة موسخ والريحة خايبة كي تخدم,find_worker,ac_repair,hand
+الكليمة تخدم شوية وتحبس وتعاود,find_worker,ac_repair,hand
+نحتاجو نركبو ثلاثة سبليتات في دار جديدة,find_worker,ac_repair,hand
+الكومبريسور تاع الكليمة ما يمارشيش,find_worker,ac_repair,hand
+الكليمة تصب الما من الداخل,find_worker,ac_repair,hand
+الكليمة تبان فيها إيرور إي فور,find_worker,ac_repair,hand
+حس الكليمة ما يخليناش نرقدو,find_worker,ac_repair,hand
+غاز الكليمة يهرب وين ما عمرناه,find_worker,ac_repair,hand
+الكليمة تشعل وتطفى وحدها كل دقيقة,find_worker,ac_repair,hand
+ndirou dalle ta3 garage sitta f tlata,find_worker,mason,hand
+mur ta3 cloture mayel w khayfin yti7,find_worker,mason,hand
+chape ta3 sol machi msawya lazem t3awed,find_worker,mason,hand
+beton ta3 poteau yetfetet w l7did ban,find_worker,mason,hand
+nzidou chambre fo9 el garage,find_worker,mason,hand
+escalier men beton l stah,find_worker,mason,hand
+faience ta3 hammam t9al3et lazem t3awed,find_worker,mason,hand
+ouverture ta3 fenetre jdida f mur porteur,find_worker,mason,hand
+seuil ta3 bab yet7arrek w mkasser,find_worker,mason,hand
+joint ta3 carrelage kla w lazem y3awdouh,find_worker,mason,hand
+muret w escalier sghir fel jardin,find_worker,mason,hand
+fissure kbira f dalle ta3 stah,find_worker,mason,hand
+bni dar R+1 n7tajou maçon bel metre,find_worker,mason,hand
+crepi exterieur yti7 chwiya chwiya,find_worker,mason,hand
+balcon ye7taj renforcement 9bel ma yti7,find_worker,mason,hand
+نديرو دالة للقاراج ستة في ثلاثة,find_worker,mason,hand
+حيط السياج مايل وخايفين يطيح,find_worker,mason,hand
+الشاب تاع الأرضية ماشي مسوية لازم تتعاود,find_worker,mason,hand
+البيتون تاع البوطو يتفتت والحديد بان,find_worker,mason,hand
+نزيدو بيت فوق القاراج,find_worker,mason,hand
+درج بيتون للسطح,find_worker,mason,hand
+الفايونس تاع الحمام تقلعت لازم تتعاود,find_worker,mason,hand
+نحلو فنيترة جديدة في حيط حامل,find_worker,mason,hand
+عتبة الباب تتحرك ومكسرة,find_worker,mason,hand
+جوان الكارلاج كلا ولازم يتعاود,find_worker,mason,hand
+موري صغير ودرج في الجنان,find_worker,mason,hand
+شقوق كبار في دالة السطح,find_worker,mason,hand
+بني دار طابق وطابق ونحتاجو بنّاء بالمتر,find_worker,mason,hand
+الكريبي الخارجي يطيح شوية شوية,find_worker,mason,hand
+البالكون يحتاج تدعيم قبل ما يطيح,find_worker,mason,hand
+sbagha lavable l cuisine w hammam,find_worker,painter,hand
+plafond fih ta9chir men l humidité,find_worker,painter,hand
+salon b deux couleurs m3a les bandes,find_worker,painter,hand
+porte en fer sdat w te7taj peinture antirouille,find_worker,painter,hand
+papier peint n7iweh w nsebghou blastou,find_worker,painter,hand
+sbagha ta3 cage d escalier ta3 immeuble,find_worker,painter,hand
+retouches ta3 sbagha ba3d ma kmel l maçon,find_worker,painter,hand
+vernis l les portes en bois,find_worker,painter,hand
+enduit w ponçage 9bel sbagha,find_worker,painter,hand
+sbagha decorative effet beton l salon,find_worker,painter,hand
+les chambres ta3 drari b rose w bleu,find_worker,painter,hand
+peinture exterieure tbahtet lazem couche jdida,find_worker,painter,hand
+ta9chir f coin ta3 fenetre men el ma ta3 chta,find_worker,painter,hand
+nsebghou dar 9bel ramdan besah bla ri7a 9wiya,find_worker,painter,hand
+mur ta3 salon ye7taj enduit 9bel ma nsebghouh,find_worker,painter,hand
+صباغة لافابل للكوزينة والحمام,find_worker,painter,hand
+البلافون فيه تقشير من الرطوبة,find_worker,painter,hand
+الصالون بزوج ألوان مع الباند,find_worker,painter,hand
+الباب الحديد صدا ويحتاج صباغة ضد الصدأ,find_worker,painter,hand
+ننحيو الپاپيي پان ونصبغو بلاصتو,find_worker,painter,hand
+صباغة قفص الدرج تاع العمارة,find_worker,painter,hand
+روتوشات صباغة بعد ما كمل الماصون,find_worker,painter,hand
+فيرني للأبواب الخشب,find_worker,painter,hand
+أندوي وپونصاج قبل الصباغة,find_worker,painter,hand
+صباغة ديكورية شابة للصالون,find_worker,painter,hand
+بيوت الدراري بالوردي والأزرق,find_worker,painter,hand
+الصباغة الخارجية بهتت ولازم كوش جديدة,find_worker,painter,hand
+تقشير في قنت الفنيترة من ما الشتا,find_worker,painter,hand
+نصبغو الدار قبل رمضان بصح بلا ريحة قوية,find_worker,painter,hand
+حيط الصالون يحتاج أندوي قبل الصباغة,find_worker,painter,hand
+bab ta3 chambre t7akkek fel parquet w s3iba tetsakkar,find_worker,carpenter,hand
+dressing sur mesure l chambre kbira,find_worker,carpenter,hand
+table ta3 sofra tetzahzah w rejliha mkassra,find_worker,carpenter,hand
+zouj chaises khachbhom tfakkek ye7tajo tsli7,find_worker,carpenter,hand
+meuble tv sur mesure m3a rangement,find_worker,carpenter,hand
+porte d entree tjeddbet w ma tetsakkarch mli7,find_worker,carpenter,hand
+lit ta3 drari yzegzeg bezzaf,find_worker,carpenter,hand
+placard ta3 cuisine bab ta3ou taye7,find_worker,carpenter,hand
+fenetre en bois klaha el ma lazem tetbeddel,find_worker,carpenter,hand
+bureau w etageres l khedma men dar,find_worker,carpenter,hand
+parquet flottant tarkib l 3 chambres,find_worker,carpenter,hand
+porte coulissante l salon,find_worker,carpenter,hand
+el karyan kla cadre ta3 bab,find_worker,carpenter,hand
+renovation ta3 les meubles l9dam ta3 jedda,find_worker,carpenter,hand
+les fenetres ydakhlou er ri7 lazem joints jdad,find_worker,carpenter,hand
+باب البيت تحكك في الپاركي وصعيبة تسكر,find_worker,carpenter,hand
+دريسينغ على قياس للبيت الكبيرة,find_worker,carpenter,hand
+طابلة السفرة تتزحزح ورجلها مكسرة,find_worker,carpenter,hand
+زوج كراسي خشبهم تفكك يحتاجو تصليح,find_worker,carpenter,hand
+ميبل تيليفيزيون على قياس مع الرانجمون,find_worker,carpenter,hand
+باب الدخلة تجدبت وما تسكرش مليح,find_worker,carpenter,hand
+سرير الدراري يزقزق بزاف,find_worker,carpenter,hand
+پلاكار الكوزينة باب تاعو طايح,find_worker,carpenter,hand
+فنيترة الخشب كلاها الما لازم تتبدل,find_worker,carpenter,hand
+بيرو وأرفف للخدمة من الدار,find_worker,carpenter,hand
+پاركي فلوتون تركيب لثلاث بيوت,find_worker,carpenter,hand
+باب كوليسانت للصالون,find_worker,carpenter,hand
+القريان كلا كادر الباب,find_worker,carpenter,hand
+تجديد الموبيليا القديمة تاع جدتي,find_worker,carpenter,hand
+الفنيترات يدخلو الريح ولازم جوان جدد,find_worker,carpenter,hand
+ghsil ta3 zrabi w les matelas bel vapeur,find_worker,cleaner,hand
+tnadif ta3 appart ba3d les locataires,find_worker,cleaner,hand
+villa R+2 te7taj equipe ta3 menage,find_worker,cleaner,hand
+les vitres ta3 etage ma nwesloulhomch ghir b echelle,find_worker,cleaner,hand
+nettoyage ta3 cuisine mel graisse li 3lat,find_worker,cleaner,hand
+desinfection ta3 dar ba3d les travaux w la poussiere,find_worker,cleaner,hand
+repassage w menage deux fois par semaine,find_worker,cleaner,hand
+la moquette ta3 bureau te7taj nettoyage,find_worker,cleaner,hand
+dar mesdouda 3amin te7taj tnadif kbir,find_worker,cleaner,hand
+tnadif ta3 les escaliers ta3 l immeuble kol simana,find_worker,cleaner,hand
+menage express 9bel l3id,find_worker,cleaner,hand
+tnadif ta3 four w frigo mel dakhel,find_worker,cleaner,hand
+femme de menage reguliere tji kol khemis,find_worker,cleaner,hand
+les invités jayin w el wa9t 9sir n7tajou 3awna fel menage,find_worker,cleaner,hand
+غسيل الزرابي والماتلات بالفاپور,find_worker,cleaner,hand
+تنظيف شقة بعد الكرا,find_worker,cleaner,hand
+فيلا بزوج طوابق تحتاج فريق ميناج,find_worker,cleaner,hand
+الزجاج تاع الطابق ما نوصلولوش غير بالسلم,find_worker,cleaner,hand
+تنظيف الكوزينة من الشحمة لي علات,find_worker,cleaner,hand
+تعقيم الدار بعد الخدمة والغبرة,find_worker,cleaner,hand
+غسيل وتنظيف مرتين في السيمانة,find_worker,cleaner,hand
+الموكيت تاع البيرو يحتاج تنظيف,find_worker,cleaner,hand
+دار مسدودة عامين تحتاج تنظيف كبير,find_worker,cleaner,hand
+تنظيف دروج العمارة كل سيمانة,find_worker,cleaner,hand
+ميناج إكسبريس قبل العيد,find_worker,cleaner,hand
+تنظيف الفور والتلاجة من الداخل,find_worker,cleaner,hand
+مرا تجي تنظف كل خميس,find_worker,cleaner,hand
+الضياف جايين والوقت قصير نحتاجو عونة في التنظيف,find_worker,cleaner,hand
+tv tban fiha des lignes w ba3d tetfa,find_worker,appliance_repair,hand
+tambour ta3 machine ydir ta9ta9a,find_worker,appliance_repair,hand
+hotte ta3 cuisine ma tjbedch ri7a,find_worker,appliance_repair,hand
+plaque induction nos feux khasrin,find_worker,appliance_repair,hand
+four ma yechwich mel fou9,find_worker,appliance_repair,hand
+machine teghsel b el ma bared bark ma tsakhanch,find_worker,appliance_repair,hand
+frigo yjemmed el khodra fel ta7t,find_worker,appliance_repair,hand
+congelateur ydir glace bezzaf,find_worker,appliance_repair,hand
+lave vaisselle ykhalli les verres mwesskhin,find_worker,appliance_repair,hand
+aspirateur ma yjbedch mli7,find_worker,appliance_repair,hand
+micro onde ydour bla ma yeskhon,find_worker,appliance_repair,hand
+machine t7bes f essorage w tban error,find_worker,appliance_repair,hand
+bab ta3 frigo ma yelse9ch w lbard yehrab,find_worker,appliance_repair,hand
+fer a repasser ma yeskhonch,find_worker,appliance_repair,hand
+petrin khasser w l3id 9rib,find_worker,appliance_repair,hand
+التيليفيزيون يبانو فيه خطوط ومبعد يطفى,find_worker,appliance_repair,hand
+الطامبور تاع الماشينة يدير طقطقة,find_worker,appliance_repair,hand
+الهوت تاع الكوزينة ما تجبدش الريحة,find_worker,appliance_repair,hand
+البلاكة أندكسيون نص فيوات خاسرين,find_worker,appliance_repair,hand
+الفور ما يشويش من الفوق,find_worker,appliance_repair,hand
+الماشينة تغسل بالما البارد برك,find_worker,appliance_repair,hand
+التلاجة تجمد الخضرة في التحت,find_worker,appliance_repair,hand
+الكونجيلاتور يدير جليد بزاف,find_worker,appliance_repair,hand
+اللافيسال يخلي الكيسان موسخين,find_worker,appliance_repair,hand
+الاسبيراتور ما يجبدش مليح,find_worker,appliance_repair,hand
+الميكروند يدور بلا ما يسخن,find_worker,appliance_repair,hand
+الماشينة تحبس في الاسوراج وتبان ايرور,find_worker,appliance_repair,hand
+باب التلاجة ما يلصقش والبرد يهرب,find_worker,appliance_repair,hand
+الفير تاع الحوايج ما يسخنش,find_worker,appliance_repair,hand
+العجانة خسرت والعيد قريب,find_worker,appliance_repair,hand
+gazon naturel wela artificiel m3a tarkib lel 7ouch,out_of_scope,none,hand
+l7chich tal w ghatta l7ouch,out_of_scope,none,hand
+taille ta3 rosiers w les plantes 9bel rbi3,out_of_scope,none,hand
+systeme goutte a goutte lel jnan,out_of_scope,none,hand
+chajra ta3 zitoun te7taj t9lim professionnel,out_of_scope,none,hand
+les palmiers ye7tajo tnadif w taille,out_of_scope,none,hand
+terrain 9oddam dar nheb ndirou pelouse w des fleurs,out_of_scope,none,hand
+traitement ta3 les plantes fihom l7acharat,out_of_scope,none,hand
+haie ta3 cloture te7taj taille reguliere,out_of_scope,none,hand
+jardinier yji kol 15 yom l entretien,out_of_scope,none,hand
+nzar3ou des arbres fruitiers fel terrain,out_of_scope,none,hand
+gazon fih des trous w mahouch khdar kima 9bel,out_of_scope,none,hand
+potager sghir lel khodra nheb nebdah,out_of_scope,none,hand
+arrosage yekhdem b horloge n7tajou tarkib,out_of_scope,none,hand
+tondeuse 3andi besah n7taj jardinier yekhdem biha,out_of_scope,none,hand
+الحشيش طال وغطى الحوش,out_of_scope,none,hand
+تقليم الورد والنباتات قبل الربيع,out_of_scope,none,hand
+نظام قطرة قطرة للجنان,out_of_scope,none,hand
+شجرة الزيتون تحتاج تقليم محترف,out_of_scope,none,hand
+النخلات يحتاجو تنظيف وتقليم,out_of_scope,none,hand
+قدام الدار نحبو نديرو پلوز ونوار,out_of_scope,none,hand
+معالجة النباتات فيهم الحشرات,out_of_scope,none,hand
+الهاي تاع السياج يحتاج تقليم منتظم,out_of_scope,none,hand
+جنايني يجي كل خمسطاش يوم للصيانة,out_of_scope,none,hand
+نغرسو أشجار مثمرة في القطعة,out_of_scope,none,hand
+القازون فيه ثقوب وما عادش خضر كيما قبل,out_of_scope,none,hand
+نحب نبدا حديقة صغيرة للخضرة,out_of_scope,none,hand
+السقي يخدم بالساعة نحتاجو تركيب,out_of_scope,none,hand
+الأشجار وصلو للسطح ولازم يتقصو,out_of_scope,none,hand
+العشب الاصطناعي تركيب للحوش,out_of_scope,none,hand
+demenagement F3 men etage 4 bla ascenseur,find_worker,mover,hand
+n7awlou l dar jdida f nefs el quartier,find_worker,mover,hand
+transport ta3 armoire kbira men Blida l Alger,find_worker,mover,hand
+ghodwa nakhdou les cles ta3 dar jdida w n7tajou camion,find_worker,mover,hand
+demenagement ta3 bureau complet fel weekend,find_worker,mover,hand
+equipe tdir l emballage w tan9el,find_worker,mover,hand
+n9el ta3 congelateur kbir l douar,find_worker,mover,hand
+chargement w dechargement bark el camion 3andna,find_worker,mover,hand
+transport ta3 machines ta3 patisserie l local jdid,find_worker,mover,hand
+demenagement fissa3 9bel akher ch-har,find_worker,mover,hand
+monte meuble n7tajouh l etage 6,find_worker,mover,hand
+n9el l3fach ta3 studio sghir,find_worker,mover,hand
+demenagement tri9 b3ida men Setif l Oran,find_worker,mover,hand
+3andna piano lazmou transport special,find_worker,mover,hand
+n9el les meubles l garde meuble,find_worker,mover,hand
+ديمناجمون من الطابق الرابع بلا سونسور,find_worker,mover,hand
+نتحولو لدار جديدة في نفس الحومة,find_worker,mover,hand
+نقل خزانة كبيرة من البليدة للعاصمة,find_worker,mover,hand
+غدوة ناخدو مفاتيح الدار الجديدة ونحتاجو كاميو,find_worker,mover,hand
+نقل مكتب كامل في الويكاند,find_worker,mover,hand
+فريق يدير الامبالاج وينقل,find_worker,mover,hand
+نقل كونجيلاتور كبير للدوار,find_worker,mover,hand
+التشارجمون والديشارجمون برك الكاميو عندنا,find_worker,mover,hand
+نقل ماشينات الحلويات للوكال الجديد,find_worker,mover,hand
+ديمناجمون فيسع قبل آخر الشهر,find_worker,mover,hand
+مونت ميبل نحتاجوه للطابق السادس,find_worker,mover,hand
+نقل عفش ستوديو صغير,find_worker,mover,hand
+نقل طريق بعيدة من سطيف لوهران,find_worker,mover,hand
+عندنا پيانو لازمو نقل خاص,find_worker,mover,hand
+نقل الموبيليا لقارد ميبل,find_worker,mover,hand
+demarrage s3ib f sbah el berd,find_worker,mechanic,hand
+frein a main ytla3 l akher w mazal ma ychedch,find_worker,mechanic,hand
+el volant yerjef ki nwsel meya,find_worker,mechanic,hand
+boite vitesse s3iba tdakhkhel la deuxieme,find_worker,mechanic,hand
+courroie tzegzeg ki nche3lou f sbah,find_worker,mechanic,hand
+capteur ABS ycha33el voyant fel tableau,find_worker,mechanic,hand
+vidange ta3 boite automatique l Symbol,find_worker,mechanic,hand
+la voiture takol l essence bezzaf had lyamat,find_worker,mechanic,hand
+echappement ydir bruit 9wi men ta7t,find_worker,mechanic,hand
+amortisseurs khasrin et tri9 t7essha kamla,find_worker,mechanic,hand
+el moteur ytaktek ki ytla3 la cote,find_worker,mechanic,hand
+clim ta3 polo tberred chwiya bark,find_worker,mechanic,hand
+changement ta3 les plaquettes w les disques,find_worker,mechanic,hand
+la voiture teskhon fel embouteillage,find_worker,mechanic,hand
+controle technique 9rib lazem nrigliw kolch,find_worker,mechanic,hand
+الديماراج صعيب في صباح البرد,find_worker,mechanic,hand
+الفولون يرجف كي نوصل مية,find_worker,mechanic,hand
+البواتة صعيبة تدخل الدوزيام,find_worker,mechanic,hand
+الكوروة تزقزق كي نشعلو في الصباح,find_worker,mechanic,hand
+الفوايون تاع الأبي أس شاعل في الطابلو,find_worker,mechanic,hand
+فيدونج البواتة الأوتوماتيك,find_worker,mechanic,hand
+الطونوبيل تاكل ليسانس بزاف هاد اليامات,find_worker,mechanic,hand
+الإيشابمون يدير حس قوي من التحت,find_worker,mechanic,hand
+الأمورتيسورات خاسرين والطريق تحسها كامل,find_worker,mechanic,hand
+الموتور يطقطق كي يطلع الكوت,find_worker,mechanic,hand
+كليمة الپولو تبرد شوية برك,find_worker,mechanic,hand
+تبديل البلاكات والديسكات,find_worker,mechanic,hand
+الطونوبيل تسخن في الامبوتياج,find_worker,mechanic,hand
+الكونترول تكنيك قريب ولازم نريقلو كلش,find_worker,mechanic,hand
+الفيتاس يخرج وحدو كي نكون في الطريق السريع,find_worker,mechanic,hand
+الما فايض في الدار والضياف جايين عاونوني بسرعة,urgent_service,plumber,hand
+courant 9ta3 3lina f lil w m3ana bebe urgence,urgent_service,electrician,hand
+دار فيها مريض والكليمة حبست في القايلة عاونونا فيسع,urgent_service,ac_repair,hand
+el frein ma yechedch mli7 w ana f tri9 derwak,urgent_service,mechanic,hand
+الغسالة تجري الما والما وصل للصالون فيسع,urgent_service,appliance_repair,hand
+tuyau tfarga3 w el ma y3oum f cuisine dork dork,urgent_service,plumber,hand
+ريحة قاز قوية في الكوزينة ياو فيسع,urgent_service,plumber,hand
+disjoncteur ma yeb9ach tale3 w dar kamla f dlam,urgent_service,electrician,hand
+شحال حاسبين المتر تاع البني هاد الوقت,price_inquiry,mason,hand
+ch7al ykalef tarkib clim jdida m3a la charge,price_inquiry,ac_repair,hand
+شحال نخلص على صباغة بيت وحدة برك,price_inquiry,painter,hand
+ch7al taman ta3 vidange complete,price_inquiry,mechanic,hand
+شحال تسوى النقلة من العاصمة لعنابة,price_inquiry,mover,hand
+ch7al ydir jardinier l youm wa7ed,out_of_scope,none,hand
+شحال غسيل زربية وحدة,price_inquiry,cleaner,hand
+ch7al ykalef placard sur mesure ta3 3 portes,price_inquiry,carpenter,hand
+شحال يدي التريسيان باش يزيد بريزة,price_inquiry,electrician,hand
+ch7al taman tesli7 ta3 machine a laver,price_inquiry,appliance_repair,hand
+شحال يكلف تبديل الشوفو,price_inquiry,plumber,hand
+نحوس على واحد يخدملي خدمة صغيرة في الدار,find_worker,none,hand
+wa7ed maher l khedma sghira f dar,find_worker,none,hand
+نحتاج معاون ليوم واحد برك,find_worker,none,hand
+كيفاش نعرف بلي العامل موثق في التطبيق,app_question,none,hand
+wach kayen version iphone ta3 l appli,app_question,none,hand
+التطبيق يحبس كي نحل الخريطة واش الحل,app_question,none,hand
+kifach nbeddel wilaya ta3i fel compte,app_question,none,hand
+واش نقدر نبعث تسجيل صوتي في الطلب,app_question,none,hand
+kifach ne9der nchouf ch7al ba9ili men bids had ch-har,app_question,none,hand
+واش يقدرو العمال يشوفو نيميرو تيليفوني قبل ما نقبل,app_question,none,hand
+صباح النور خاوتي,greeting_chitchat,none,hand
+salam 3likom cv khouya,greeting_chitchat,none,hand
+saha ftorkom,greeting_chitchat,none,hand
+عيد مبارك عليكم,greeting_chitchat,none,hand
+نحوس قاعة أفراح للعرس في الصيف,out_of_scope,none,hand
+kayen local l kra ydir l magasin,out_of_scope,none,hand
+wach kayen agence de voyage mli7a l 3omra,out_of_scope,none,hand
+نبيع تلاجة مستعملة في حالة مليحة,out_of_scope,none,hand
+chkoun ye3ref site nechri menno pieces ta3 pc,out_of_scope,none,hand
+نحب نشري كليمة جديدة وين نلقى بروموسيون,out_of_scope,none,hand
+serrurier bach y7elli bab tsakret 3liya,out_of_scope,none,hand
+نحوس على منجد يعاود لي الصالونات,out_of_scope,none,hand
+wach men resto mli7 ydir mechoui f Blida,out_of_scope,none,hand
+دورولي على حجام شاطر في وهران,out_of_scope,none,hand
+عندنا عرس في الدار هاد الويكاند والدار محتاجة تتنظف كامل,find_worker,cleaner,hand
+الدار مقلوبة من بعد الديمناجمون ونحتاجو شكون ينظفها,find_worker,cleaner,hand
+3andna 3ers had l weekend w dar te7taj tetnadaf kamla,find_worker,cleaner,hand
+dar m9alba ba3d les travaux w ma 3andnach el wa9t,find_worker,cleaner,hand
+الضياف يوصلو غدوة والبيوت مازالهم بالغبرة,find_worker,cleaner,hand
+les invités ghodwa w dar mazalha bel ghobra,find_worker,cleaner,hand
+الجنان ولا غابة والضياف جايين في الويكاند,out_of_scope,none,hand
+العشب طال وولا يوصل للركبة,out_of_scope,none,hand
+العشب غطى الممر تاع الدار,out_of_scope,none,hand
+el 3ochb tal w wella yji lel rokba,out_of_scope,none,hand
+jnan wella ghaba lazem ynadfouh 9bel el 3otla,out_of_scope,none,hand
+الشجرة وصلات لسلك الضو ولازم نقصوها قبل الشتا,out_of_scope,none,hand
+sajra kbira weslet l les fils ta3 courant lazem taille,out_of_scope,none,hand
+خرجت من الكرا ولازم نخوي الدار قبل نهاية الشهر,find_worker,mover,hand
+مالك الدار باغي يبيع ولازم نخرجو قبل الشهر الجاي,find_worker,mover,hand
+شريت ميبل جديد ولازم شكون يطلعهولي للطابق الخامس,find_worker,mover,hand
+kre7t men el kra w lazem nkhawi dar 9bel akher ch-har,find_worker,mover,hand
+proprietaire bagh ybi3 dar w lazem nekhorjou fissa3,find_worker,mover,hand
+شحال تسوى النقلة من باب الواد للحراش,price_inquiry,mover,hand
+ch7al transport ta3 l3fach men Bab Ezzouar l Birkhadem,price_inquiry,mover,hand
+شرينا دار وحابين نجددو الصباغة قبل ما ندخلو ليها,find_worker,painter,hand
+نحب نبدل لون البيوت لألوان فاتحة عصرية,find_worker,painter,hand
+chrina dar w nheb njeddou la peinture 9bel ma nedekhlou,find_worker,painter,hand
+nbeddel les couleurs ta3 les chambres l couleurs fat7in,find_worker,painter,hand
+بقع صفر في البلافون حابين نغطوهم بصباغة جديدة,find_worker,painter,hand
+des taches jaunes fel plafond nheb nghattihom b sbagha,find_worker,painter,hand
+شحال تجي صباغة شقة ثلاث بيوت بالماتريال,price_inquiry,painter,hand
+ch7al tji sbagha ta3 appart 3 pieces m3a el materiel,price_inquiry,painter,hand
+وصلاتنا كوزينة جديدة في كارطونات ونحتاجو شكون يركبها,find_worker,carpenter,hand
+montage ta3 cuisine jdida jat f des cartons,find_worker,carpenter,hand
+les meubles demontables ye7tajo montage,find_worker,carpenter,hand
+نحب نديار دريسينغ في البيت الكبيرة,find_worker,carpenter,hand
+نديرو مكتبة خشب برفوف للصالون,find_worker,carpenter,hand
+etagere en bois sur mesure lel salon,find_worker,carpenter,hand
+الطونوبيل ما تشعلش في الصباح كي يكون البرد قوي,find_worker,mechanic,hand
+ما تستارتيش في الصباح حتى نشارجي البطارية,find_worker,mechanic,hand
+البطارية تفرغ وحدها كل ليلة يمكن الألترناتور,find_worker,mechanic,hand
+la batterie tefragh kol lila balak l alternateur khasser,find_worker,mechanic,hand
+ki nch3el f sbah ddir kri kri w ma testartich,find_worker,mechanic,hand
+شحال يكلف تبديل الامبرياج لبيجو 208,price_inquiry,mechanic,hand
+ch7al taman changement ta3 embrayage,price_inquiry,mechanic,hand
+الشوداير تاع الشوفاج سونترال خسرت,find_worker,plumber,hand
+les radiateurs bardin w la chaudiere ma tekhdemch,find_worker,plumber,hand
+chauffage central ye7taj purge w reglage,find_worker,plumber,hand
+فاكتورة الما طلعت بزاف بالاك كاين فويت مخبي,find_worker,plumber,hand
+facture ta3 lma ghalya bezzaf balak fuite makhbiya,find_worker,plumber,hand
+الدالة تاع البالكون فيها شقوق وتخوف,find_worker,mason,hand
+la dalle ta3 balcon fiha des fissures w tkhawwef,find_worker,mason,hand
+ch7al el metre ta3 el bni m3a les materiaux,price_inquiry,mason,hand
+نص الدار بلا ضو والديجونكتور راهو طالع,find_worker,electrician,hand
+nos el bit bla courant w le disjoncteur mazal tale3,find_worker,electrician,hand
+الكليمة ماتت في نص القايلة والسخانة قاتلة,urgent_service,ac_repair,hand
+la clim matet f nos el 9ayla w skhana ma tettsennach,urgent_service,ac_repair,hand
+الغسالة تشعل ضو أحمر وتحبس في نص الدورة,find_worker,appliance_repair,hand
+la machine tech3el dou ro8 w t7bes f nos cycle,find_worker,appliance_repair,hand
+التلفزة تطفى وحدها بعد ربع ساعة,find_worker,appliance_repair,hand
+la tele tetfa wa7edha ba3d chwiya w t3awed tech3el,find_worker,appliance_repair,hand
+نحوس على بريكولور يصلح لي دوايح في الدار,find_worker,none,hand
+n7awes 3la bricoleur ydir li des retouches f dar,find_worker,none,hand
+عندنا سكنة جديدة وفيها خدمة بزاف نحتاجو عمال قاع,find_worker,none,hand
+دار قديمة شريناها وفيها مشاكل من كل جيهة,find_worker,none,hand
+dar 9dima chrinaha w fiha des problemes men kol jiha,find_worker,none,hand
+راني مسجل عامل وما يوصلونيش طلبات علاش,app_question,none,hand
+rani worker w ma yjinich des demandes 3lach,app_question,none,hand
+كيفاش نزيد نطلع في الترتيب باش يشوفوني الكليان,app_question,none,hand
+kifach nactivi l abonnement bach nban lel clients,app_question,none,hand
+تطبيق شباب ربي يوفقكم,greeting_chitchat,none,hand
+appli nadya ya3tikom saha,greeting_chitchat,none,hand
+شحال يسوى راديابور جديد في السوق,out_of_scope,none,hand
+ch7al taman ta3 clim jdida f Ouedkniss,out_of_scope,none,hand
+وين نشري كارلاج رخيص في العاصمة,out_of_scope,none,hand
+win nechri des meubles rkhas f Alger,out_of_scope,none,hand

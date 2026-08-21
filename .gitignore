@@ -1,0 +1,13 @@
+# Secrets — jamais commités
+.env
+.env.cloud
+.env.local
+
+# Modèles IA (téléchargés via make download-gemma4)
+docker/models/
+
+# Runtime
+logs/
+backups/
+node_modules/
+dist/

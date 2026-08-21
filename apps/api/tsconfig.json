@@ -1,0 +1,43 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2021",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+
+    // ── Strict mode ────────────────────────────────────────────────────────
+    // strict: true enables strictPropertyInitialization which requires every
+    // class property to have an initializer or be assigned in the constructor.
+    //
+    // This is INCOMPATIBLE with the NestJS + Mongoose @Prop() decorator pattern:
+    // Mongoose schema classes are NOT instantiated by TypeScript — they are
+    // populated by the ODM at runtime via Object.defineProperty(). TypeScript
+    // cannot know this, so it emits TS2564 on every @Prop() field.
+    //
+    // CORRECT FIX: disable strictPropertyInitialization globally.
+    // This is the approach recommended by NestJS, Mongoose, and TypeORM docs.
+    //
+    // WRONG FIX (patch): adding `!` (definite assignment assertion) to each
+    // property one by one → 136+ assertions, all meaningless noise.
+    //
+    // All other strict checks (noImplicitAny, strictNullChecks, etc.) remain ON.
+    "strict": true,
+    "strictPropertyInitialization": false,
+
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictBindCallApply": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "paths": {}
+  },
+  "exclude": ["node_modules", "dist", "test", "**/*spec.ts"]
+}

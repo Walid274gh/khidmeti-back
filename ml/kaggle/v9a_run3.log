@@ -1,0 +1,151 @@
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 491.5/491.5 kB 2.5 MB/s eta 0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 23.1/23.1 MB 44.9 MB/s eta 0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 116.3/116.3 kB 5.5 MB/s eta 0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.1/3.1 MB 76.9 MB/s eta 0:00:00
+ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+tpot 1.1.0 requires dill>=0.3.9, but you have dill 0.3.8 which is incompatible.
+DECODER_SELFCHECK_OK
+Loading Casablanca:Algeria …
+Generating validation split:   0%|          | 0/844 [00:00<?, ? examples/s]Generating validation split:  12%|█▏        | 100/844 [00:00<00:03, 217.58 examples/s]Generating validation split:  36%|███▌      | 300/844 [00:00<00:01, 520.19 examples/s]Generating validation split:  62%|██████▏   | 522/844 [00:00<00:00, 611.43 examples/s]Generating validation split:  74%|███████▎  | 622/844 [00:01<00:00, 671.79 examples/s]Generating validation split: 100%|██████████| 844/844 [00:01<00:00, 897.32 examples/s]Generating validation split: 100%|██████████| 844/844 [00:01<00:00, 683.84 examples/s]
+Generating test split:   0%|          | 0/843 [00:00<?, ? examples/s]Generating test split:  12%|█▏        | 100/843 [00:00<00:02, 273.33 examples/s]Generating test split:  24%|██▎       | 200/843 [00:00<00:01, 467.75 examples/s]Generating test split:  36%|███▌      | 300/843 [00:00<00:00, 588.91 examples/s]Generating test split:  62%|██████▏   | 522/843 [00:00<00:00, 657.15 examples/s]Generating test split:  86%|████████▌ | 722/843 [00:01<00:00, 831.45 examples/s]Generating test split: 100%|██████████| 843/843 [00:01<00:00, 747.24 examples/s]
+val=83 test=831 (0.92 h de test)
+moteur=model.int8.onnx vocab=84 delim='|' blank=64
+VAL_ENCODER_xRT=0.1751 frames_tot=18191
+  [TEST] 200/831 — 7.9 h restantes
+  [TEST] 400/831 — 7.9 h restantes
+  [TEST] 600/831 — 7.8 h restantes
+  [TEST] 800/831 — 7.8 h restantes
+TEST_ENCODER_xRT=0.1724 frames_tot=164515
+GREEDY_VAL_WER=0.6733 GREEDY_TEST_WER=0.6914 GREEDY_TEST_CER=0.2531
+Generating train split:   0%|          | 0/2324 [00:00<?, ? examples/s]Generating train split: 100%|██████████| 2324/2324 [00:00<00:00, 26715.17 examples/s]
+Generating v1 split:   0%|          | 0/168655 [00:00<?, ? examples/s]Generating v1 split:  94%|█████████▎| 158000/168655 [00:00<00:00, 1568402.00 examples/s]Generating v1 split: 100%|██████████| 168655/168655 [00:00<00:00, 1584229.91 examples/s]
+LM_SRC ayoubkirouane/Algerian-Darija/train col=Text 2311 → 2311 lignes
+    | كل شيء موجود تحب المساجد كاين الاف المساجد الفخمه وبامانه لا يوجد مثل مساجد الامارات روعه ورونقه واذا حبيت الش
+    | تخليني مرتاح في هذا الدنيا وعايش متهني ومابيا تخمام وعلي غفله اصبحت طايح فالوطيا بعد ان جسمي طاح ونهدوا لعظام 
+    | فليبينيين وحدهم هنود وحدهم مصريين وحدهم وانا معايا ربي ودعاوي الوالدين ومعايا بلاد واسمها الجزاير لازم نمثلها 
+LM_SRC ayoubkirouane/Algerian-Darija/v1 col=Text 168650 → 168650 lignes
+    | كان غير يزيدو يهتمو ببلادنا المسؤولين عندنا فيها كلش و هما سامحين فيها
+    | dtrtnqk مايهمنيش العمر حنح ارجعلي نحبك بزاف
+    | افضل مسلسل في رمضان هاد انشاء الله يكون جزء تاني لخطرش الحلقه الاخيره ناقصا شويه
+Generating train split:   0%|          | 0/50000 [00:00<?, ? examples/s]Generating train split: 100%|██████████| 50000/50000 [00:00<00:00, 973567.49 examples/s]
+LM_SRC touati-kamel/algerian-arabic-english-translation-50k/train col=Arabic 48643 → 48643 lignes
+    | مشاعر مخلطه بزاف راني فرحان شويه لي خيروني صح من بين بزاف عباد تقدموا للبرنامج، وهداكشي يفرحني وبطبيعه الحال، 
+    | راني حاب برك ولادي ما يولفوش بلي راني غايب
+    | قالي يعني راك حاب تحاسبني علي الماي تاع العين اللي راح يخرجولي مورا الحصه؟
+Generating train split:   0%|          | 0/3023919 [00:00<?, ? examples/s]Generating train split:   9%|▊         | 260008/3023919 [00:00<00:01, 2031554.35 examples/s]Generating train split:  17%|█▋        | 511085/3023919 [00:00<00:01, 2180146.11 examples/s]Generating train split:  25%|██▌       | 762219/3023919 [00:00<00:01, 2214710.20 examples/s]Generating train split:  33%|███▎      | 1007920/3023919 [00:00<00:00, 2210766.41 examples/s]Generating train split:  41%|████▏     | 1254306/3023919 [00:00<00:00, 2205210.18 examples/s]Generating train split:  50%|████▉     | 1502833/3023919 [00:00<00:00, 2218753.44 examples/s]Generating train split:  58%|█████▊    | 1745683/3023919 [00:00<00:00, 2237383.21 examples/s]Generating train split:  66%|██████▌   | 1997986/3023919 [00:00<00:00, 2239355.55 examples/s]Generating train split:  74%|███████▍  | 2251332/3023919 [00:01<00:00, 2289252.97 examples/s]Generating train split:  84%|████████▍ | 2540159/3023919 [00:01<00:00, 2128543.45 examples/s]Generating train split:  93%|█████████▎| 2822202/3023919 [00:01<00:00, 2018832.12 examples/s]Generating train split: 100%|██████████| 3023919/3023919 [00:01<00:00, 2121159.13 examples/s]
+LM_SRC nasrellahkharroubi/DarijaDz/train col=text 2917416 → 2917416 lignes
+    | نحبك انا من الجزائر العاصمه
+    | نحب محتواك رادكس بالاخص المحتوي الرمضاني ربي يوفقك علابانا بلي راك تعيا باش ديرنا فيديو انشاء الله تشوف تعليقي
+    | طياب تاع اامقروط اقولو صحاب ااتجربه 15دقيقه
+LM_CORPUS lignes=887246 mots=12000000 fuites_test_jetées=35
+=== grille sur val — 7.8 h ===
+LM_BUILT order=3 ngrams=2319845 en 0.5 min
+  NEW_BEST order=3 a=0.1 b=0.0 floor=-30.0 val_WER=0.6369
+  … order=3 alpha=0.1 balayé (meilleur courant 0.6369) — 7.8 h
+  NEW_BEST order=3 a=0.2 b=0.0 floor=-30.0 val_WER=0.6357
+  NEW_BEST order=3 a=0.2 b=1.0 floor=-30.0 val_WER=0.6287
+  … order=3 alpha=0.2 balayé (meilleur courant 0.6287) — 7.8 h
+  … order=3 alpha=0.3 balayé (meilleur courant 0.6287) — 7.8 h
+  … order=3 alpha=0.45 balayé (meilleur courant 0.6287) — 7.7 h
+  … order=3 alpha=0.7 balayé (meilleur courant 0.6287) — 7.7 h
+LM_BUILT order=4 ngrams=2642334 en 0.8 min
+  … order=4 alpha=0.1 balayé (meilleur courant 0.6287) — 7.7 h
+  NEW_BEST order=4 a=0.2 b=1.0 floor=-30.0 val_WER=0.6263
+  … order=4 alpha=0.2 balayé (meilleur courant 0.6263) — 7.7 h
+  … order=4 alpha=0.3 balayé (meilleur courant 0.6263) — 7.7 h
+  … order=4 alpha=0.45 balayé (meilleur courant 0.6263) — 7.7 h
+  … order=4 alpha=0.7 balayé (meilleur courant 0.6263) — 7.7 h
+BEST_GRID order=4 alpha=0.2 beta=1.0 floor=-30.0 val_WER=0.6263 (greedy val 0.6733)
+BEAM_NO_LM_VAL_WER=0.6745 (argmax 0.6733)
+  beam=8 val_WER=0.6322 (0.01 s/clip)
+  beam=16 val_WER=0.6263 (0.02 s/clip)
+  beam=32 val_WER=0.6287 (0.04 s/clip)
+BEST_BEAM=16
+=== test 831 clips — 7.7 h ===
+  [BEAM] 200/831 — 7.7 h restantes
+  [BEAM] 400/831 — 7.7 h restantes
+  [BEAM] 600/831 — 7.7 h restantes
+  [BEAM] 800/831 — 7.7 h restantes
+[BEAM] hyp0: صعا نقولك حاجه
+
+┌─ récap (mêmes 831 clips, même norm, même moteur int8 4 threads) ─
+│ whisper medium+LoRA SERVI ........... WER 0.6300  4,181×RT
+│ CTC v8 greedy (argmax) ............. WER 0.6914 CER 0.2531 0.172×RT
+│ CTC v8 + LM 4-gram faisceau 16 .... WER 0.6505 CER 0.2444 0.178×RT
+│ gain du LM ......................... +0.0409 WER (+5.9 % relatif)
+│ coût du décodage ................... 23 ms/clip (clip moyen 4.0 s)
+│ vitesse vs whisper servi ........... ×23.5
+│ WER par durée ...................... {'0.5-5s': {'n': 629, 'wer': 0.6558, 'cer': 0.2462}, '5-10s': {'n': 169, 'wer': 0.6282, 'cer': 0.2349}, '10-20s': {'n': 31, 'wer': 0.6769, 'cer': 0.2562}, '20-30s': {'n': 2, 'wer': 0.7872, 'cer': 0.3196}}
+└─
+GATE_BEATS_SERVED=NO (0.6505 vs 0.6300)
+GATE_PASS=NO
+LM_ROUNDTRIP_OK (11 sondes)
+Processing Files (0 / 0)      : |          |  0.00B /  0.00B            
+New Data Upload               : |          |  0.00B /  0.00B            [A
+
+  /kaggle/working/out/lm.npz  :   2%|▏         |  524kB / 24.5MB            [A[A
+
+  /kaggle/working/out/lm.npz  :   2%|▏         |  524kB / 24.5MB            [A[AProcessing Files (0 / 1)      :   2%|▏         |  524kB / 24.5MB,  524kB/s  
+New Data Upload               :   2%|▏         |  524kB / 24.5MB,  524kB/s  [A
+
+  /kaggle/working/out/lm.npz  :   2%|▏         |  524kB / 24.5MB            [A[A
+
+  /kaggle/working/out/lm.npz  :   2%|▏         |  524kB / 24.5MB            [A[A
+
+  /kaggle/working/out/lm.npz  :   9%|▊         | 2.10MB / 24.5MB            [A[AProcessing Files (0 / 1)      :   9%|▊         | 2.10MB / 24.5MB, 1.31MB/s  
+New Data Upload               :   9%|▊         | 2.10MB / 24.5MB, 1.31MB/s  [A
+
+  /kaggle/working/out/lm.npz  :  13%|█▎        | 3.15MB / 24.5MB            [A[AProcessing Files (0 / 1)      :  13%|█▎        | 3.15MB / 24.5MB, 1.75MB/s  
+New Data Upload               :  13%|█▎        | 3.15MB / 24.5MB, 1.75MB/s  [A
+
+  /kaggle/working/out/lm.npz  :  21%|██▏       | 5.24MB / 24.5MB            [A[AProcessing Files (0 / 1)      :  21%|██▏       | 5.24MB / 24.5MB, 2.62MB/s  
+New Data Upload               :  21%|██▏       | 5.24MB / 24.5MB, 2.62MB/s  [A
+
+  /kaggle/working/out/lm.npz  :  21%|██▏       | 5.24MB / 24.5MB            [A[A
+
+  /kaggle/working/out/lm.npz  :  32%|███▏      | 7.86MB / 24.5MB            [A[AProcessing Files (0 / 1)      :  32%|███▏      | 7.86MB / 24.5MB, 3.28MB/s  
+New Data Upload               :  32%|███▏      | 7.86MB / 24.5MB, 3.28MB/s  [A
+
+  /kaggle/working/out/lm.npz  :  47%|████▋     | 11.5MB / 24.5MB            [A[AProcessing Files (0 / 1)      :  47%|████▋     | 11.5MB / 24.5MB, 4.44MB/s  
+New Data Upload               :  47%|████▋     | 11.5MB / 24.5MB, 4.44MB/s  [A
+
+  /kaggle/working/out/lm.npz  :  64%|██████▍   | 15.7MB / 24.5MB            [A[AProcessing Files (0 / 1)      :  64%|██████▍   | 15.7MB / 24.5MB, 5.62MB/s  
+New Data Upload               :  64%|██████▍   | 15.7MB / 24.5MB, 5.62MB/s  [A
+
+  /kaggle/working/out/lm.npz  :  79%|███████▉  | 19.4MB / 24.5MB            [A[AProcessing Files (0 / 1)      :  79%|███████▉  | 19.4MB / 24.5MB, 6.47MB/s  
+New Data Upload               :  79%|███████▉  | 19.4MB / 24.5MB, 6.47MB/s  [A
+
+  /kaggle/working/out/lm.npz  :  94%|█████████▍| 23.1MB / 24.5MB            [A[AProcessing Files (0 / 1)      :  94%|█████████▍| 23.1MB / 24.5MB, 7.21MB/s  
+New Data Upload               :  94%|█████████▍| 23.1MB / 24.5MB, 7.21MB/s  [A
+
+  /kaggle/working/out/lm.npz  :  98%|█████████▊| 24.1MB / 24.5MB            [A[AProcessing Files (0 / 1)      :  98%|█████████▊| 24.1MB / 24.5MB, 7.09MB/s  
+New Data Upload               :  98%|█████████▊| 24.1MB / 24.5MB, 7.09MB/s  [A
+
+  /kaggle/working/out/lm.npz  :  98%|█████████▊| 24.1MB / 24.5MB            [A[A
+
+  /kaggle/working/out/lm.npz  :  98%|█████████▊| 24.1MB / 24.5MB            [A[A
+
+  /kaggle/working/out/lm.npz  : 100%|██████████| 24.5MB / 24.5MB            [A[AProcessing Files (1 / 1)      : 100%|██████████| 24.5MB / 24.5MB, 6.14MB/s  
+New Data Upload               : 100%|██████████| 24.5MB / 24.5MB, 6.14MB/s  [A
+
+  /kaggle/working/out/lm.npz  : 100%|██████████| 24.5MB / 24.5MB            [A[A
+
+  /kaggle/working/out/lm.npz  : 100%|██████████| 24.5MB / 24.5MB            [A[A
+
+  /kaggle/working/out/lm.npz  : 100%|██████████| 24.5MB / 24.5MB            [A[A
+
+  /kaggle/working/out/lm.npz  : 100%|██████████| 24.5MB / 24.5MB            [A[A
+
+  /kaggle/working/out/lm.npz  : 100%|██████████| 24.5MB / 24.5MB            [A[A
+
+  /kaggle/working/out/lm.npz  : 100%|██████████| 24.5MB / 24.5MB            [A[AProcessing Files (1 / 1)      : 100%|██████████| 24.5MB / 24.5MB, 4.91MB/s  
+New Data Upload               : 100%|██████████| 24.5MB / 24.5MB, 4.91MB/s  
+  /kaggle/working/out/lm.npz  : 100%|██████████| 24.5MB / 24.5MB            
+GATE_FAILED_NO_SWITCH — whisper reste servi ; LM + mesures sur Walidrbh27/khidmeti-stt-ctc-cand
+V9A: greedy 0.6914 → LM 0.6505 (servi 0.6300), 0.178×RT en 0.3 h
+/usr/local/lib/python3.12/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+  cells[i][c] = re.sub('\\\\\|', '|', cell)
+/usr/local/lib/python3.12/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+  text = re.sub(r'_', '\_', text) # Escape underscores in display text
+[NbConvertApp] Converting notebook __script__.ipynb to html
+[NbConvertApp] Writing 437006 bytes to __results__.html

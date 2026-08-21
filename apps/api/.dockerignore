@@ -1,0 +1,83 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# apps/api/.dockerignore
+#
+# OBJECTIF : réduire le build context envoyé au daemon Docker.
+# Sans ce fichier, node_modules (~400 MB) est envoyé à chaque build,
+# même si le layer node_modules est ensuite ignoré via COPY sélectif.
+#
+# IMPACT sur les temps de build :
+#   Sans .dockerignore → build context : ~450 MB → transfert : ~8s
+#   Avec .dockerignore  → build context : ~2 MB   → transfert : <1s
+# ══════════════════════════════════════════════════════════════════════════════
+
+# ── Dépendances (régénérées dans le conteneur) ────────────────────────────────
+node_modules/
+.npm/
+npm-debug.log*
+yarn-error.log*
+pnpm-lock.yaml
+
+# ── Build output (régénéré par le builder stage) ──────────────────────────────
+dist/
+build/
+
+# ── TypeScript incremental cache ──────────────────────────────────────────────
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# ── Tests (inutiles dans l'image) ────────────────────────────────────────────
+**/*.spec.ts
+**/*.test.ts
+**/*.e2e-spec.ts
+test/
+tests/
+coverage/
+.nyc_output/
+
+# ── Dev tooling ───────────────────────────────────────────────────────────────
+.eslintrc*
+.eslintignore
+.prettierrc*
+.prettierignore
+jest.config*
+jest.config.js
+jest.config.ts
+
+# ── Git ───────────────────────────────────────────────────────────────────────
+.git/
+.gitignore
+.gitattributes
+
+# ── CI/CD ─────────────────────────────────────────────────────────────────────
+.github/
+.gitlab-ci.yml
+.circleci/
+
+# ── IDE ───────────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ── Docker (ne pas inclure dans le context) ───────────────────────────────────
+Dockerfile
+.dockerignore
+
+# ── Logs & données locales ────────────────────────────────────────────────────
+logs/
+*.log
+
+# ── Variables d'environnement ─────────────────────────────────────────────────
+# CRITIQUE : ne JAMAIS envoyer les secrets dans le build context
+.env
+.env.*
+!.env.example
+
+# ── Scripts de seed (dev only, pas nécessaires en prod) ──────────────────────
+src/scripts/
+
+# ── README & docs ─────────────────────────────────────────────────────────────
+*.md
+docs/

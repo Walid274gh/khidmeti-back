@@ -1,0 +1,183 @@
+name: khidmeti-prod
+
+# ══════════════════════════════════════════════════════════════════════════════
+# KHIDMETI — production compose (mirrors docker-compose.yml v14.5 topology)
+#
+# Différences vs dev :
+#   - api    : image `production` (dist/, sans devDeps), pas de bind-mount src,
+#              PORT NON PUBLIÉ — seul nginx est exposé
+#   - services IA : ports non publiés (internes au réseau uniquement)
+#   - NODE_ENV=production
+#
+# Lancement :
+#   docker compose -f docker-compose.prod.yml up -d --build
+#
+# TLS (phase MVP) : pas de certificat — exposer via ngrok qui termine le TLS :
+#   ngrok http 80
+# À la sortie du MVP : vrai domaine + certbot, ajouter listen 443 dans nginx.
+# ══════════════════════════════════════════════════════════════════════════════
+
+networks:
+  khidmeti-network:
+    driver: bridge
+    name: khidmeti-network
+
+services:
+
+  # ── NestJS API ──────────────────────────────────────────────────────────────
+  api:
+    build:
+      context:    ./apps/api
+      dockerfile: Dockerfile
+      target:     production
+      args:
+        NODE_VERSION: "20.19-alpine3.21"
+    container_name: khidmeti-api
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      NODE_ENV:     production
+      NODE_OPTIONS: "--max-old-space-size=768"
+      FLYWHEEL_DIR: /app/flywheel
+    volumes:
+      # C1 flywheel — consented training data (audio/photo) persists on host
+      - ./docker/flywheel:/app/flywheel
+    networks:
+      - khidmeti-network
+    mem_limit:       1g
+    mem_reservation: 256m
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ── AI-EMBED — llama.cpp:server + nomic-embed-text-v1.5 ────────────────────
+  ai-embed:
+    image: ghcr.io/ggml-org/llama.cpp:server
+    container_name: khidmeti-ai-embed
+    restart: unless-stopped
+    volumes:
+      - ./docker/models/embed:/root/.cache/llama.cpp:rw
+    environment:
+      LLAMA_ARG_HF_REPO:    "nomic-ai/nomic-embed-text-v1.5-GGUF:Q8_0"
+      LLAMA_ARG_EMBEDDINGS: "true"
+      LLAMA_ARG_POOLING:    "mean"
+      LLAMA_ARG_CTX_SIZE:   "2048"
+      LLAMA_ARG_PORT:       "8012"
+      LLAMA_ARG_HOST:       "0.0.0.0"
+      LLAMA_ARG_THREADS:    "2"
+    networks:
+      - khidmeti-network
+    mem_limit:       512m
+    mem_reservation: 128m
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "2"
+
+  # ── AI-NLU — dziriBERT 2 têtes (intent + profession), ONNX int8, CPU ───────
+  ai-nlu:
+    build:
+      context: ./docker/ai-nlu
+      dockerfile: Dockerfile
+    container_name: khidmeti-ai-nlu
+    restart: unless-stopped
+    volumes:
+      - ./docker/models/nlu:/models:rw
+    environment:
+      HF_TOKEN: "${HF_TOKEN}"
+      NLU_REPO: "${NLU_REPO:-Walidrbh27/khidmeti-nlu}"
+    networks:
+      - khidmeti-network
+    mem_limit:       768m
+    mem_reservation: 256m
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "2"
+
+  # ── AI-STT — faster-whisper small int8, CPU (P4 pipeline darija) ───────────
+  ai-stt:
+    build:
+      context: ./docker/ai-stt
+      dockerfile: Dockerfile
+    container_name: khidmeti-ai-stt
+    restart: unless-stopped
+    volumes:
+      - ./docker/models/stt:/models:rw
+    environment:
+      # STT_MODEL vide → le serveur choisit le repo qui correspond au moteur
+      # (whisper : khidmeti-stt ; ctc : khidmeti-stt-ctc). Ne pas remettre "small".
+      STT_ENGINE:      "${STT_ENGINE:-whisper}"
+      STT_MODEL:       "${STT_MODEL:-}"
+      STT_MODEL_FILE:  "${STT_MODEL_FILE:-}"
+      STT_MAX_SECONDS: "${STT_MAX_SECONDS:-30}"
+      STT_LANGUAGE: "${STT_LANGUAGE:-}"
+      STT_BEAM:     "${STT_BEAM:-1}"
+      STT_PROMPT:   "${STT_PROMPT:-}"
+      # faisceau+LM côté ctc — SOURCE DE VÉRITÉ = meta.json du repo (écrit par
+      # le kernel à chaque run). Défauts VIDE exprès : une valeur en dur ici
+      # écraserait le meta (ex. un futur LM ordre-4 mélangé) — le bug du 20/08.
+      STT_LM_FILE:  "${STT_LM_FILE:-}"
+      STT_LM_ALPHA: "${STT_LM_ALPHA:-}"
+      STT_LM_BETA:  "${STT_LM_BETA:-}"
+      STT_LM_FLOOR: "${STT_LM_FLOOR:-}"
+      STT_LM_BEAM:  "${STT_LM_BEAM:-}"
+      HF_TOKEN:     "${HF_TOKEN:-}"
+    networks:
+      - khidmeti-network
+    mem_limit:       2g
+    mem_reservation: 256m
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "2"
+
+  # ── AI-VISION — SigLIP2 zero-shot (tour image ONNX int8), CPU (P5 darija) ──
+  ai-vision:
+    build:
+      context: ./docker/ai-vision
+      dockerfile: Dockerfile
+    container_name: khidmeti-ai-vision
+    restart: unless-stopped
+    volumes:
+      - ./docker/models/vision:/models:rw
+    environment:
+      HF_TOKEN:            "${HF_TOKEN}"
+      VISION_REPO:         "${VISION_REPO:-Walidrbh27/khidmeti-vision}"
+      VISION_MODEL_FILE:   "${VISION_MODEL_FILE:-}"
+      VISION_BIAS:         "${VISION_BIAS:-0}"
+    networks:
+      - khidmeti-network
+    mem_limit:       1g
+    mem_reservation: 256m
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "2"
+
+  # ── nginx ───────────────────────────────────────────────────────────────────
+  nginx:
+    image:          nginx:1.27.4-alpine
+    container_name: khidmeti-nginx
+    restart:        unless-stopped
+    ports:
+      - '80:80'
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - api
+    networks:
+      - khidmeti-network
+    mem_limit:       64m
+    mem_reservation: 16m
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "2"

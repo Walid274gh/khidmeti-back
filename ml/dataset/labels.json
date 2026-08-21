@@ -1,0 +1,28 @@
+{
+  "intents": [
+    "find_worker",
+    "urgent_service",
+    "price_inquiry",
+    "app_question",
+    "greeting_chitchat",
+    "out_of_scope"
+  ],
+  "professions": [
+    "none",
+    "plumber",
+    "electrician",
+    "ac_repair",
+    "mason",
+    "painter",
+    "carpenter",
+    "cleaner",
+    "appliance_repair",
+    "mover",
+    "mechanic",
+    "plasterer",
+    "welder",
+    "barber",
+    "tailor",
+    "caterer"
+  ]
+}

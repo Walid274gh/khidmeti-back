@@ -1,0 +1,89 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# KHIDMETI — docker-compose.local.yml (overlay mode LOCAL)
+#
+# Activé automatiquement via COMPOSE_FILE dans .env.local (make start → local).
+# Ré-ajoute les conteneurs d'infra retirés en v14.5 (migrés cloud) :
+#   mongo / redis / qdrant — données persistées dans des volumes nommés.
+# Firebase / Cloudinary / MapTiler restent cloud (pas d'équivalent local).
+# ══════════════════════════════════════════════════════════════════════════════
+
+services:
+
+  mongo:
+    image: mongo:7.0
+    container_name: khidmeti-mongo
+    restart: unless-stopped
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - khidmeti-network
+    mem_limit: 768m
+    mem_reservation: 256m
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 20s
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "2"
+
+  redis:
+    image: redis:7-alpine
+    container_name: khidmeti-redis
+    restart: unless-stopped
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis-data:/data
+    networks:
+      - khidmeti-network
+    mem_limit: 128m
+    mem_reservation: 32m
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "2"
+
+  qdrant:
+    image: qdrant/qdrant:v1.12.4
+    container_name: khidmeti-qdrant
+    restart: unless-stopped
+    ports:
+      - '6333:6333'
+    volumes:
+      - qdrant-data:/qdrant/storage
+    networks:
+      - khidmeti-network
+    mem_limit: 512m
+    mem_reservation: 128m
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "2"
+
+  # L'API attend mongo + redis sains avant de démarrer (merge avec la base).
+  api:
+    depends_on:
+      mongo: { condition: service_healthy }
+      redis: { condition: service_healthy }
+
+volumes:
+  mongo-data:
+    name: khidmeti-mongo-data
+  redis-data:
+    name: khidmeti-redis-data
+  qdrant-data:
+    name: khidmeti-qdrant-data

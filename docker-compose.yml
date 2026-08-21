@@ -1,0 +1,229 @@
+name: khidmeti
+
+# ══════════════════════════════════════════════════════════════════════════════
+# KHIDMETI — Docker Compose v14.5
+#
+# CHANGEMENTS v14.5 vs v14.4 :
+#   - mongo / mongo-express : déjà retirés (v14.4) → MongoDB Atlas
+#   - redis  : retiré → Upstash (Cloud)
+#   - qdrant : retiré → Qdrant Cloud
+#   - minio / minio-init : retirés → Cloudinary (CDN public, plus de proxy)
+#   - api ne dépend d'aucun service IA au démarrage (dégradation gracieuse)
+#   - Plus aucun volume local nécessaire (tout l'état est désormais cloud)
+#
+# v15 : ai-gemma4 (llama.cpp, ~5.16 GB) SUPPRIMÉ — 100% modèles maison.
+#
+# BUDGET MÉMOIRE v15 (8 GB RAM / Codespace 2 cores) :
+#   ai-nlu     : dziriBERT int8 ONNX                               = ~0.75 GB
+#   ai-stt     : faster-whisper small int8 (pic transcription)     = ~1.00 GB
+#   ai-vision  : SigLIP2 fp32 ONNX                                 = ~1.00 GB
+#   ai-embed   : nomic-embed-text-v1.5 Q8_0 (~84 MB) + runtime     = ~0.30 GB
+#   api        : 1g  (NestJS + Node.js)
+#   nginx      : ~0.05 GB
+#   OS + Docker: ~0.5 GB
+#   ──────────────────────────────────────────────────────
+#   Total      : ~4.6 GB  →  marge ~3.4 GB ✅
+# ══════════════════════════════════════════════════════════════════════════════
+
+networks:
+  khidmeti-network:
+    driver: bridge
+    name: khidmeti-network
+
+services:
+
+  # ── NestJS API ──────────────────────────────────────────────────────────────
+  api:
+    build:
+      context:    ./apps/api
+      dockerfile: Dockerfile
+      target:     development
+      args:
+        NODE_VERSION: "20.19-alpine3.21"
+    container_name: khidmeti-api
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      NODE_ENV:     development
+      NODE_OPTIONS: "--max-old-space-size=768"
+      FLYWHEEL_DIR: /app/flywheel
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./apps/api/src:/app/src:ro
+      # C1 flywheel — consented training data (audio/photo) persists on host
+      - ./docker/flywheel:/app/flywheel
+    networks:
+      - khidmeti-network
+    mem_limit:       1g
+    mem_reservation: 256m
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ════════════════════════════════════════════════════════════════════════════
+  # AI-EMBED — llama.cpp:server + nomic-embed-text-v1.5 (768 dim, ~84 MB Q8_0)
+  #
+  # Alimente l'indexation vectorielle Qdrant (workers_vectors /
+  # service_requests_vectors). L'API n'en dépend PAS au démarrage :
+  # EmbeddingsService dégrade gracieusement si le service est absent.
+  # Le modèle est téléchargé au premier boot (repo HF public) puis mis en
+  # cache dans ./docker/models/embed.
+  # ════════════════════════════════════════════════════════════════════════════
+  ai-embed:
+    image: ghcr.io/ggml-org/llama.cpp:server
+    container_name: khidmeti-ai-embed
+    restart: unless-stopped
+    volumes:
+      - ./docker/models/embed:/root/.cache/llama.cpp:rw
+    environment:
+      LLAMA_ARG_HF_REPO:    "nomic-ai/nomic-embed-text-v1.5-GGUF:Q8_0"
+      LLAMA_ARG_EMBEDDINGS: "true"
+      LLAMA_ARG_POOLING:    "mean"
+      LLAMA_ARG_CTX_SIZE:   "2048"
+      LLAMA_ARG_PORT:       "8012"
+      LLAMA_ARG_HOST:       "0.0.0.0"
+      LLAMA_ARG_THREADS:    "2"
+    networks:
+      - khidmeti-network
+    mem_limit:       512m
+    mem_reservation: 128m
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "2"
+
+  # ════════════════════════════════════════════════════════════════════════════
+  # AI-NLU — dziriBERT 2 têtes (intent + profession), ONNX int8, CPU (~130 MB)
+  #
+  # Poids : repo HF privé Walidrbh27/khidmeti-nlu, téléchargés au premier boot
+  # (HF_TOKEN) puis cachés dans ./docker/models/nlu. L'API n'en dépend PAS au
+  # démarrage : NluService dégrade en FALLBACK (recherche manuelle) si absent.
+  # ════════════════════════════════════════════════════════════════════════════
+  ai-nlu:
+    build:
+      context: ./docker/ai-nlu
+      dockerfile: Dockerfile
+    container_name: khidmeti-ai-nlu
+    restart: unless-stopped
+    volumes:
+      - ./docker/models/nlu:/models:rw
+    environment:
+      HF_TOKEN: "${HF_TOKEN}"
+      NLU_REPO: "${NLU_REPO:-Walidrbh27/khidmeti-nlu}"
+    ports:
+      - "8013:8013"
+    networks:
+      - khidmeti-network
+    mem_limit:       768m
+    mem_reservation: 256m
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "2"
+
+  # ════════════════════════════════════════════════════════════════════════════
+  # AI-STT — faster-whisper small int8, CPU (P4 pipeline darija)
+  #
+  # Poids : Systran/faster-whisper-small (repo HF public, ~484 MB), téléchargés
+  # au premier boot puis cachés dans ./docker/models/stt. L'API n'en dépend PAS
+  # au démarrage : SttService dégrade en FALLBACK si le service est absent.
+  # RAM : ~300 MB au repos, pic ~700 MB en transcription (sérialisée par un
+  # verrou global dans server.py) — le pic reste sous la marge de 3 GB.
+  # ════════════════════════════════════════════════════════════════════════════
+  ai-stt:
+    build:
+      context: ./docker/ai-stt
+      dockerfile: Dockerfile
+    container_name: khidmeti-ai-stt
+    restart: unless-stopped
+    volumes:
+      - ./docker/models/stt:/models:rw
+    environment:
+      # STT_MODEL vide → le serveur choisit le repo qui correspond au moteur
+      # (whisper : khidmeti-stt ; ctc : khidmeti-stt-ctc). Ne pas remettre "small".
+      STT_ENGINE:      "${STT_ENGINE:-whisper}"
+      STT_MODEL:       "${STT_MODEL:-}"
+      STT_MODEL_FILE:  "${STT_MODEL_FILE:-}"
+      STT_MAX_SECONDS: "${STT_MAX_SECONDS:-30}"
+      STT_LANGUAGE: "${STT_LANGUAGE:-}"
+      STT_BEAM:     "${STT_BEAM:-1}"
+      STT_PROMPT:   "${STT_PROMPT:-}"
+      # faisceau+LM côté ctc — SOURCE DE VÉRITÉ = meta.json du repo (écrit par
+      # le kernel à chaque run). Défauts VIDE exprès : une valeur en dur ici
+      # écraserait le meta (ex. un futur LM ordre-4 mélangé) — le bug du 20/08.
+      STT_LM_FILE:  "${STT_LM_FILE:-}"
+      STT_LM_ALPHA: "${STT_LM_ALPHA:-}"
+      STT_LM_BETA:  "${STT_LM_BETA:-}"
+      STT_LM_FLOOR: "${STT_LM_FLOOR:-}"
+      STT_LM_BEAM:  "${STT_LM_BEAM:-}"
+      HF_TOKEN:     "${HF_TOKEN:-}"
+    ports:
+      - "8014:8014"
+    networks:
+      - khidmeti-network
+    mem_limit:       4g
+    mem_reservation: 256m
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "2"
+
+  # ════════════════════════════════════════════════════════════════════════════
+  # AI-VISION — SigLIP2 zero-shot (tour image ONNX int8 + text_embeds), CPU
+  #
+  # Poids : repo HF privé Walidrbh27/khidmeti-vision (~470 MB, fp32 + int8),
+  # téléchargés au premier boot (HF_TOKEN) puis cachés dans
+  # ./docker/models/vision. L'API n'en dépend PAS au démarrage : VisionService
+  # dégrade en FALLBACK (UI image de repli côté app) si le service est absent.
+  # ════════════════════════════════════════════════════════════════════════════
+  ai-vision:
+    build:
+      context: ./docker/ai-vision
+      dockerfile: Dockerfile
+    container_name: khidmeti-ai-vision
+    restart: unless-stopped
+    volumes:
+      - ./docker/models/vision:/models:rw
+    environment:
+      HF_TOKEN:            "${HF_TOKEN}"
+      VISION_REPO:         "${VISION_REPO:-Walidrbh27/khidmeti-vision}"
+      VISION_MODEL_FILE:   "${VISION_MODEL_FILE:-}"
+      VISION_BIAS:         "${VISION_BIAS:-0}"
+    ports:
+      - "8015:8015"
+    networks:
+      - khidmeti-network
+    mem_limit:       1g
+    mem_reservation: 256m
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "2"
+
+  # ── nginx ────────────────────────────────────────────────────────────────────
+  nginx:
+    image:          nginx:1.27.4-alpine
+    container_name: khidmeti-nginx
+    restart:        unless-stopped
+    ports:
+      - '80:80'
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - api
+    networks:
+      - khidmeti-network
+    mem_limit:       64m
+    mem_reservation: 16m
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "2"

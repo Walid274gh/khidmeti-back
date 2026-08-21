@@ -1,0 +1,99 @@
+{
+  "nlu": {
+    "data": {
+      "train_size": 10875,
+      "val_size": 633,
+      "test_size": 1272,
+      "stratification": "by profession",
+      "augmentations": [
+        "regional_dialects",
+        "arabizi",
+        "typos"
+      ],
+      "deduplication": "semantic_hash"
+    },
+    "training": {
+      "base_model": "alger-ia/dziribert",
+      "max_len": 64,
+      "batch_size": 32,
+      "epochs": 4,
+      "lr": 2e-05,
+      "warmup": 0.1,
+      "weight_decay": 0.01,
+      "scheduler": "linear",
+      "early_stopping": "best_val_prof_acc"
+    },
+    "evaluation": {
+      "metrics": [
+        "intent_acc",
+        "prof_acc",
+        "per_class_f1"
+      ],
+      "gate": "prof_acc >= 0.90",
+      "holdout": "eval_heldout.csv (never touched during dev)"
+    }
+  },
+  "stt": {
+    "data": {
+      "current_size": "~1500 clips",
+      "target_size": "15k+ clips",
+      "sources": [
+        "youtube",
+        "radio",
+        "synthetic_tts",
+        "crowdsourced",
+        "augmentation"
+      ],
+      "augmentation": [
+        "speed_0.9_1.1",
+        "pitch_pm2",
+        "noise_snr15-25"
+      ],
+      "split": "stratified by duration bins"
+    },
+    "training": {
+      "base_model": "openai/whisper-medium",
+      "method": "LoRA r=32 alpha=64",
+      "target_modules": [
+        "q_proj",
+        "k_proj",
+        "v_proj",
+        "out_proj",
+        "fc1",
+        "fc2"
+      ],
+      "batch_size": 4,
+      "grad_accum": 4,
+      "epochs": 5,
+      "lr": 0.0001,
+      "warmup": 0.1,
+      "spec_augment": true,
+      "gradient_checkpointing": true,
+      "mixed_precision": "fp16"
+    },
+    "evaluation": {
+      "metric": "WER with Arabic normalization",
+      "gate": "WER < 0.50",
+      "engine": "faster-whisper int8 (production)",
+      "holdout": "Casablanca Algeria test split"
+    }
+  },
+  "general": {
+    "reproducibility": {
+      "seed": 20260810,
+      "versioning": "all datasets + models tagged with v6",
+      "provenance": "source field tracks data origin"
+    },
+    "quality": {
+      "manual_review": "10% spot-check on new sources",
+      "gate_enforcement": "no upload if metrics regress",
+      "ablation": "per-source WER/acc for future selection"
+    },
+    "deployment": {
+      "quantization": "int8 for production",
+      "serving": "ONNX (NLU) + CTranslate2 (STT)",
+      "fallback": "manual search if NLU conf < 0.7",
+      "monitoring": "flywheel logs for continuous improvement"
+    }
+  }
+}

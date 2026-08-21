@@ -1,0 +1,47 @@
+text,intent,profession,source
+daw ma9tou3 f koulchi men sbah,find_worker,electrician,hand
+eddaw yti7 w ytla3 wa7do machi normal,find_worker,electrician,hand
+dijonctor ye9ta3 ghi ki nkhadem la machine,find_worker,electrician,hand
+el courant rah maktou3 gha fel koujina w el bit lokhra la,find_worker,electrician,hand
+daw dar kamla tfa w ma3labalich 3lah,urgent_service,electrician,hand
+lma yehbes ta3 robini w y3awed yjri wa7do,find_worker,plumber,hand
+siphon ta3 twalit mbouchi w ri7a khayba,find_worker,plumber,hand
+douche terchech mel jnab w lma yekhroj lel couloir,find_worker,plumber,hand
+tiyou ta3 lma yfwiti ta7t l7id,find_worker,plumber,hand
+khasni blombi mli7 yji lyoum,find_worker,plumber,hand
+klima tekhdem b sot 3ali w ma tberedch koulchi,find_worker,ac_repair,hand
+ch7al bach y3amrouli gaz f klima ta3 dar,price_inquiry,ac_repair,hand
+7it ta3 bit rah yched rtouba w sbagha t9achret,find_worker,mason,hand
+karlaj ta3 salon tfar9e3 w twali yban khayeb,find_worker,mason,hand
+marchat ta3 doroj tkasrou w wlaw khatirin,find_worker,mason,hand
+nheb nsabegh dar kamla 9bel l3id ch7al taman,price_inquiry,painter,hand
+sbagha ta3 plafond t9achret men rtouba,find_worker,painter,hand
+tabla ta3 sofraji tkasret rejliha,find_worker,carpenter,hand
+bab ta3 khizana kharjet men blastha,find_worker,carpenter,hand
+dar mghabra ga3 ba3d travaux n7taj wa7da tnadafha mli7,find_worker,cleaner,hand
+khadama tji koul jem3a tnadaf dar,find_worker,cleaner,hand
+machina ta3 tessbin t7abset f nos w lma ba9i fiha,find_worker,appliance_repair,hand
+frigidar ma ybaredch w el makla tekhsar fih,find_worker,appliance_repair,hand
+four ma yeskhonch mel ta7t ghi mel fou9,find_worker,appliance_repair,hand
+n7taj camyou w zawalya ynaklouli l3fach l dar jdida,find_worker,mover,hand
+demenajma kamla men wahran l s3ida ch7al takhdou,price_inquiry,mover,hand
+loto tdour w ma tdemarich f sbah,find_worker,mechanic,hand
+frein ywasel 3ala lakher bach ye7bes loto,find_worker,mechanic,hand
+jebbas ydirli déco fo plafond fel salon,find_worker,plasterer,hand
+n7taj placo bach ne9sem el bit 3la zouj,find_worker,plasterer,hand
+bab fer ta3 garaj kharjet mel goun t7taj tel7am,find_worker,welder,hand
+grilaj ta3 taga sda w t9ata3 y7taj soudeur,find_worker,welder,hand
+7alla9 yjini l dar ydirli 7affa w le7ya,find_worker,barber,hand
+n7taj coiffeur lyoum 9bel l3ers,urgent_service,barber,hand
+khayat y9assarli serwal twil chwiya,find_worker,tailor,hand
+fermeture ta3 vesta tkasret khasni khayat ybadelha,find_worker,tailor,hand
+ter9i3 ta3 jeans mcharreg 3and khayat machi 7allaq,find_worker,tailor,hand
+roba ta3 l3ers t7taj retouche f teraf,find_worker,tailor,hand
+tabbakha dar 3andha yedin bnina lel 3ers ta3na,find_worker,caterer,hand
+n7taj traiteur l 100 khalta f fete ta3 khetba,find_worker,caterer,hand
+wa7ed yji ysalahli 7aja saghira f dar,find_worker,none,hand
+3andi khedma f dar ma3reftch li koun nkhabber,find_worker,none,hand
+win nechri les pieces ta3 robini rkhas,out_of_scope,none,hand
+nheb net3allem tel7am fin kayen centre,out_of_scope,none,hand
+gazon ta3 jnina twal w y7taj wa7ed y9ossou,out_of_scope,none,hand
+kifach nbadel numero ta3 telephone f compte ta3i,app_question,none,hand

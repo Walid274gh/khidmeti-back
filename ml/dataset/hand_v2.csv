@@ -1,0 +1,184 @@
+text,intent,profession,source
+حففني قبل ليلة العيد راني مزروب,find_worker,barber,hand
+ولدي عندو العرس ونحتاجو كوافور يجي للدار,find_worker,barber,hand
+الطفل خاصو تحفيفة للمدرسة غدوة,find_worker,barber,hand
+لحيتي طويلة نبغي تحديد ونضافة غايا,find_worker,barber,hand
+عندنا عرس السبت والعريس يحتاج حلاقة في الدار,find_worker,barber,hand
+شحال دير التحفيفة ديغراديه عندكم,price_inquiry,barber,hand
+المرا تحب مشاطة وصبغة في الدار قبل العرس,find_worker,barber,hand
+كوافورة للعروسة صباح الدخلة ضروري,find_worker,barber,hand
+ta7fifa degradé lel weld sghir,find_worker,barber,hand
+coiffeur yji l dar lyoum 3andna 3ers w rana mazroubin,urgent_service,barber,hand
+ch7al ta7fifa m3a la barbe,price_inquiry,barber,hand
+baba chikh w ma yenjemch yokhroj n7tajou coiffeur l dar,find_worker,barber,hand
+coupe simple lel drari 9bel la rentrée,find_worker,barber,hand
+nebghi couleur w brushing f dar,find_worker,barber,hand
+نبغيو نديرو فو بلافون في الصالة مع سبوتات,find_worker,plasterer,hand
+حيط بلاكو يقسم البيت على زوج,find_worker,plasterer,hand
+الجبس تاع البلافون راه طايح شوية والدراري تحتو,urgent_service,plasterer,hand
+بلاصة التلفزيون نحب نديرها ديكور بلاكو,find_worker,plasterer,hand
+سقف البيت محتاج جبس جديد القديم تشقق قاع,find_worker,plasterer,hand
+ديكور جبس عربي في السقف شحال يدير,price_inquiry,plasterer,hand
+مول البلاكو يجي يشوف الشانطيي قبل ما نبداو,find_worker,plasterer,hand
+نديرو ايزولاسيون بالبلاكو ضد البرد والصوت,find_worker,plasterer,hand
+ba13 lel cuisine bach nghattiw les tuyaux,find_worker,plasterer,hand
+faux plafond m3a des led f les chambres,find_worker,plasterer,hand
+cloison placo teqssem el bit 3la zouj,find_worker,plasterer,hand
+ch7al le metre ta3 ba13 avec la pose,price_inquiry,plasterer,hand
+le platre tcheqqeq fel plafond nta3 salon,find_worker,plasterer,hand
+placo tah fel bit ta3 drari yasser khatir ajiw fissa3,urgent_service,plasterer,hand
+باب الحوش حديد تكسرلو المفصل,find_worker,welder,hand
+البورطاي تاع الغاراج ما عادش يهز روحو,find_worker,welder,hand
+نبغي حماية حديد للفنيترات تاع الطابق الأرضي,find_worker,welder,hand
+درابزين الدرج تحرك وخطير على الدراري ياسر,urgent_service,welder,hand
+سياج الجنينة صدي وطاح منو جزء,find_worker,welder,hand
+عندي طابلة حديد نحب نزيدلها رجلين,find_worker,welder,hand
+الحداد يجي يشوف القفص تاع السطح قبل الشتا,find_worker,welder,hand
+porte en fer lel garage sur mesure,find_worker,welder,hand
+grille ta3 fenetre tkassret n7taj soudeur,find_worker,welder,hand
+rampe ta3 escalier tet7arrek khatira 3la drari,urgent_service,welder,hand
+portail electrique khrej men la glissiere,find_worker,welder,hand
+ch7al ydir portail fer forgé 3 metres,price_inquiry,welder,hand
+soudure ta3 chassis ta3 remorque,find_worker,welder,hand
+l portail sda w ye7taj soudure w peinture,find_worker,welder,hand
+قندورة العيد محتاجة رتوش في الطول,find_worker,tailor,hand
+السروال الجديد واسع نبغي نضيقو دوك,find_worker,tailor,hand
+سحاب الفيسطة تهرس والعرس هاد الويكاند,urgent_service,tailor,hand
+نحب نخيط جبة للدخلة على قياسي,find_worker,tailor,hand
+كم البلوزة طويل يحتاج تقصير,find_worker,tailor,hand
+خياطة تجي للدار تاخذ القياس,find_worker,tailor,hand
+الريدو تاع الصالة محتاج تقصير وخياطة من اللوطة,find_worker,tailor,hand
+خياط رجالي يفصلي عباية للجمعة,find_worker,tailor,hand
+retouche ta3 robe soirée 9bel le weekend,find_worker,tailor,hand
+fermeture ta3 jupe khasra w ma l9itch li ysal7ha,find_worker,tailor,hand
+karakou lel 3ers sur mesure ch7al ykalef,price_inquiry,tailor,hand
+serwal jdid twil bezzaf ye7taj retouche,find_worker,tailor,hand
+rideaux ta3 salon sur mesure m3a la pose,find_worker,tailor,hand
+nfassel costume lel khotba nta3i,find_worker,tailor,hand
+عندنا وليمة الجمعة ونحتاجو طباخة شاطرة,find_worker,caterer,hand
+كسكسي لسبعين نفر لعشية الخميس,find_worker,caterer,hand
+طباخة للفطور تاع رمضان شهر كامل,find_worker,caterer,hand
+حفلة التخرج ونحبو حلويات وقاطو تقليدي,find_worker,caterer,hand
+تريتور يمدلنا عشاء العرس مية وخمسين نفر,find_worker,caterer,hand
+الختانة الخميس الجاي والطباخة لازم تكون محجوزة,find_worker,caterer,hand
+شحال تاخذ الطباخة على العرس الكامل,price_inquiry,caterer,hand
+مول الطياب للمناسبات وين نلقاه,find_worker,caterer,hand
+traiteur l 3ers 200 personnes menu complet,find_worker,caterer,hand
+tabbakha tji l dar ttayeb l mounasba sghira,find_worker,caterer,hand
+ch7al ydir traiteur par personne f les 3rass,price_inquiry,caterer,hand
+gateaux ta3 l3id commande kbira l 3ayla,find_worker,caterer,hand
+couscous l sadaqa l jem3a jaya,find_worker,caterer,hand
+buffet froid l reunion nta3 khedma,find_worker,caterer,hand
+الما يأطر من الروبيني نهار كامل,find_worker,plumber,hand
+الحنفية تجري بالليل وما نجمناش نرقدو,find_worker,plumber,hand
+سخانة الما خسرت والبرد أاسح,find_worker,plumber,hand
+الدوش يدير غير الما البارد نبغي واحد يصلحو دوك,find_worker,plumber,hand
+douche ma tekhdemch el ma dai3ef yasser,find_worker,plumber,hand
+el ma y2atter men le tuyau nta3 cuisine,find_worker,plumber,hand
+balo3a msdouda w el ri7a 9atlatna,urgent_service,plumber,hand
+chauffe eau yemed ghir el ma bared zin walou,find_worker,plumber,hand
+الضو يطفى ويشعل وحدو ياسر خطير,urgent_service,electrician,hand
+ديجونكتور يطيح غير كي نشعلو الكليماتيزور,find_worker,electrician,hand
+بريزة تدير شرارة كي نبرونشي الشارجور,find_worker,electrician,hand
+نبغي نزيد بريزات في الأوطيل نتاعي,find_worker,electrician,hand
+الضو ضعيف ڨاع في الدار,find_worker,electrician,hand
+el courant ye9ta3 ghir f nos ed dar,find_worker,electrician,hand
+kabl ma7rou9 w ri7tou bayna fel couloir,urgent_service,electrician,hand
+tableau electrique 9dim yasser lazem tebdil,find_worker,electrician,hand
+الكليماتيزور يسيل قاع على الحيط,find_worker,ac_repair,hand
+كليمة الصالة تبرد شوية برك ما عادتش كيما قبل,find_worker,ac_repair,hand
+نبغيو نركبو كليمة في بيت النوم قبل الصيف,find_worker,ac_repair,hand
+la clim tsayel el ma 3la l mur nta3 salon,find_worker,ac_repair,hand
+clim ma tberredch zin f had skhana,urgent_service,ac_repair,hand
+recharge gaz nta3 la clim ch7al douk,price_inquiry,ac_repair,hand
+الحيط نتاع الحوش مايل ويخوف ياسر,urgent_service,mason,hand
+نبغيو نزيدو بيت فوق الغاراج,find_worker,mason,hand
+الكارلاج تاع الكوزينة تقلع لازم تبديل,find_worker,mason,hand
+fissure kbira f el mur porteur khatira,urgent_service,mason,hand
+ndir terrasse f stah nta3 dar,find_worker,mason,hand
+carrelage nta3 hammam yt9alla3 wa7dou,find_worker,mason,hand
+الصباغة نتاع الفاصاد قدمت ياسر,find_worker,painter,hand
+نبغي نصبغ البيت نتاع الضياف قبل العيد,find_worker,painter,hand
+البلافون فيه بقع صفر من الرطوبة,find_worker,painter,hand
+sbagha nta3 la cage d escalier kamla,find_worker,painter,hand
+nebghi nsebbegh el koujina b couleur claire,find_worker,painter,hand
+devis lel peinture nta3 F3 kamel,price_inquiry,painter,hand
+الفنيترة الخشب جات باينة وما تسكرش زين,find_worker,carpenter,hand
+البلاكار نتاع البيت تفكك من الداخل,find_worker,carpenter,hand
+نبغي نديرو دريسينغ في بيت النوم,find_worker,carpenter,hand
+la porte nta3 chambre t7ok fel parquet,find_worker,carpenter,hand
+meuble nta3 tele yt7arrek w ykhaf ytih,find_worker,carpenter,hand
+escalier el khcheb yzeqzeq yasser bellil,find_worker,carpenter,hand
+الدار محتاجة تنضاف الكبير قبل رمضان,find_worker,cleaner,hand
+نبغي وحدة تجي كل سيمانة تنضفلي الدار,find_worker,cleaner,hand
+بعد الخدامة تاع البناء الدار كلها غبرة,find_worker,cleaner,hand
+nettoyage nta3 les vitres fel etage khatir,find_worker,cleaner,hand
+femme de menage ghaya teji deux fois par semaine,find_worker,cleaner,hand
+menage general 9bel ramdan douk,find_worker,cleaner,hand
+الماشينة تعصر وما تشطفش زين,find_worker,appliance_repair,hand
+الفريجيدار يبرد بزاف حتى الخضرة تجمدت,find_worker,appliance_repair,hand
+الفور نتاع الڨاز ما يشعلش من اللوطة,find_worker,appliance_repair,hand
+frigo ydir bruit w ye9ta3 wa7dou,find_worker,appliance_repair,hand
+la machine te7bes f nos cycle w ttir el courant,find_worker,appliance_repair,hand
+seche linge ma yeskhonch ڨاع,find_worker,appliance_repair,hand
+الجنينة نتاعنا ولات غابة بصح,out_of_scope,none,hand
+نبغي نغرس الزرع والورد قبل الربيع,out_of_scope,none,hand
+تقليم الشجر العالي يخاف منو الواحد,out_of_scope,none,hand
+gazon wella asfer yasser ye7taj traitement,out_of_scope,none,hand
+taille nta3 les arbres 9bel chta,out_of_scope,none,hand
+نحولو من حسين داي للحراش والقش ياسر,find_worker,mover,hand
+نبغي كاميو ينقلي غير الغراض الكبار,find_worker,mover,hand
+الطابق الخامس بلا سونسور والعفش ثقيل,find_worker,mover,hand
+demenagement nta3 bureau el weekend jay,find_worker,mover,hand
+n9el frigo w machine men Oran l Mostaganem,find_worker,mover,hand
+transport nta3 les meubles douk fissa3,urgent_service,mover,hand
+الطوموبيل تحبس في الفران وما تمشيش,find_worker,mechanic,hand
+لابوات دو فيتاس صعيبة وتدير صوت,find_worker,mechanic,hand
+الفرينات ولاو يزلقو زين ما يشدوش,urgent_service,mechanic,hand
+la voiture tel3ab f les virages khatira,find_worker,mechanic,hand
+demarrage s3ib f sba7 ki tkoun berda,find_worker,mechanic,hand
+vidange w filtres douk 9bel el voyage,find_worker,mechanic,hand
+كيفاه نبدل رقمي في الكونت,app_question,none,hand
+واه نقدر نخدم غير في وهران ولا لازم نتنقل,app_question,none,hand
+نبغي نمسح الكونت نتاعي كيفاش ندير,app_question,none,hand
+kifah nzid tsawer f profil nta3i,app_question,none,hand
+l abonnement pro wach yemedli les avantages ڨاع,app_question,none,hand
+kifach ne7bes les notifications bellil berk,app_question,none,hand
+التطبيق يهدر بالعربية ولا كاين غير فرونسي,app_question,none,hand
+wach el paiement ykoun cash wela par carte,app_question,none,hand
+يعطيك الصحة ياخو على الخدمة,greeting_chitchat,none,hand
+saha ya kho appli ghaya,greeting_chitchat,none,hand
+صحيت يا شيخ ربي يحفظك,greeting_chitchat,none,hand
+merci yasser khouya,greeting_chitchat,none,hand
+وين نلأى بيتزا بنينة في تلمسان,out_of_scope,none,hand
+win nel2a taxi men l aeroport douk,out_of_scope,none,hand
+نبغي نشري طوموبيل أوكازيون واش تنصحوني,out_of_scope,none,hand
+ياسر غالية الدجاجة هاد الأيام هههه,out_of_scope,none,hand
+كاين ماتش الخضرة اليوم وين نتفرجوه,out_of_scope,none,hand
+nb7ath 3la khedma ta3 chauffeur f Oran,out_of_scope,none,hand
+wach kayen solde f les magasins dork,out_of_scope,none,hand
+نبغي نتعلم الطياب وين كاين كورات,out_of_scope,none,hand
+الجبس تاع البيت الفوقاني طاح مع أول شتا,find_worker,plasterer,hand
+حيط البلاكو تثقب كي حولنا الخزانة,find_worker,plasterer,hand
+le platre ta3 les murs kamel tcheqqeq w ytih,find_worker,plasterer,hand
+cache poutre b ba13 fel salon m3a spots,find_worker,plasterer,hand
+الرطوبة نفخت البلاكو تحت الفنيترة,find_worker,plasterer,hand
+ch7al ykalef le m2 ta3 jebs decoratif,price_inquiry,plasterer,hand
+حففلي الدراري الزوج قبل الصيف,find_worker,barber,hand
+راسي شعث ونحتاج نحفف اليوم في الدار,find_worker,barber,hand
+الشيخ يحب يحفف في الدار كل شهر,find_worker,barber,hand
+ta7fifa w te7did lel khotba,find_worker,barber,hand
+n7affef degradé wela classique ch7al tji,price_inquiry,barber,hand
+سروالي طويل يحتاج تقصير عند خياط,find_worker,tailor,hand
+الروبة واسعة عليا وتحتاج تضييق,find_worker,tailor,hand
+ترقيع الكبوط القديم تاع الشتا,find_worker,tailor,hand
+tarqi3 ta3 serwal jeans met9atta3,find_worker,tailor,hand
+ta9sir ta3 les manches ta3 kmija,find_worker,tailor,hand
+خياطة الحاشية تاع السروال بشحال,price_inquiry,tailor,hand
+شكون يقصلي الحشيش تاع الجنينة,out_of_scope,none,hand
+الورد تاع الجنان يحتاج سقي وتنظيم,out_of_scope,none,hand
+chkoun ydirli la taille lel arbres ta3 jardin,out_of_scope,none,hand
+nheb wa7ed yghressli el gazon fel 7ouch,out_of_scope,none,hand
+تقليم الشجر قبل البرد شكون يديرو,out_of_scope,none,hand
+نحتاج بريكولور يصلح حوايج صغار في الدار,find_worker,none,hand
+wa7ed bricoleur y3awenna f 9adyan dar,find_worker,none,hand

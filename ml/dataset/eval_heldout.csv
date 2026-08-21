@@ -1,0 +1,258 @@
+text,intent,profession,source
+سيفون التواليت خسر وما يحبسش الما,find_worker,plumber,eval
+el ma yterchech men tuyau ta7t l evier,find_worker,plumber,eval
+مجاري الدار ريحتهم طالعة قوية,find_worker,plumber,eval
+compteur ta3 lma yji ghali bezzaf chek 3andna fuite,find_worker,plumber,eval
+wach kayen chi wa7ed ysale7 chauffage central,find_worker,plumber,eval
+شحال حق تركيب سخان الما جديد,price_inquiry,plumber,eval
+الما راه يفيض من البانيو والبيت غرقات عاونوني,urgent_service,plumber,eval
+ndir douche italienne f bit lbain ch7al tji,price_inquiry,plumber,eval
+طاح عليا الما من السقف تاع الجيران واش ندير,urgent_service,plumber,eval
+الدوش يخرج غير الما البارد,find_worker,plumber,eval
+كي نشعل الفور يطيح الديسجونكتور في الحين,find_worker,electrician,eval
+prise ta3 cuisine dert charara w ri7et l7ri9,urgent_service,electrician,eval
+نحب نزيد بريزات في الصالون والبيوت,find_worker,electrician,eval
+الضو ضعيف والامبولات يتحرقو بسرعة,find_worker,electrician,eval
+nheb nrakeb lustre kbir f plafond ta3 salon,find_worker,electrician,eval
+ch7al yekhles wa7ed bach ybeddel tableau electrique,price_inquiry,electrician,eval
+الكابلاج تاع الدار قديم بزاف نحبو نجددوه,find_worker,electrician,eval
+nos ta3 dar bla dou w disjoncteur ma yti7ch,find_worker,electrician,eval
+combien pour installer des spots f couloir,price_inquiry,electrician,eval
+الضو راه يجي ويروح من البارح,find_worker,electrician,eval
+الكليمة تضرب الما لداخل البيت,find_worker,ac_repair,eval
+clim ma tsakhanch f l7iver rir tberred,find_worker,ac_repair,eval
+نحب نحول الكليمة من البيت للصالون,find_worker,ac_repair,eval
+gaz ta3 clim ch7al y3amrouh,price_inquiry,ac_repair,eval
+الكليماتيزور يجمد ويحبس وحدو بعد شوية,find_worker,ac_repair,eval
+القايلة قاتلاتنا والكليمة ماتت اليوم بالذات,urgent_service,ac_repair,eval
+installation clim 12000 btu ch7al tekhles,price_inquiry,ac_repair,eval
+clim tdir sot 3ali ma ne9edrouch nor9do biha,find_worker,ac_repair,eval
+عندي كليمة جديدة في الكرطون نحتاج لي يركبهالي,find_worker,ac_repair,eval
+la clim tetlok ri7a ta3 rtoba ki ncha3loha,find_worker,ac_repair,eval
+الحيط تاع الحوش طاح منو شطر,find_worker,mason,eval
+نحب ندير كارلاج جديد في الكوزينة والكولوار,find_worker,mason,eval
+chghol ta3 placo w platre chkoun ydiro mli7,find_worker,mason,eval
+بغيت نعلي سور الدار متر زايد,find_worker,mason,eval
+devis bach nebni garage sghir 7da dar,price_inquiry,mason,eval
+الرطوبة شادة الحيوط في السكنة الجديدة,find_worker,mason,eval
+ch7al ydir lmetre ta3 lbni had lyamat,price_inquiry,mason,eval
+escalier ta3 dar bda yetcha99a9 melta7t,find_worker,mason,eval
+البلاطة تاع البالكون راهي مشققة وخايفين تطيح,urgent_service,mason,eval
+نحب لون البيوت يولي غري فاتح عصري,find_worker,painter,eval
+دار جديدة حابين نصبغوها قبل الدخلة,find_worker,painter,eval
+ch7al ydir sbagh l F4 kamla m3a lmateriel,price_inquiry,painter,eval
+le plafond fih b9a3 sofar men l7omra ta3 lma,find_worker,painter,eval
+enduit w peinture l appartement 3la khater nkriwh,find_worker,painter,eval
+الصبغة تاع الباب البراني تقشرت من الشمس,find_worker,painter,eval
+شحال تدير صباغة غرفة وحدة برك,price_inquiry,painter,eval
+peinture decorative lel mur ta3 tv,find_worker,painter,eval
+غدوة يجو يشوفو الدار للشرا ونحتاج نصبغو المدخل فيسع,urgent_service,painter,eval
+الكوزينة العصرية وصلات ونحتاجو شكون يركبها,find_worker,carpenter,eval
+باب الدار ما عادش يسكر مليح ولازملو رابوطاج,find_worker,carpenter,eval
+nheb ndir dressing f la chambre principale,find_worker,carpenter,eval
+الكراسي والطابلة تاع الخشب تخلعو,find_worker,carpenter,eval
+ch7al ydir placard 3 portes coulissantes,price_inquiry,carpenter,eval
+el parquet bda yet9alla3 f des endroits,find_worker,carpenter,eval
+نحتاج رفوف مكتبة على القياس للبيرو,find_worker,carpenter,eval
+porte ta3 garage 7abset ma tetsakarch w lyoum lazem,urgent_service,carpenter,eval
+wa7ed y3aweni nrakeb les meubles li chritom demontables,find_worker,carpenter,eval
+دار العرس لازمها تنظيف شامل قبل السهرة,find_worker,cleaner,eval
+apres travaux ta3 sbagha kolch ghbar we7tajna nettoyage,find_worker,cleaner,eval
+نحوسو على شركة تنظيف للمكاتب كل نهاية سيمانة,find_worker,cleaner,eval
+ch7al tekhles femme de menage par jour f dzayer,price_inquiry,cleaner,eval
+les vitres ta3 villa 3aliyin w ma ne9edrouch nemse7ohom,find_worker,cleaner,eval
+الزرابي والصالونات يحتاجو غسيل بالفابور,find_worker,cleaner,eval
+nettoyage cage d escalier l immeuble ta3na,find_worker,cleaner,eval
+جايين ضياف غدوة الصباح والدار مقلوبة عاونوني,urgent_service,cleaner,eval
+تنظيف الدار قبل ما نسكنوها الجمعة هذي,find_worker,cleaner,eval
+الغسالة تعمر بالما وتحبس وتشعل ضو حمر,find_worker,appliance_repair,eval
+التلاجة تصنع الجليد بزاف والما يسيل تحتها,find_worker,appliance_repair,eval
+machine a laver therreb el ma men ta7t,find_worker,appliance_repair,eval
+الكوزينيار البوطة توصلو والنار ما تشعلش,find_worker,appliance_repair,eval
+ch7al tsli7 ta3 four electrique ma yeskhonch,price_inquiry,appliance_repair,eval
+le mixeur w la friteuse les deux khasrin,find_worker,appliance_repair,eval
+التيليفيزيون ولا يطفي وحدو كل شوية,find_worker,appliance_repair,eval
+الفريجيدار حبس في الصيف والماكلة راح تخسر,urgent_service,appliance_repair,eval
+seche linge ydor bessah ma ysakhanch,find_worker,appliance_repair,eval
+الميكروند يخدم بصح ما يسخنش الماكلة,find_worker,appliance_repair,eval
+العشب طال بزاف في حوش الدار,out_of_scope,none,eval
+نحب نغرس زيتونة وشجرة الرمان في الجنان,out_of_scope,none,eval
+arrosage automatique chkoun yrakbou,out_of_scope,none,eval
+ch7al ydir jardinier f chhar lel entretien,out_of_scope,none,eval
+الشجرة الكبيرة وصلات للكابلات ولازم تتقص,out_of_scope,none,eval
+les haies ta3 jardin khasshom taille w mise en forme,out_of_scope,none,eval
+تهيئة مدخل الفيلا بالورد وشوية نخيلات,out_of_scope,none,eval
+gazon artificiel ch7al lmetre m3a tarkib,out_of_scope,none,eval
+غدوة عندنا حفلة في الجنان وراه غابة عاونونا,out_of_scope,none,eval
+نبدلو الدار اخر الشهر ونحتاجو كاميون وعمال,find_worker,mover,eval
+n7awlou men Alger l Oran b ma3icha kamla,find_worker,mover,eval
+شحال النقلة من حسين داي لباب الزوار,price_inquiry,mover,eval
+3andi piano lazem yetla3 l etage 4 bla ascenseur,find_worker,mover,eval
+نقل برّاد وغسالة برك ماشي دار كاملة,find_worker,mover,eval
+demenagement ta3 bureau f weekend bach ma n7absouch lkhedma,find_worker,mover,eval
+مول الدار يخرجني السبت ولازم ننقل كلش قبل,urgent_service,mover,eval
+نقل سلعة من سوق الجملة للمحل كل خميس,find_worker,mover,eval
+ch7al transport ta3 machine a laver wa7edha,price_inquiry,mover,eval
+الطونوبيل تدخن دخان ابيض من السكابمون,find_worker,mechanic,eval
+voyant moteur cha3el w tonobil ma3adch tejbed,find_worker,mechanic,eval
+شحال تبديل الامبرياج لكليو 4,price_inquiry,mechanic,eval
+frein a main ma yched walou,find_worker,mechanic,eval
+الطونوبيل تجبد لليمين كي نفريني,find_worker,mechanic,eval
+ma testartich f sba7 ki ykon lberd,find_worker,mechanic,eval
+vidange m3a filtre huile ch7al f dziria,price_inquiry,mechanic,eval
+حبست بيا الطونوبيل في وسط الطريق السيار,urgent_service,mechanic,eval
+climatisation ta3 tonobil ma tberredch,find_worker,mechanic,eval
+البطارية تموت كل مرة حتى كي نبدلها,find_worker,mechanic,eval
+نحوس واحد يجيني للدار يصلحلي حوايج صغار,find_worker,none,eval
+نحتاج بريكولور مليح للدار,find_worker,none,eval
+عندنا مشاكل بزاف في السكنة الجديدة ونحتاجو عمال,find_worker,none,eval
+chkoun ye3ref 7erfi mli7 ma yghalich w khedmto ndifa,find_worker,none,eval
+نحتاج مساعدة في شغل الدار,find_worker,none,eval
+واش لازم نخلص باش نشوف عروض الحرفيين,app_question,none,eval
+kifach nzid wilaya okhra f profil ta3i,app_question,none,eval
+التطبيق يخدم في وهران ولا غير في العاصمة,app_question,none,eval
+علاش حسابي راه معلق مكتوب في انتظار الموافقة,app_question,none,eval
+kifach n7ot tsawer ta3 les travaux li dert,app_question,none,eval
+واش يصرا اذا لغيت الطلب بعد ما قبلو العامل,app_question,none,eval
+نقدر نهدر مع الحرفي في التيليفون مباشرة,app_question,none,eval
+comment annuler mon abonnement business,app_question,none,eval
+واش معنتها العلامة الخضرا في بروفيل العامل,app_question,none,eval
+kifach nb3at devis l client men l appli,app_question,none,eval
+ماني نشوفش طلبات جداد رغم اني مسجل كعامل,app_question,none,eval
+le paiement ykon cash wela b la carte,app_question,none,eval
+كيفاش نبدل اللغة تاع التطبيق للفرنسية,app_question,none,eval
+wach l application tekhdem bla connexion,app_question,none,eval
+بدلت النمرة كيفاش نسترجع الكونت القديم,app_question,none,eval
+kifach nbeddel el mihna ta3i f profil,app_question,none,eval
+واش الفرق بين الباك برو والباك بيزنس,app_question,none,eval
+l abonnement ch7al ydir f chhar,app_question,none,eval
+صحيتو والله ما قصرتو,greeting_chitchat,none,eval
+wesh a khawa,greeting_chitchat,none,eval
+ندعيلكم ربي يوفقكم تطبيق نايض,greeting_chitchat,none,eval
+bslama,greeting_chitchat,none,eval
+الله يعيشكم,greeting_chitchat,none,eval
+hhhh mli7a l appli,greeting_chitchat,none,eval
+تحية من قسنطينة العتيقة,greeting_chitchat,none,eval
+bonne nuit,greeting_chitchat,none,eval
+ok merci bien,greeting_chitchat,none,eval
+ماشي مشكل خويا,greeting_chitchat,none,eval
+d accord saha,greeting_chitchat,none,eval
+عيدكم مبارك,greeting_chitchat,none,eval
+شكون يعرف وين يبيعو قطع غيار رونو اصلية,out_of_scope,none,eval
+wach rahi la meteo ghedwa f Annaba,out_of_scope,none,eval
+نحوس مدرسة سياقة قريبة من دالي ابراهيم,out_of_scope,none,eval
+نحتاج طاكسي للمطار غدوة الصباح بكري,out_of_scope,none,eval
+وين نبدل الدينار باليورو في السكوار,out_of_scope,none,eval
+وقتاش يطيحو نتائج الباك هاد العام,out_of_scope,none,eval
+kayen match lyoum w9tach ybda,out_of_scope,none,eval
+نحوس طبيب اسنان مليح في باب الواد,out_of_scope,none,eval
+recette ta3 tajine zitoun svp,out_of_scope,none,eval
+شريت حاجة من الانترنت ومازال ما وصلاتنيش,out_of_scope,none,eval
+wach men banque temdek credit bla fayda,out_of_scope,none,eval
+نحب نتعلم السباكة وين كاين التكوين المهني,out_of_scope,none,eval
+وقتاش اذان المغرب اليوم,out_of_scope,none,eval
+نحوس نكري شقة f3 في عنابة,out_of_scope,none,eval
+chkoun ysale7 les telephones iphone f had lablad,out_of_scope,none,eval
+وين كاين مقهى فيه ويفي مليح نخدم منو,out_of_scope,none,eval
+نبيع ثلاجة سامسونج مازالت في الضمان,out_of_scope,none,eval
+l ecole b3ida wach kayen transport scolaire mnedjez,out_of_scope,none,eval
+شحال كيلو البطاطا اليوم ههه,out_of_scope,none,eval
+kifach ndir visa l fransa,out_of_scope,none,eval
+نحوس خدمة كاشير في سوبيرات في وهران,out_of_scope,none,eval
+شحال يسوم البانيو الجديد في السوق,out_of_scope,none,eval
+راسي ولا كالغابة نحتاج نحفف اليوم,find_worker,barber,eval
+ta7fifa lel 3aris nhar el jem3a f dar,find_worker,barber,eval
+حلاق يجي للدار يحفف الشيخ راه مريض وما يخرجش,find_worker,barber,eval
+ch7al la coupe m3a contour de barbe 3andkom,price_inquiry,barber,eval
+الدراري الثلاثة يحتاجو يحففو قبل الصيف,find_worker,barber,eval
+coiffeuse teji l dar el 3aroussa sba7 el 3ers,find_worker,barber,eval
+degradé americain chkoun ya3reflou mli7,find_worker,barber,eval
+صبغة الشعر في الدار للمرا بشحال,price_inquiry,barber,eval
+لحيتي شعثت ونحب تحديد نظيف,find_worker,barber,eval
+coiffeur dispo lyoum 3andi entretien ghedwa sba7,urgent_service,barber,eval
+نديرو سبوتات في فو بلافون تاع الكوزينة,find_worker,plasterer,eval
+جبس السقف طاح على الفرشة والباقي راه يخوف,urgent_service,plasterer,eval
+cloison ba13 bach ndirou bureau fel salon,find_worker,plasterer,eval
+حيط الجبس تاع القاعة فيه حفرة كبيرة,find_worker,plasterer,eval
+placo hydrofuge lel hammam wach ykalef,price_inquiry,plasterer,eval
+نغطيو البيام تاع السقف ببلاكو شاب,find_worker,plasterer,eval
+plafond suspendu m3a spots fel couloir,find_worker,plasterer,eval
+ديكور جبس فوق التلفزة مع الضو المخبي,find_worker,plasterer,eval
+le ba13 nta3 chambre tqawes mel humidité,find_worker,plasterer,eval
+شحال المتر تاع الفو بلافون بالضو,price_inquiry,plasterer,eval
+باب حديد جديدة للدار على قياس شحال تجي,price_inquiry,welder,eval
+البورطاي صدا وما عادش يجري على السكة,find_worker,welder,eval
+serquna marra w n7ebbou grille lel fenetres ta3 rez de chaussée,find_worker,welder,eval
+escalier en fer lel stah nheb ndirou wa7ed,find_worker,welder,eval
+الدرابزين تاع البالكون يتحرك والدراري يلعبو تم,urgent_service,welder,eval
+soudure ta3 bab ta3 la cave tkasret,find_worker,welder,eval
+رفوف حديد للمغازة على قياس,find_worker,welder,eval
+portail coulissant motorisé chkoun yrakkeb,find_worker,welder,eval
+قفص الحمام تاع السطح تفكك ويحتاج تلحام,find_worker,welder,eval
+rampe lel handicapé fel madkhal ta3 dar,find_worker,welder,eval
+الكشابية تاع الوالد محتاجة ترقيع,find_worker,tailor,eval
+جلابة العيد جات طويلة على بنتي,find_worker,tailor,eval
+robe ta3 el khotba te7taj tdyi9 men el khasra,find_worker,tailor,eval
+veste ta3 costume was3a fel ktaf,find_worker,tailor,eval
+نحب نخيط ملحفة شاوية للعرس,find_worker,tailor,eval
+بدلة تقليدية للطفل ليوم الختانة,find_worker,tailor,eval
+couturiere 9riba tekhdem les caftans mli7,find_worker,tailor,eval
+تقصير زوج سراول وجاكيطة شحال ياخذ,price_inquiry,tailor,eval
+السحاب تاع الروبة تكسر والحفلة غدوة,urgent_service,tailor,eval
+rido ta3 cuisine sur mesure m3a el khiyata,find_worker,tailor,eval
+عرس مية نفر شحال يديرلي التريتور,price_inquiry,caterer,eval
+طباخة للعزومة تاع الجمعة عشرين نفر,find_worker,caterer,eval
+مولات الطياب للرشتة والشخشوخة وين نلقاها,find_worker,caterer,eval
+couscous royal l 80 personnes nhar el 7ad,find_worker,caterer,eval
+traiteur ydir les plats traditionnels lel 3ers,find_worker,caterer,eval
+حلويات اللوز للعيد كومند كبيرة,find_worker,caterer,eval
+فطور جماعي في رمضان للجمعية خمسين نفر,find_worker,caterer,eval
+tabbakha lel ftour ta3 3ers sghir f dar,find_worker,caterer,eval
+الوليمة غدوة والطباخة سمحت فينا في الآخر,urgent_service,caterer,eval
+menu complet mariage entrée plat dessert ch7al par tete,price_inquiry,caterer,eval
+البانيو يأطر من تحتو والما وصل للجيران,find_worker,plumber,eval
+روبيني الكوزينة يسيل والفاكتورة طلعت ياسر,find_worker,plumber,eval
+el ma nta3 douche wella bared douk ma yeskhonch,find_worker,plumber,eval
+الضو نتاع الكوريدور ما يشعلش ڨاع,find_worker,electrician,eval
+برندي البيت شعلت فيه شرارة البارح بلليل,find_worker,electrician,eval
+كليمة غرفة الدراري تخرج ريحة كريهة كي تشعل,find_worker,ac_repair,eval
+clim ma tsakhanch f chta w drouk el berd 9aseh,find_worker,ac_repair,eval
+الحيط الفاصل بيناتنا وبين الجار تشقق ياسر,find_worker,mason,eval
+la dalle nta3 terrasse tcheqqet w el ma yekhzen fiha,find_worker,mason,eval
+نبغيو نصبغو البيبان والفنيترات غير الخشب,find_worker,painter,eval
+الصباغة تڨشرت في بيت البانيو من البخار,find_worker,painter,eval
+البلاكار ما يسكرش والرف الفوقاني طاح,find_worker,carpenter,eval
+porte d entrée el khcheb jat ma3wja mel chta,find_worker,carpenter,eval
+الشقة اللي كريناها محتاجة تنضاف قبل ما ندخلو,find_worker,cleaner,eval
+الغسالة تهرب الما وغرقت البيت عاونوني درك,urgent_service,appliance_repair,eval
+الحشيش نتاع الجنينة طال والدود كثر,out_of_scope,none,eval
+ننقلو الغراض من البليدة للعاصمة الويكاند الجاي,find_worker,mover,eval
+الطونوبيل تسخن ڨاع كي نطلع العقبة,find_worker,mechanic,eval
+daw magtou3,find_worker,electrician,eval
+daw rah magtou3 mel bare7 f dar kamla,find_worker,electrician,eval
+disjoncteur yti7 ki ncha3lou el four w la clim m3a ba3d,find_worker,electrician,eval
+priza ta3 salon te7re9 ki nbranchi telephone,find_worker,electrician,eval
+lma y9atter men s9af el 7ammam ta3 el jiran,find_worker,plumber,eval
+tuyau rah terchech w lma jra fel dar kamla 3awnouni fissa3,urgent_service,plumber,eval
+khasni blombi yjini lyoum wela ghedwa,find_worker,plumber,eval
+robini ma yehbesch lma derna barrage f la cuisine,urgent_service,plumber,eval
+klima ma tberredch w skhana taktel had simana,find_worker,ac_repair,eval
+ch7al ye7seb tressi7 w recharge ta3 gaz lel klima,price_inquiry,ac_repair,eval
+7it ta3 el 7awch mayel w khayfin yti7 3la drari,find_worker,mason,eval
+karlaj ta3 el 7amam yet9alla3 wa7do w yjma3 lma,find_worker,mason,eval
+nheb nsabegh el bit ta3 drari b lon zre9 w blan,find_worker,painter,eval
+tabla ta3 el koujina tkasret rejliha w mabghatch tou9af,find_worker,carpenter,eval
+dar kamla mghabra ba3d les travaux n7taj tandif profond,find_worker,cleaner,eval
+machina ta3 tessbin twe9fet f nos cycle w mabghatch te7bes lma,find_worker,appliance_repair,eval
+frigidaire ma ybaredch walou w l7am khser,find_worker,appliance_repair,eval
+ki ndeplasi ch7al yakhdou 3la transport ta3 les meubles men setif l batna,price_inquiry,mover,eval
+loto ma t9adch tdemari f sba7 w rani 7asel lel khedma,urgent_service,mechanic,eval
+n7taj jebbas ysawili faux plafond b spots fel salon,find_worker,plasterer,eval
+porte en fer ta3 el 7awch mkasra t7taj tel7im,find_worker,welder,eval
+nheb n7affef 7affa 3asriya w n3adel le7ya,find_worker,barber,eval
+serwal jdid twil bezaf khasni ta9sir 3and khayat,find_worker,tailor,eval
+3ersna el jem3a jaya n7tajou tabbakha te3ref lel 3wais,find_worker,caterer,eval
+wa7ed y3awenni f 7aja f dar svp,find_worker,none,eval
+nbi3 machina ta3 khyata jdida ga3 ma khdemt biha,out_of_scope,none,eval
+el gazon twal bezaf n7awes 3la wa7ed y9ossou w ynadaf el jnina,out_of_scope,none,eval
+kifach nzid des photos ta3 khedmti fel profil ta3i,app_question,none,eval

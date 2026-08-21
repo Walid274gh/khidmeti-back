@@ -1,0 +1,70 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# KHIDMETI — Render Blueprint (api uniquement, plan free)
+#
+# Les services IA restent sur Modal (deploy/modal/*_app.py) — leurs URLs sont
+# passées ici via NLU_URL / STT_URL / VISION_URL / EMBEDDINGS_URL.
+# Les valeurs sync:false se remplissent dans le dashboard au moment de l'apply
+# (tableau complet commenté : deploy/README.md).
+#
+# Le mode local (docker-compose*.yml + make) reste inchangé — ce fichier ne
+# concerne QUE le déploiement Render.
+# ══════════════════════════════════════════════════════════════════════════════
+
+services:
+  - type: web
+    name: khidmeti-api
+    runtime: docker
+    plan: free
+    region: frankfurt
+    rootDir: apps/api
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      # ── fixes ──────────────────────────────────────────────────────────────
+      - key: NODE_ENV
+        value: production
+      - key: NODE_OPTIONS
+        value: --max-old-space-size=384     # instance free = 512 MB RAM
+      - key: FLYWHEEL_DIR
+        value: /tmp/flywheel                # disque free éphémère
+      - key: EMBEDDINGS_MODEL
+        value: nomic-embed-text-v1.5
+      # ── à remplir (voir README §4) ────────────────────────────────────────
+      - key: API_BASE_URL                   # https://khidmeti-api.onrender.com
+        sync: false
+      - key: CORS_ORIGINS                   # pages.dev + URL render + localhost
+        sync: false
+      - key: MONGODB_URI                    # Atlas M0
+        sync: false
+      - key: REDIS_URL                      # Upstash (rediss:// SANS espaces)
+        sync: false
+      - key: QDRANT_URL                     # Qdrant Cloud
+        sync: false
+      - key: QDRANT_API_KEY
+        sync: false
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+      - key: MAPTILER_API_KEY               # valide — depuis .env.cloud actuel
+        sync: false
+      - key: FIREBASE_PROJECT_ID            # valides — depuis .env.cloud actuel
+        sync: false
+      - key: FIREBASE_CLIENT_EMAIL
+        sync: false
+      - key: FIREBASE_PRIVATE_KEY
+        sync: false
+      - key: FIELD_ENC_KEY                  # NOUVEAU (openssl rand -hex 32)
+        sync: false
+      - key: FIELD_ENC_PEPPER               # NOUVEAU (openssl rand -hex 32)
+        sync: false
+      - key: NLU_URL                        # URL Modal après deploy
+        sync: false
+      - key: STT_URL                        # URL Modal après deploy
+        sync: false
+      - key: VISION_URL                     # URL Modal après deploy
+        sync: false
+      - key: EMBEDDINGS_URL                 # URL Modal + /v1
+        sync: false

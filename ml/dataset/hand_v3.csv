@@ -1,0 +1,111 @@
+text,intent,profession,source
+سقف الغاراج بدا يطيح منو الاسمنت وباين الحديد من تحت,find_worker,mason,hand
+نحب نسقف البيت الفوقانية بالهوردي قبل الشتا,find_worker,mason,hand
+الكارلاج تاع الدوش تقلع وولى يجمع الما تحتو,find_worker,mason,hand
+بغيت نبني بيت للمال في الحوش نتاعنا,find_worker,mason,hand
+الحيط بان فيه شق كبير من بعد الزلزلة الاخيرة,urgent_service,mason,hand
+ndir la chape f les chambres 9bel ma nrakeb le parquet,find_worker,mason,hand
+gu3 les murs ta3 la cave fihom l'humidité w le salpetre,find_worker,mason,hand
+ch7al ykalef bni ta3 mur cloture 20 metres,price_inquiry,mason,hand
+الفونداسيون تاع الدار محتاجة تدعيم قالولنا,find_worker,mason,hand
+نحب نكسي الفاصاد تاع الدار بالحجر الديكوري,find_worker,mason,hand
+طاحت البلاطة تاع السقف في بيت الما والما يدخل,urgent_service,mason,hand
+le seuil ta3 la porte therres w lazem ye3awdouh b ciment,find_worker,mason,hand
+نديرو تراس فوق الغاراج بالبيطون المسلح,find_worker,mason,hand
+شحال المتر تاع الكارلاج يد وحدة برك؟,price_inquiry,mason,hand
+rani nebni w n7taj wa7ed ye9ra les plans w yekhdem s7i7,find_worker,mason,hand
+الما يدخل من السطح كي تصب الشتا ونحتاجو ايتونشيتي في العجالة,urgent_service,mason,hand
+بغينا نهدو الحيط بين الكوزينة والصالة يولي أميريكان,find_worker,mason,hand
+تصليح الجليز اللي طاح في الحمام والكوزينة,find_worker,mason,hand
+درويش يبني الحيطان نتاع الجنان ياسر شاطر ولا لقيتو مشغول,find_worker,mason,hand
+السروال الجديد يجي واسع من اللور ونحب نضيقو,find_worker,tailor,hand
+عندي قندورة قديمة نحب نجددها برتوش خفيف,find_worker,tailor,hand
+الجاكيطة تقطعت من الكم وين نلقى لي يرقعها مليح,find_worker,tailor,hand
+خياطة بلوزة وهرانية لعرس ختي الصيف الجاي,find_worker,tailor,hand
+nheb ndir des rideaux occultants sur mesure lel chambre,find_worker,tailor,hand
+retouche urgente l roba ta3 soirée 9bel el weekend,urgent_service,tailor,hand
+fermeture ta3 djellaba khasra w l3id 9rib bezzaf,urgent_service,tailor,hand
+ch7al taman ta9sir serwal wa7ed barka?,price_inquiry,tailor,hand
+الكم تاع الكيمونو طويل بزاف نقصروه شوية,find_worker,tailor,hand
+نحب نفصل كاراكو على قياسي لليلة الخطوبة,find_worker,tailor,hand
+تبديل الدبلاج تاع فيستة قديمة غالية عليا,find_worker,tailor,hand
+couturiere te3ref tekhdem el fetla w el medjboud,find_worker,tailor,hand
+بنتي كبرت والروبة ولات ضيقة عليها نحب نوسعوها,find_worker,tailor,hand
+خياط رجالي يفصل القمصان على القياس وين نلقاه,find_worker,tailor,hand
+تركيب سحاب جديد للكابة تاع الشتا,find_worker,tailor,hand
+broderie 3la 9andoura bida lel 3id,find_worker,tailor,hand
+حاب نلأى خياطة تخيطلي أندورة للعيد,find_worker,tailor,hand
+ننقلو من الطابق الاول للخامس في نفس العمارة,find_worker,mover,hand
+الارمواريات كبار وما يجوزوش في الاسانسير نحتاج محترفين,find_worker,mover,hand
+نقل غراض العيادة الطبية للعنوان الجديد في وسط المدينة,find_worker,mover,hand
+kamyon m3a 3 khaddama l transport ta3 salon w chambre a coucher,find_worker,mover,hand
+ch7al ydir transport ta3 frigo americain men el 3assima l Blida,price_inquiry,mover,hand
+خرجنا من الكرا ولازم نخويو الدار قبل نهاية الشهر,urgent_service,mover,hand
+نقل مكتبة كاملة بالكتب لدار جديدة بلا ما يتهرس والو,find_worker,mover,hand
+demenagement express lyoum bark 3andi les clés ta3 dar jdida,urgent_service,mover,hand
+عندنا تلاجة وماشينة وفور نحبو ننقلوهم برك ماشي كلش,find_worker,mover,hand
+transport ta3 les meubles mel magasin l dar m3a le montage,find_worker,mover,hand
+نقلة صغيرة غير كرطونات وحوايج شخصية من حيدرة لبئر خادم,find_worker,mover,hand
+شركة نقل عندها كاميو مغطي على جال الشتا,find_worker,mover,hand
+ضركا نحتاج لي ينقلي القش نتاعي راني مستعجل ياسر,urgent_service,mover,hand
+بعد ما كملو البناء الدار كامل غبرة وسيمة من الفوق للتحت,find_worker,cleaner,hand
+تنظيف الفور والتلاجة والكوزينة الكل قبل رمضان,find_worker,cleaner,hand
+nettoyage ta3 les vitres w les volets l villa R+1,find_worker,cleaner,hand
+الكناپي ولا مصفر من الاولاد يحتاج غسيل عميق بالماشينة,find_worker,cleaner,hand
+societe de nettoyage l local commercial kol sbe7 9bel el fet7,find_worker,cleaner,hand
+ch7al te7seb el sa3a ta3 menage f dar 3adiya?,price_inquiry,cleaner,hand
+غدوة عندنا خطوبة والدار محتاجة تنقية سريعة عاونونا,urgent_service,cleaner,hand
+تنظيف البير والخزان تاع الما تاع السطح,find_worker,cleaner,hand
+عاملة تنظيف تجي يومين في السيمانة صباحيات برك,find_worker,cleaner,hand
+nettoyage moquette ta3 bureau b la machine vapeur,find_worker,cleaner,hand
+درج العمارة محتاج تنظيف بانتظام شكون يتكفل بيه؟,find_worker,cleaner,hand
+ba3d el 3ers el garage w la cour kolhom msakhin ye7tajo nettoyage,find_worker,cleaner,hand
+نبغي زين واحد ينضفلي الدار دروك قبل ما يجو الضياف,urgent_service,cleaner,hand
+الجبس تاع الديكور في السقف طاح شطر منو,find_worker,plasterer,hand
+تركيب قضيب الريدو فوق الفنيترة مع التثبيت في الجبس,find_worker,carpenter,hand
+الحيط فيه بقع رطوبة ونحبو صباغة ضد الرطوبة,find_worker,painter,hand
+نبغي نتاع البناء يجيني دوك للحوش راه الحيط قاعد يطيح,urgent_service,mason,hand
+الطاولة اللي ركبناها الشهر اللي فات عادت تتحرك وحدها,find_worker,carpenter,hand
+البورطاي الحديد كي تسكرو يصدر صوت وما يقفلش بالمفتاح,find_worker,welder,hand
+نحتاج واحد يجيني للدار اليوم ضروري,find_worker,none,hand
+kayen chi wa7ed disponible had el weekend y3aweni f dar?,find_worker,none,hand
+وين نلقى قاعة حفلات للكرا في سطيف؟,out_of_scope,none,hand
+كيفاش نحمل الصور في التطبيق من الغالوري تاع التيليفون؟,app_question,none,hand
+واش نقدر نستعمل التطبيق بلا ما نفعّل الجيبياس؟,app_question,none,hand
+نبيع صالون سيمي نيف بسومة مليحة شكون مهتم,out_of_scope,none,hand
+chkoun ye3ref site bach ncommandi des pieces ta3 telephone?,out_of_scope,none,hand
+نحوس على كورس تاع الانجليزية اونلاين بالصح مليح,out_of_scope,none,hand
+weche rakom les amis kolchi mli7?,greeting_chitchat,none,hand
+صحيتو خاوتي ربي يعيشكم على الخدمة الشابة,greeting_chitchat,none,hand
+mca wela usma lyoum chkoun yerbe7?,out_of_scope,none,hand
+نحتاج بابي سيتر تقعد مع الصغير نهار الويكاند,out_of_scope,none,hand
+جيراني يديرو الزقا بزاف واش نديار معاهم قانونيا؟,out_of_scope,none,hand
+3andi mochkil f compte CCP ta3i chkoun y3aweni?,out_of_scope,none,hand
+نحوس على وحدة تعلمني نخيط بالماشينة في دارها,out_of_scope,none,hand
+وين نشري تريسيتي بالجملة للمشروع تاعي؟,out_of_scope,none,hand
+نحب نركب دوش ايطالياني في الحمام الجديد,find_worker,plumber,hand
+التويو تحت المجلى يرش الما في كل جيهة,urgent_service,plumber,hand
+الما يقطر من البلافون جاي من الدار لي فوقنا,find_worker,plumber,hand
+ch7al ykalef tarkib cabine de douche kamla?,price_inquiry,plumber,hand
+وصلاتنا الكوزينة ديمونطي من المغازة ونحتاجو لي يركبها,find_worker,carpenter,hand
+تركيب دريسينغ كامل في بيت النوم,find_worker,carpenter,hand
+chrit des meubles demontables w n7taj chkoun yrakebhom,find_worker,carpenter,hand
+نديرو درج حديد يطلع للسطح,find_worker,welder,hand
+القفص تاع الطيور فوق السطح يحتاج تلحام من جديد,find_worker,welder,hand
+escalier metallique en colimaçon lel garage,find_worker,welder,hand
+تحديد اللحية والكونتور نظيف بلا تحفيفة,find_worker,barber,hand
+شعري طويل بزاف وخصني نحفف اليومين هذو,find_worker,barber,hand
+الجلابة تاع المرا طويلة عليها ونحبو نقصروها,find_worker,tailor,hand
+خياطة بدلة ختان تقليدية للطفل الصغير,find_worker,tailor,hand
+عندي سروالين وفيستة يحتاجو تقصير عند الخياط,find_worker,tailor,hand
+شحال يعمرولك الغاز تاع الكليمة هذي الايام؟,price_inquiry,ac_repair,hand
+recharge ta3 gaz lel clim ch7al tji?,price_inquiry,ac_repair,hand
+التلفزة تطفي وتشعل وحدها كل شوية,find_worker,appliance_repair,hand
+la télé wellat tetfa wa7edha w ma3reftch 3lah,find_worker,appliance_repair,hand
+نحولو بالعايلة والمعيشة كامل لولاية اخرى,find_worker,mover,hand
+transport ta3 la ma3icha kamla l dar jdida f wilaya okhra,find_worker,mover,hand
+العايلة كامل جاية للعشا والدار محتاجة ترتيب وتنظيف فيسع,urgent_service,cleaner,hand
+شحال يدير المتر تاع البني عندكم؟,price_inquiry,mason,hand
+le crepissage ta3 la façade par metre ch7al?,price_inquiry,mason,hand
+عندنا نخلة في الحوش نحبو نقصوها شكون نعيطولو؟,out_of_scope,none,hand
+وين نلقى بانيو رخيص للشرا في العاصمة؟,out_of_scope,none,hand
