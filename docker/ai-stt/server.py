@@ -203,7 +203,7 @@ def load_ctc():
     #   optimisation graphique MINIMUM (l'optimisation complète alloue une copie).
     opt.enable_cpu_mem_arena = False
     opt.enable_mem_pattern = False
-    opt.graph_optimization_level = ort.GraphOptimizationLevel.ORT_ENABLE_MINIMAL
+    opt.graph_optimization_level = ort.GraphOptimizationLevel.ORT_DISABLE_ALL
     sess = ort.InferenceSession(pull(fname), opt, providers=["CPUExecutionProvider"])
     id2tok, blank, special = v["id2tok"], v["blank_id"], set(v.get("special", []))
     assert v.get("delim") == "|", v.get("delim")
