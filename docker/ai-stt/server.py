@@ -197,6 +197,10 @@ def load_ctc():
 
     opt = ort.SessionOptions()
     opt.intra_op_num_threads = THREADS
+    # Render free = 512 Mi hard limit : l'arène d'allocation + l'optimisation
+    # graphique au chargement doublent le pic mémoire (~2x la taille du modèle).
+    opt.enable_cpu_mem_arena = False
+    opt.graph_optimization_level = ort.GraphOptimizationLevel.ORT_ENABLE_BASIC
     sess = ort.InferenceSession(pull(fname), opt, providers=["CPUExecutionProvider"])
     id2tok, blank, special = v["id2tok"], v["blank_id"], set(v.get("special", []))
     assert v.get("delim") == "|", v.get("delim")
