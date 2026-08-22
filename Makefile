@@ -42,7 +42,7 @@ ARGS     ?=
 .DEFAULT_GOAL := help
 
 .PHONY: help start stop restart models \
-        _select-mode _ensure-env _ensure-dirs _ensure-models _ensure-docker \
+        _ensure-env _ensure-dirs _ensure-models _ensure-docker \
         build rebuild logs logs-api logs-mongo logs-redis \
         logs-qdrant logs-minio logs-nginx logs-mongo-ui \
         logs-ai-nlu logs-ai-stt logs-ai-vision \
@@ -121,30 +121,6 @@ _ensure-dirs:
 	@chmod 777 docker/flywheel 2>/dev/null \
 	  || echo "  ⚠️  docker/flywheel non inscriptible (api tourne en USER node) — lancez : sudo chown -R 1000:1000 docker/flywheel"
 
-# ── _select-mode : menu cloud/local → génère .env ─────────────────────────────
-# .env.cloud  = Atlas / Upstash / Qdrant Cloud (infra cloud, v14.5)
-# .env.local  = conteneurs mongo/redis/qdrant (docker-compose.local.yml via
-#               COMPOSE_FILE défini DANS le fichier env → tous les `docker
-#               compose ...` du Makefile suivent le bon mode automatiquement)
-_select-mode:
-	@mode="$(MODE)"; \
-	if [ -z "$$mode" ]; then \
-	  echo ""; \
-	  echo "  ┌─────────────────────────────────────────────┐"; \
-	  echo "  │  Mode de démarrage Khidmeti                 │"; \
-	  echo "  │                                             │"; \
-	  echo "  │  1) cloud — Atlas / Upstash / Qdrant Cloud  │"; \
-	  echo "  │  2) local — mongo/redis/qdrant en Docker    │"; \
-	  echo "  └─────────────────────────────────────────────┘"; \
-	  read -r -p "  Choix [1-2] (défaut 1) : " c; \
-	  case "$$c" in 2|local) mode=local;; *) mode=cloud;; esac; \
-	fi; \
-	case "$$mode" in cloud|local) ;; *) echo "  ❌ MODE invalide : $$mode (cloud|local)"; exit 1;; esac; \
-	if [ ! -f ".env.$$mode" ]; then echo "  ❌ .env.$$mode introuvable"; exit 1; fi; \
-	cp ".env.$$mode" .env; \
-	echo ""; \
-	echo "  ✅ Mode $$mode → .env généré depuis .env.$$mode"
-
 # ── _ensure-env ───────────────────────────────────────────────────────────────
 _ensure-env:
 	@if [ ! -f .env ]; then \
@@ -169,8 +145,8 @@ models: _ensure-models
 ## ══════════════════════════════════════════════════════════════════════════════
 
 ## Menu cloud/local. Bypass non-interactif : MODE=cloud|local make start
-## .env est GÉNÉRÉ (copie de .env.cloud ou .env.local) — éditez ces fichiers-là.
-start: _ensure-docker _select-mode _ensure-dirs _ensure-models
+## .env est LE fichier unique (infra cloud : Atlas/Upstash/Qdrant Cloud) — éditez-le directement.
+start: _ensure-docker _ensure-dirs _ensure-models
 	@echo "══════════════════════════════════════════════════════"
 	@echo "  Démarrage Khidmeti v15 — IA auto-hébergée"
 	@echo "══════════════════════════════════════════════════════"
