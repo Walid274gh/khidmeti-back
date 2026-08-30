@@ -69,7 +69,8 @@ ENV NODE_ENV=production
 ENV PORT=3000
 ENV NODE_OPTIONS="--max-old-space-size=768"
 
-RUN apk update && apk upgrade --no-cache \
+RUN apk add --no-cache wget \
+ && apk upgrade --no-cache \
  && rm -rf /var/cache/apk/*
 
 RUN chown node:node /app
@@ -84,7 +85,7 @@ COPY --from=builder --chown=node:node /app/dist ./dist
 
 EXPOSE 3000
 
-HEALTHCHECK --interval=15s --timeout=5s --start-period=30s --retries=3 \
-  CMD wget -qO- http://localhost:3000/health || exit 1
+HEALTHCHECK --interval=15s --timeout=5s --start-period=60s --retries=3 \
+  CMD wget -qO- http://localhost:${PORT:-3000}/health || exit 1
 
 CMD ["node", "dist/main"]
