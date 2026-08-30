@@ -10,7 +10,6 @@ import { NluService }    from './services/nlu.service';
 import { SttService }    from './services/stt.service';
 import { VisionService } from './services/vision.service';
 import { FlywheelService } from './services/flywheel.service';
-import { HfQueueService } from './services/hf-queue.service';
 import { AiController } from './ai.controller';
 import { AuthModule }   from '../auth/auth.module';
 import Redis            from 'ioredis';
@@ -44,9 +43,7 @@ import Redis            from 'ioredis';
     VisionService,
     // C1 flywheel — consented training-data logging (P6)
     FlywheelService,
-    // HF ZeroGPU queue client (Gradio Blocks queue — best practice for sdk: gradio)
-    HfQueueService,
   ],
-  exports: [IntentExtractorService, 'REDIS_CLIENT', FlywheelService, HfQueueService],
+  exports: [IntentExtractorService, 'REDIS_CLIENT', FlywheelService],
 })
 export class AiModule {}
