@@ -1,8 +1,8 @@
 # ══════════════════════════════════════════════════════════════════════════════
 # KHIDMETI — Render Blueprint (api uniquement, plan free)
 #
-# Les services IA restent sur Modal (deploy/modal/*_app.py) — leurs URLs sont
-# passées ici via NLU_URL / STT_URL / VISION_URL / EMBEDDINGS_URL.
+# IA: HF ZeroGPU Space (Gradio queue) via HF_SPACE_URL — NLU/STT/Vision tous sur un Space.
+# Fallback docker local (NLU_URL etc) si HF_SPACE_URL absent.
 # Les valeurs sync:false se remplissent dans le dashboard au moment de l'apply
 # (tableau complet commenté : deploy/README.md).
 #
@@ -65,6 +65,8 @@ services:
       - key: STT_URL                        # URL Modal après deploy
         sync: false
       - key: VISION_URL                     # URL Modal après deploy
+        sync: false
+      - key: HF_SPACE_URL                   # https://walid274gh-khidmeti-ai.hf.space (ZeroGPU)
         sync: false
       - key: EMBEDDINGS_URL                 # URL Modal + /v1
         sync: false

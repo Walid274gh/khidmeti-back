@@ -9,6 +9,7 @@
 
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { HfQueueService } from './hf-queue.service';
 
 const NLU_TIMEOUT_MS = 8_000;
 
@@ -25,8 +26,11 @@ export class NluService {
   private readonly url?: string;
   private warnedDisabled = false;
 
-  constructor(config: ConfigService) {
-    this.url = config.get<string>('NLU_URL') || undefined;
+  constructor(
+    private readonly config: ConfigService,
+    private readonly hf: HfQueueService,
+  ) {
+    this.url = this.config.get<string>('NLU_URL') || undefined;
   }
 
   get enabled(): boolean {
@@ -35,6 +39,24 @@ export class NluService {
 
   /** Classifie [text] — null si le service est désactivé ou injoignable. */
   async classify(text: string): Promise<NluResult | null> {
+    // ponytail: Gradio queue takes priority when HF_SPACE_URL is set (best practice for ZeroGPU)
+    if (this.hf.enabled) {
+      try {
+        const raw = await this.hf.call(2, [text]);
+        const body = JSON.parse(raw) as Partial<NluResult>;
+        if (typeof body.intent === 'string' && typeof body.profession === 'string') {
+          return {
+            intent:                body.intent,
+            intent_confidence:     Number(body.intent_confidence)     || 0,
+            profession:            body.profession,
+            profession_confidence: Number(body.profession_confidence) || 0,
+          };
+        }
+      } catch (err) {
+        this.logger.warn(`HF NLU queue error: ${(err as Error).message}`);
+      }
+      return null;
+    }
     if (!this.url) {
       if (!this.warnedDisabled) {
         this.warnedDisabled = true;
