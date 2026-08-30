@@ -66,7 +66,7 @@ services:
         sync: false
       - key: VISION_URL                     # URL Modal après deploy
         sync: false
-      - key: HF_SPACE_URL                   # https://walid274gh-khidmeti-ai.hf.space (ZeroGPU)
-        sync: false
+      - key: HF_SPACE_URL
+        value: https://walid274gh-khidmeti-ai.hf.space
       - key: EMBEDDINGS_URL                 # URL Modal + /v1
         sync: false
