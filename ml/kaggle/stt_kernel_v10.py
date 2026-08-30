@@ -31,9 +31,11 @@
 #   greedy. Le LM 4-gram (stt_lm_kernel_v9.py) se REJOUERA tel quel sur les
 #   poids v10 si le greedy passe proche : poids indépendants du décodage.
 #
-# Push (GPU, après montée du dataset v10) :
-#   DATASET=Walidrbh27/khidmeti-stt-v10 python3 stt_push.py push \
-#       stt_kernel_v10.py khidmeti-stt-retrain-v10
+# Push (GPU) — AUCUN `DATASET=` : le v10 est tiré de HF par snapshot_download
+# (ligne ~274), pas monté en dataset Kaggle. `DATASET=Walidrbh27/…` irait dans
+# datasetDataSources, où Kaggle attend un ref KAGGLE : dataset introuvable, run
+# mort, quota brûlé pour rien.
+#   python3 stt_push.py push stt_kernel_v10.py khidmeti-stt-retrain-93h
 # ══════════════════════════════════════════════════════════════════════════════
 import csv, gc, json, os, random, re, subprocess, sys, time
 
@@ -63,10 +65,15 @@ os.environ["HF_TOKEN"] = HF_TOKEN
 BASE_MODEL = "boumehdi/wav2vec2-large-xlsr-moroccan-darija"
 REPO       = "Walidrbh27/khidmeti-stt-ctc"        # repo servi si le gate passe
 CAND_REPO  = "Walidrbh27/khidmeti-stt-ctc-cand"   # filet : poids sauvés avant les evals
-CKPT_REPO  = "{{KAGGLE_USERNAME}}/khidmeti-stt-ckpt"  # resume multi-session (93h)
-# Le repo CKPT est celui du compte qui EXÉCUTE (le kernel est poussé avec son
-# token via {{KAGGLE_USERNAME}}) — chaque compte Kaggle a son propre repo ckpt,
-# isolé, privé.
+CKPT_REPO  = "Walidrbh27/khidmeti-stt-ckpt"       # resume multi-session (93h)
+# Le repo CKPT vit sur le namespace HF (Walidrbh27), comme ses frères ci-dessus,
+# JAMAIS sur le compte Kaggle qui exécute : ce sont deux comptes distincts
+# (Kaggle walidrbh27khidmeti ≠ HF Walidrbh27) et le seul token embarqué ici est
+# celui de HF. Bug mesuré le 24/08 : CKPT_REPO templaté en {{KAGGLE_USERNAME}}
+# → « 403 : You don't have the rights to create a model under the namespace
+# walidrbh27khidmeti » après 25 min de prep (v10 extrait, 90,5 h chargées).
+# Corollaire utile : un repo ckpt unique laisse une session tourner sur le quota
+# d'un AUTRE compte Kaggle et reprendre quand même où on s'était arrêté.
 # Env de reprise : chaque session Kaggle a un mur à 9 h — 90 h d'audio ≈ 3 h/
 # époque → une session ne fait que ~3 époques B. Sans checkpoint, 3 sessions
 # ne valent RIEN de plus qu'une. On sauve l'état (meilleur B + vocab + epoch)
@@ -77,7 +84,11 @@ CKPT_REPO  = "{{KAGGLE_USERNAME}}/khidmeti-stt-ckpt"  # resume multi-session (93
 # sessions, pas seulement de la dernière.
 RESUME = os.environ.get("RESUME", "1") != "0"   # "0" = repartir du socle exprès
 
-SERVED_WER, SERVED_CER = 0.6300, 0.2373   # whisper medium+LoRA int8, même test 831
+# Constante MESURÉE par le run apparié `khidmeti-stt-paired` : whisper servi
+# en réglages de PRODUCTION (language=ar beam=1 vad=True prompt=True, int8
+# 4 threads, 831 clips) = 0,6097 IC95 [0,5930 ; 0,6276]. L'ancienne 0,6300
+# venait d'une estimation SANS vad+prompt : trop laxiste de ~2 pts.
+SERVED_WER, SERVED_CER = 0.6097, 0.2368   # whisper medium+LoRA int8, même test 831
 ZS_LARGE_V3_WER        = 0.8055           # whisper-large-v3 nu, même test
 GREEDY_V8_WER          = 0.6914           # v8 greedy int8, mesuré en v9a
 LM_V9_WER, LM_V9_CER   = 0.6505, 0.2444   # v8 + LM 4-gram faisceau 16, mesuré v9a
@@ -103,6 +114,12 @@ DEV = "cuda"
 # GLOBAL à toutes les sessions (chargé AVANT l'étage B) → patience et gate
 # portent sur l'ensemble, pas sur la dernière session.
 CKPT_FN = "ckpt_v90.pt"
+# Fail-fast namespace/permission : AU BOOT (seconde ~20), pas à la minute 25.
+# Le 24/08, ce create_repo vivait dans load_ckpt() appelé après la prep (v10
+# extrait, 90,5 h chargées, socle chargé) → le 403 a coûté 25 min de T4 pour une
+# faute d'une ligne. Ici, un namespace ou un token faux tue la session tout de
+# suite. exist_ok=True → no-op sur les sessions 2..n.
+HfApi(token=HF_TOKEN).create_repo(CKPT_REPO, private=True, exist_ok=True)
 
 def save_ckpt(epoch_b, state, best_wer, sessions):
     """Écrit + upload le ckpt de fin de session. state = state_dict CPU (best)."""
@@ -116,10 +133,6 @@ def save_ckpt(epoch_b, state, best_wer, sessions):
 
 def load_ckpt():
     from huggingface_hub import hf_hub_download
-    # Le repo CKPT vit sur le compte QUI EXÉCUTE le kernel (walidfg) — pas sur
-    # Walidrbh27 : un repo privé n'est lisible qu'avec LE token de son owner.
-    # create_repo(idempotent) au boot : première session crée, suivantes no-op.
-    HfApi(token=HF_TOKEN).create_repo(CKPT_REPO, private=True, exist_ok=True)
     try:
         p = hf_hub_download(CKPT_REPO, CKPT_FN, token=HF_TOKEN)
         c = torch.load(p, map_location="cpu")
@@ -257,21 +270,19 @@ import zipfile as _zipfile
 from huggingface_hub import snapshot_download as _snap
 
 V10 = "/kaggle/working/v10"
-v10zip = _snap("Walidrbh27/khidmeti-stt-v10", repo_type="dataset",
-               token=HF_TOKEN, local_dir="/kaggle/working/hf_v10",
-               allow_patterns=["v10.zip"],
-               cache_dir="/kaggle/working/hf_cache_v10")
-zp = os.path.join(v10zip, "v10.zip")
-assert os.path.isfile(zp), f"v10.zip introuvable dans {v10zip}"
+# Cache SEUL, pas de local_dir : avec les deux, hub duplique le zip (cache +
+# copie locale) → pic 18 Go sur 90 h (6×3) et un disque de 19,5 Go explose au
+# chargement. Cache seul : 6 (zip) + 6 (flac extraits) = 12 Go de pic.
+v10snap = _snap("Walidrbh27/khidmeti-stt-v10", repo_type="dataset",
+                token=HF_TOKEN, allow_patterns=["v10.zip"],
+                cache_dir="/kaggle/working/hf_cache_v10")
+zp = os.path.join(v10snap, "v10.zip")
+assert os.path.isfile(zp), f"v10.zip introuvable dans {v10snap}"
 with _zipfile.ZipFile(zp) as zf:
     zf.extractall(V10)                      # → metadata.csv + audio/*.flac + corpus.txt
-# snapshot_download garde le blob en cache EN PLUS de local_dir : avec 1,59 Go ça
-# fait jusqu'à 3 copies sur un disque de 19,5 Go qui doit aussi tenir Casablanca,
-# DVoice et 1,6 Go d'ONNX exporté. On ne garde que les flac extraits.
 import shutil as _sh
-_sh.rmtree("/kaggle/working/hf_v10", ignore_errors=True)
 _sh.rmtree("/kaggle/working/hf_cache_v10", ignore_errors=True)
-print(f"v10 extrait dans {V10} (zip + cache libérés)", flush=True)
+print(f"v10 extrait dans {V10} (cache libéré)", flush=True)
 big56 = []
 with open(os.path.join(V10, "metadata.csv"), newline="", encoding="utf-8") as f:
     for r in csv.DictReader(f):
@@ -447,12 +458,34 @@ if RESUME:
         assert not got.missing_keys and not got.unexpected_keys, (
             f"resume incompatible: {got}")
         best["wer"], best["tag"] = ck["best_wer"], "resume"
+        # L'état repris EST le best courant : si AUCUNE époque de cette session
+        # ne l'améliore, best["state"] doit quand même exister — sinon l'assert
+        # de fin tuait la session APRÈS le training, avant tout export (bug
+        # potentiel qui aurait gaspillé 7,6 h).
+        best["state"] = {k: v.detach().cpu().clone()
+                         for k, v in model.state_dict().items()}
         g_epoch_b = ck["epoch_b"]
         print(f"RESUME_STATE best_wer={best['wer']:.4f} epoch_b={g_epoch_b}",
               flush=True)
 
 print(f"=== socle nu (zero-shot darija marocain) — {left()/3600:.1f} h ===", flush=True)
 zs_val = torch_eval(val, "ZS_BASE_val")
+if ck is not None:
+    # Vérification gratuite du resume : le val WER mesuré doit retomber sur le
+    # best_wer stocké (même découpe, SEED identique). Un écart > 0.02 = reprise
+    # cassée → le savoir à la minute 10, pas après 7 h.
+    _drift = abs(zs_val[0] - ck["best_wer"])
+    print(f"RESUME_CHECK val_mesuré={zs_val[0]:.4f} vs ckpt={ck['best_wer']:.4f} "
+          f"drift={_drift:.4f}" + (" OK" if _drift < 0.02 else " ⚠️ RESUME DOUTEUX"),
+          flush=True)
+    assert _drift < 0.05, f"resume cassé: drift {_drift:.4f}"
+    # L'état repris EST le best courant : son CER, mesuré à l'instant, complète
+    # best["cer"] que le ckpt ne stocke pas. Sans ça, une session où AUCUNE
+    # époque n'améliore (plateau — le cas dès qu'on approche EP_B) laisse
+    # best["cer"]=None, et le meta.json final meurt sur round(None) APRÈS
+    # l'export et les evals : 5,2 h de T4 jetées à la dernière ligne (25/08,
+    # sessions v5 puis v7, deux fois le même mur).
+    best["cer"] = zs_val[1]
 if aux and g_epoch_b == 0:        # étage A déjà fait dans une session précédente
     print(f"=== étage A : darija générique {len(aux)} clips ===", flush=True)
     stopped = stage(aux, EP_A, LR_A, "A")
@@ -659,13 +692,15 @@ if not gate_pass:
                     repo_id=CAND_REPO)
     sys.exit(0)
 
-api.create_repo(REPO, private=True, exist_ok=True)
-api.upload_folder(folder_path="out", repo_id=REPO)
-print("HF_UPLOAD_DONE=" + REPO)
-print("\n── à mettre dans .env.cloud ET .env.local (jamais le .env généré) ──")
-print("STT_ENGINE=ctc")
-print(f"STT_MODEL={REPO}")
-print(f"STT_MODEL_FILE={serve_file}")
-print("# retour arrière : STT_ENGINE=whisper (le repo whisper reste intact)")
-print(f"V10 COMPLETE: WER {wer_served_est:.4f} (servi {SERVED_WER:.4f}) "
-      f"en {(time.time()-T0)/3600:.1f} h")
+# GATE PASSÉ — mais le train NE PROMEUT JAMAIS vers le repo servi (leçon 20/08 :
+# `out/` ne contient ni lm.npz ni la section meta["lm"], donc écraser le servi
+# lui ferait perdre les paramètres de décodage mesurés → serveur en config par
+# défaut, silencieusement). La promotion appartient au kernel LM, qui re-règle
+# le faisceau sur CES poids puis publie la chaîne complète.
+print(f"GATE_PASS_CANDIDATE — poids sur {CAND_REPO} (le servi {REPO} est INTACT)")
+print("ÉTAPE SUIVANTE OBLIGATOIRE : CPU=1 python3 stt_push.py push "
+      "stt_lm_kernel_v9.py khidmeti-stt-lm-v10")
+print("  → il re-règle order/alpha/beta/beam sur ces poids, mesure le WER de la "
+      "chaîne servie, et publie modèle+lm.npz+meta SEULEMENT si sa mesure passe.")
+print(f"V10 COMPLETE: greedy servi estimé {wer_served_est:.4f} "
+      f"(whisper prod {SERVED_WER:.4f}) en {(time.time()-T0)/3600:.1f} h")

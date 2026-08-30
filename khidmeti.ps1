@@ -90,8 +90,7 @@ function Ensure-Dirs {
 }
 
 # ── Mode cloud/local (parité _select-mode) ────────────────────────────────────
-# .env est GÉNÉRÉ (copie de .env.cloud ou .env.local) — éditez ces fichiers-là.
-# .env.local définit COMPOSE_FILE → docker compose suit le bon mode tout seul.
+# .env est LE fichier unique (depuis v15) — éditez-le directement.
 function Select-Mode([string]$requested) {
   $mode = $requested
   if ([string]::IsNullOrEmpty($mode)) { $mode = $env:MODE }

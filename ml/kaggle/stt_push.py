@@ -9,14 +9,38 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]  # khid-back/
-ENV = dict(l.strip().split("=", 1) for l in (ROOT / ".env").read_text().splitlines()
-           if "=" in l and not l.strip().startswith("#"))
-# Override credentials par env SANS toucher .env (ex. compte d'un collègue) :
-# KAGGLE_USERNAME=walidfg KAGGLE_KEY=… python3 stt_push.py push …
-USER = os.environ.get("KAGGLE_USERNAME") or ENV["KAGGLE_USERNAME"]
-KEY  = os.environ.get("KAGGLE_KEY") or ENV["KAGGLE_KEY"]
-# HF_TOKEN suit le même principe : override si fourni, sinon .env.
-HFTOK = os.environ.get("HF_TOKEN") or ENV["HF_TOKEN"]
+
+def _read_env(p):
+    try:
+        return dict(l.strip().split("=", 1) for l in Path(p).read_text().splitlines()
+                    if "=" in l and not l.strip().startswith("#"))
+    except OSError:
+        return {}
+
+# Le `.env` de khid-back est GÉNÉRÉ (make le recopie depuis .env.cloud) : tout
+# secret d'OUTILLAGE qu'on y met disparaît au prochain rebuild — c'est arrivé
+# le 22/08, la clé Kaggle a été perdue en plein milieu du chantier 93 h.
+# Ordre de lecture : env explicite > ~/.kaggle/kaggle.json (emplacement
+# standard, hors repo) > ~/khid-secrets.env > .env (héritage, si présent).
+ENV = {**_read_env(ROOT / ".env"), **_read_env(Path.home() / "khid-secrets.env")}
+_KJ = Path.home() / ".kaggle" / "kaggle.json"
+if _KJ.exists():
+    _j = json.loads(_KJ.read_text())
+    ENV.setdefault("KAGGLE_USERNAME", _j.get("username", ""))
+    ENV.setdefault("KAGGLE_KEY", _j.get("key", ""))
+
+def _need(name):
+    v = os.environ.get(name) or ENV.get(name)
+    if not v:
+        sys.exit(f"[stt_push] {name} introuvable.\n"
+                 f"  → mettez-le dans ~/khid-secrets.env (hors repo, survit au make)\n"
+                 f"     ou ~/.kaggle/kaggle.json, ou passez-le en variable "
+                 f"d'environnement.")
+    return v
+
+USER  = _need("KAGGLE_USERNAME")
+KEY   = _need("KAGGLE_KEY")
+HFTOK = _need("HF_TOKEN")
 SLUG = "khidmeti-stt-train"
 API = "https://www.kaggle.com/api/v1"
 
@@ -59,6 +83,12 @@ def push():
     if os.environ.get("CPU") == "1":      # décodage/LM : pas un gramme de GPU (quota T4 gardé)
         body["enableGpu"] = False
         del body["machineShape"]
+    # DISABLE=1 : pousse la version SANS lancer de run. C'est le SEUL frein
+    # fiable — /kernels/cancel n'existe pas dans l'API publique (404 HTML), et
+    # un push nu QUEUE toujours un run. Sert à figer un run en attente quand on
+    # découvre un bug avant qu'il ne brûle du quota.
+    if os.environ.get("DISABLE") == "1":
+        body["isDisabled"] = True
     print(json.dumps(call("/kernels/push", body), indent=2))
 
 def status():

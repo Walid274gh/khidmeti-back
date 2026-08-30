@@ -20,6 +20,7 @@ import { GatewayModule }            from './modules/gateway/gateway.module';
 import { ProfessionsModule }        from './modules/professions/professions.module';
 import { AdminModule }              from './modules/admin/admin.module';
 import { SearchModule }             from './modules/search/search.module';
+import { PaymentsModule }           from './modules/payments/payments.module';
 import { HealthController }         from './health.controller';
 
 @Module({
@@ -65,6 +66,7 @@ import { HealthController }         from './health.controller';
     ProfessionsModule,
     AdminModule,
     SearchModule,
+    PaymentsModule,
   ],
   controllers: [HealthController],
   // ThrottlerGuard must be registered globally or every @Throttle() decorator

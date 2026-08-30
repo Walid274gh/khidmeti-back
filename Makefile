@@ -1,4 +1,4 @@
-## ══════════════════════════════════════════════════════════════════════════════
+#!/data/data/com.termux/files/usr/bin/bash
 ## KHIDMETI BACKEND — Makefile v15
 ##
 ## v15 : Gemma4 (llama.cpp ~5 GB) SUPPRIMÉ — IA 100% maison :
@@ -10,7 +10,7 @@
 ##   make start              → Lance tout (premier boot : ~1 GB de poids à télécharger)
 ## ══════════════════════════════════════════════════════════════════════════════
 
-SHELL := /bin/bash
+SHELL := /data/data/com.termux/files/usr/bin/bash
 
 # ── Détection OS / Arch ───────────────────────────────────────────────────────
 OS   := $(shell uname -s 2>/dev/null || echo Windows_NT)
@@ -68,7 +68,6 @@ help:
 	@echo ""
 	@echo "  ⚠️  SETUP INITIAL :"
 	@echo "  make start             ← Lance TOUT (1er boot : poids IA ~1 GB auto-téléchargés)"
-	@echo "                           bypass menu : MODE=cloud|local make start"
 	@echo "                           sans tunnel : NGROK=0 make start"
 	@echo ""
 	@echo "  [Quotidien]"
@@ -144,7 +143,6 @@ models: _ensure-models
 ## START
 ## ══════════════════════════════════════════════════════════════════════════════
 
-## Menu cloud/local. Bypass non-interactif : MODE=cloud|local make start
 ## .env est LE fichier unique (infra cloud : Atlas/Upstash/Qdrant Cloud) — éditez-le directement.
 start: _ensure-docker _ensure-dirs _ensure-models
 	@echo "══════════════════════════════════════════════════════"

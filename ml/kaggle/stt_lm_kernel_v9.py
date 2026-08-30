@@ -17,7 +17,8 @@
 #     les 831 clips, donc directement comparable au 0,6300 de whisper.
 #   • Poids inchangés → si le gate passe, on sert le CTC sans réentraînement.
 #
-# GATE = WER(faisceau+LM, int8, 831 clips) < 0,6300.
+# GATE = WER(faisceau+LM, int8, 831 clips) < 0,6097 (whisper apparié prod ;
+# l'ancien 0,6300 venait d'une estimation sans vad+prompt — trop laxiste de ~2 pts).
 #   passe  → int8 + vocab + lm.npz + meta sur le repo servi, lignes .env imprimées
 #   échoue → lm.npz + meta sur le repo candidat, et on garde whisper servi.
 #
@@ -53,7 +54,10 @@ REPO      = "Walidrbh27/khidmeti-stt-ctc"        # repo servi si le gate passe
 # laxiste de ~2 pts : un CTC à 0.62 aurait été servi "moins bien que whisper
 # réel". CER whisper mesuré au même run = 0.2368.
 SERVED_WER, SERVED_CER = 0.6097, 0.2368          # whisper servi (paired, prod)
-GREEDY_V8_EST = 0.6892                           # estimation v8 : garde-fou de cohérence
+GREEDY_V8_EST = 0.6064                           # greedy int8 MESURÉ (25/08, log S5 :
+                                                 # SUB_ONNX_INT8_WER) sur les poids -cand
+                                                 # actuels — si le mesuré s'écarte de >3 pts,
+                                                 # ce ne sont pas les bons logits
 
 LM_ORDER, LM_MINCOUNT, LM_WORDS = 3, 2, 12_000_000
 LM_ORDERS = [3, 4]                # build_lm coûte 0,5 min : l'ordre se mesure
