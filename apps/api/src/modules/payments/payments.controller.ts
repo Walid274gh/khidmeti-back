@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Headers, Post, UseGuards, ForbiddenException, Req } from '@nestjs/common';
 import { FirebaseAuthGuard } from '../../common/guards/firebase-auth.guard';
-import { CurrentUser, AuthUser } from '../../common/decorators/current-user.decorator';
+import { CurrentUser } from '../../common/decorators/current-user.decorator';
+import { AuthUser } from '../../common/guards/firebase-auth.guard';
 import { PaymentsService } from './payments.service';
 import { Request } from 'express';
 

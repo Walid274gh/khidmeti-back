@@ -101,7 +101,7 @@ export class HealthController {
   }
 
   // ── HF keepalive + status (UptimeRobot watches /health + /hf-status) ─────────
-  private readonly hfUrl?: string;
+  private hfUrl?: string;
   private hfLast: { state: DepState; at: string; ms?: number } = { state: 'down', at: new Date().toISOString() };
 
   private initHfKeepalive(): void {
