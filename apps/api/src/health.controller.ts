@@ -11,6 +11,7 @@ import { InjectConnection } from '@nestjs/mongoose';
 import { Connection } from 'mongoose';
 import type { Redis } from 'ioredis';
 import { QdrantInitService } from './qdrant/qdrant-init.service';
+import { ConfigService } from '@nestjs/config';
 
 type DepState = 'up' | 'down' | 'disabled';
 
@@ -30,7 +31,10 @@ export class HealthController {
     @InjectConnection() private readonly mongo: Connection,
     private readonly qdrant: QdrantInitService,
     @Optional() @Inject('REDIS_CLIENT') private readonly redis: Redis | null,
-  ) {}
+    private readonly config: ConfigService,
+  ) {
+    this.initHfKeepalive();
+  }
 
   // ── Liveness ────────────────────────────────────────────────────────────────
   // Le process NestJS répond. Utilisé par le healthcheck Docker et nginx.
@@ -94,6 +98,43 @@ export class HealthController {
     } catch {
       return 'down';
     }
+  }
+
+  // ── HF keepalive + status (UptimeRobot watches /health + /hf-status) ─────────
+  private readonly hfUrl?: string;
+  private hfLast: { state: DepState; at: string; ms?: number } = { state: 'down', at: new Date().toISOString() };
+
+  private initHfKeepalive(): void {
+    this.hfUrl = this.config.get<string>('HF_SPACE_URL')?.replace(/\/+$/, '');
+    if (!this.hfUrl) return;
+    // Probe once at boot, then every 50 min (ZeroGPU sleeps after 48 min without queue hit)
+    const probe = async () => {
+      const t0 = Date.now();
+      try {
+        const res = await fetch(this.hfUrl + '/config', { signal: AbortSignal.timeout(8000) } as RequestInit);
+        this.hfLast = { state: res.ok ? 'up' : 'down', at: new Date().toISOString(), ms: Date.now() - t0 };
+      } catch {
+        this.hfLast = { state: 'down', at: new Date().toISOString(), ms: Date.now() - t0 };
+      }
+    };
+    probe();
+    setInterval(probe, 50 * 60 * 1000);
+  }
+
+  @Get('hf-status')
+  @HttpCode(HttpStatus.OK)
+  async hfStatus(): Promise<{ hf: DepState; lastCheck: string; latencyMs?: number; url?: string }> {
+    // On-demand probe so UptimeRobot sees fresh state even between keepalive ticks
+    if (this.hfUrl) {
+      const t0 = Date.now();
+      try {
+        const res = await fetch(this.hfUrl + '/config', { signal: AbortSignal.timeout(6000) } as RequestInit);
+        this.hfLast = { state: res.ok ? 'up' : 'down', at: new Date().toISOString(), ms: Date.now() - t0 };
+      } catch {
+        this.hfLast = { state: 'down', at: new Date().toISOString(), ms: Date.now() - t0 };
+      }
+    }
+    return { hf: this.hfLast.state, lastCheck: this.hfLast.at, latencyMs: this.hfLast.ms, url: this.hfUrl };
   }
 
   /**
