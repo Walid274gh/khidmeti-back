@@ -3,6 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Payment, PaymentSchema } from '../../schemas/payment.schema';
 import { User, UserSchema } from '../../schemas/user.schema';
 import { UsersModule } from '../users/users.module';
+import { AuthModule } from '../auth/auth.module';
 import { PaymentsService } from './payments.service';
 import { PaymentsController } from './payments.controller';
 import { SatimGateway } from './gateway/satim.gateway';
@@ -12,6 +13,7 @@ import { SatimGateway } from './gateway/satim.gateway';
     MongooseModule.forFeature([{ name: Payment.name, schema: PaymentSchema }]),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     UsersModule,
+    AuthModule,
   ],
   controllers: [PaymentsController],
   providers: [PaymentsService, SatimGateway],
