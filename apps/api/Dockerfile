@@ -76,9 +76,9 @@ RUN apk add --no-cache wget \
 RUN chown node:node /app
 USER node
 
-COPY --chown=node:node package.json ./
-
-RUN npm install --omit=dev --legacy-peer-deps --ignore-scripts \
+COPY --from=deps --chown=node:node /app/node_modules ./node_modules
+COPY --from=deps --chown=node:node /app/package.json ./package.json
+RUN npm prune --omit=dev \
  && npm cache clean --force
 
 COPY --from=builder --chown=node:node /app/dist ./dist
