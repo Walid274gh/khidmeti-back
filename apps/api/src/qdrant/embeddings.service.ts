@@ -1,27 +1,18 @@
 // apps/api/src/qdrant/embeddings.service.ts
 //
-// Text → VECTOR_SIZE-dim vectors over any OpenAI-compatible /embeddings
-// endpoint:
-//   • local : llama.cpp `ai-embed` container (nomic-embed-text-v1.5,
-//             see docker-compose.yml) — EMBEDDINGS_URL=http://ai-embed:8012/v1
-//   • cloud : Gemini OpenAI-compat (text-embedding-004, 768-dim) or any other
-//             hosted provider — EMBEDDINGS_URL=https://generativelanguage.googleapis.com/v1beta/openai
-//
-// Config (unset EMBEDDINGS_URL disables vector indexing entirely):
-//   EMBEDDINGS_URL      base URL ending in the API root (…/v1)
-//   EMBEDDINGS_MODEL    default nomic-embed-text-v1.5
-//   EMBEDDINGS_API_KEY  bearer token when the endpoint requires one
-//
-// Same degradation contract as QdrantInitService: embeddings being down or
-// unconfigured must never break a user flow — callers treat null as "skip".
+// Text → VECTOR_SIZE-dim vectors.
+// Priority:
+//   1. EMBEDDINGS_URL set → OpenAI-compatible /embeddings (local llama.cpp or Gemini)
+//   2. HF_TOKEN set       → HF Inference API (feature-extraction, no model download)
+//   3. neither            → disabled (callers skip indexing, graceful degradation)
 
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { VECTOR_SIZE } from './qdrant-init.service';
 
 const EMBED_TIMEOUT_MS = 20_000;
+const HF_EMBED_MODEL = 'sentence-transformers/paraphrase-multilingual-mpnet-base-v2'; // 768-dim
 
-/** nomic-embed models need asymmetric task prefixes for good retrieval. */
 export type EmbedTask = 'document' | 'query';
 
 @Injectable()
@@ -30,27 +21,28 @@ export class EmbeddingsService {
   private readonly url?:    string;
   private readonly model:   string;
   private readonly apiKey?: string;
+  private readonly hfToken?: string;
   private warnedDisabled = false;
 
   constructor(config: ConfigService) {
-    this.url    = config.get<string>('EMBEDDINGS_URL') || undefined;
-    this.model  = config.get<string>('EMBEDDINGS_MODEL') || 'nomic-embed-text-v1.5';
-    this.apiKey = config.get<string>('EMBEDDINGS_API_KEY') || undefined;
+    this.url     = config.get<string>('EMBEDDINGS_URL') || undefined;
+    this.model   = config.get<string>('EMBEDDINGS_MODEL') || 'nomic-embed-text-v1.5';
+    this.apiKey  = config.get<string>('EMBEDDINGS_API_KEY') || undefined;
+    this.hfToken = config.get<string>('HF_TOKEN') || undefined;
   }
 
   get enabled(): boolean {
-    return this.url != null;
+    return this.url != null || this.hfToken != null;
   }
 
-  /**
-   * Embeds [text], returning a VECTOR_SIZE-dim vector — or null when the
-   * service is disabled, unreachable, or misconfigured (callers skip indexing).
-   */
   async embed(text: string, task: EmbedTask = 'document'): Promise<number[] | null> {
+    if (!this.url && this.hfToken) {
+      return this.embedViaHf(text);
+    }
     if (!this.url) {
       if (!this.warnedDisabled) {
         this.warnedDisabled = true;
-        this.logger.warn('EMBEDDINGS_URL not set — vector indexing disabled');
+        this.logger.warn('EMBEDDINGS_URL and HF_TOKEN not set — vector indexing disabled');
       }
       return null;
     }
@@ -89,6 +81,43 @@ export class EmbeddingsService {
       return vector;
     } catch (err) {
       this.logger.warn(`Embeddings call failed: ${(err as Error).message}`);
+      return null;
+    }
+  }
+
+  private async embedViaHf(text: string): Promise<number[] | null> {
+    try {
+      const res = await fetch(
+        `https://api-inference.huggingface.co/pipeline/feature-extraction/${HF_EMBED_MODEL}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${this.hfToken}`,
+          },
+          body: JSON.stringify({ inputs: text, options: { wait_for_model: true } }),
+          signal: AbortSignal.timeout(EMBED_TIMEOUT_MS),
+        },
+      );
+
+      if (!res.ok) {
+        const detail = (await res.text().catch(() => '')).slice(0, 300);
+        if (res.status === 429) {
+          this.logger.warn('HF Inference rate limited (429) — embedding skipped');
+        } else {
+          this.logger.warn(`HF Inference HTTP ${res.status}: ${detail}`);
+        }
+        return null;
+      }
+
+      const vector = (await res.json()) as number[];
+      if (!Array.isArray(vector) || vector.length !== VECTOR_SIZE) {
+        this.logger.warn(`HF embedding dimension mismatch: got ${Array.isArray(vector) ? vector.length : typeof vector}, expected ${VECTOR_SIZE}`);
+        return null;
+      }
+      return vector;
+    } catch (err) {
+      this.logger.warn(`HF Inference call failed: ${(err as Error).message}`);
       return null;
     }
   }
