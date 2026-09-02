@@ -214,3 +214,11 @@ json.dump({"base_model": MEDIUM, "method": "LoRA r32 a64 qkvo+fc merged",
 api = HfApi(token=HF_TOKEN)
 api.upload_folder(folder_path="ct2_out", repo_id=REPO)
 print("HF_UPLOAD_DONE=" + REPO)
+# Auto-restart Space to pick up new weights
+try:
+    from huggingface_hub import HfApi as _HfApi2
+    _HfApi2(token=HF_TOKEN).restart_space(repo_id="Walidrbh27/khidmeti-ai", repo_type="space")
+    print("SPACE_RESTARTED=Walidrbh27/khidmeti-ai")
+except Exception as _e:
+    print(f"SPACE_RESTART_SKIP={_e}")
+

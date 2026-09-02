@@ -370,5 +370,12 @@ json.dump({k: {"macro": v[0], "acc": v[1], "per_class": v[2]} for k, v in result
 api = HfApi(token=HF_TOKEN)
 for f in ("text_embeds.npy", "vision_labels.json", "meta.json", "probe_report.json"):
     api.upload_file(path_or_fileobj=f, path_in_repo=f, repo_id=REPO)
+# Auto-restart Space to pick up new weights
+try:
+    from huggingface_hub import HfApi as _HfApi2
+    _HfApi2(token=HF_TOKEN).restart_space(repo_id="Walidrbh27/khidmeti-ai", repo_type="space")
+    print("SPACE_RESTARTED=Walidrbh27/khidmeti-ai")
+except Exception as _e:
+    print(f"SPACE_RESTART_SKIP={_e}")
     print("uploaded", f)
 print("ALL DONE —", REPO)  # confiance calibrée cuite dans meta — VISION_BIAS=0 côté serveur

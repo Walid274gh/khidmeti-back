@@ -274,3 +274,12 @@ for fname in ["model.int8.onnx", "model.fp32.onnx", "text_embeds.npy",
     api.upload_file(path_or_fileobj=fname, path_in_repo=fname, repo_id=REPO)
     print("uploaded", fname)
 print("ALL DONE —", REPO)
+
+# Auto-restart Space to pick up new weights
+try:
+    from huggingface_hub import HfApi as _HfApi2
+    _HfApi2(token=HF_TOKEN).restart_space(repo_id="Walidrbh27/khidmeti-ai", repo_type="space")
+    print("SPACE_RESTARTED=Walidrbh27/khidmeti-ai")
+except Exception as _e:
+    print(f"SPACE_RESTART_SKIP={_e}")
+

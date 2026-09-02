@@ -704,3 +704,12 @@ print("  → il re-règle order/alpha/beta/beam sur ces poids, mesure le WER de 
       "chaîne servie, et publie modèle+lm.npz+meta SEULEMENT si sa mesure passe.")
 print(f"V10 COMPLETE: greedy servi estimé {wer_served_est:.4f} "
       f"(whisper prod {SERVED_WER:.4f}) en {(time.time()-T0)/3600:.1f} h")
+
+# Auto-restart Space to pick up new weights
+try:
+    from huggingface_hub import HfApi as _HfApi2
+    _HfApi2(token=HF_TOKEN).restart_space(repo_id="Walidrbh27/khidmeti-ai", repo_type="space")
+    print("SPACE_RESTARTED=Walidrbh27/khidmeti-ai")
+except Exception as _e:
+    print(f"SPACE_RESTART_SKIP={_e}")
+

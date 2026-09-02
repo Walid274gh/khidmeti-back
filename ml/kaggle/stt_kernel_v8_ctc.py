@@ -550,6 +550,14 @@ if not gate_pass:
 api.create_repo(REPO, private=True, exist_ok=True)
 api.upload_folder(folder_path="out", repo_id=REPO)
 print("HF_UPLOAD_DONE=" + REPO)
+# Auto-restart Space to pick up new weights
+try:
+    from huggingface_hub import HfApi as _HfApi2
+    _HfApi2(token=HF_TOKEN).restart_space(repo_id="Walidrbh27/khidmeti-ai", repo_type="space")
+    print("SPACE_RESTARTED=Walidrbh27/khidmeti-ai")
+except Exception as _e:
+    print(f"SPACE_RESTART_SKIP={_e}")
+
 print("\n── à mettre dans .env.cloud ET .env.local (jamais le .env généré) ──")
 print("STT_ENGINE=ctc")
 print(f"STT_MODEL={REPO}")
