@@ -531,7 +531,6 @@ export class UsersService {
    */
   async purchaseExtraBids(id: string): Promise<UserDocument> {
     const now = new Date();
-    const { EXTRA_BIDS_PACK_SIZE } = await import('../../schemas/user.schema');
 
     // Atomic single-op: the "no active extra" check lives INSIDE the filter,
     // so two concurrent purchases cannot both succeed. Active extra = remaining > 0

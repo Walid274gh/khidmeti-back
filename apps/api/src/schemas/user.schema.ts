@@ -124,7 +124,7 @@ export function portfolioQuotaForPrice(price: number): number {
 //   sliders maxed (15 h, 20 bids)              = 1250
 //   everything on (15 h + 20 bids + both)      = 2300 < Expert preset 2500 —
 //   presets stay attractive as discounted bundles. Max 20 bids keeps
-  Business (30) as the clear step-up.
+//   Business (30) as the clear step-up.
 export const CUSTOM_PACK = {
   basePrice: 500, hourPrice: 25, bidPrice: 25,
   priorityPrice: 200, b2bPrice: 850,
