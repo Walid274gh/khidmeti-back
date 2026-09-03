@@ -169,6 +169,7 @@ export class UsersController {
     @Body() body: {
       tier?: string; b2b?: boolean;
       hoursPerDay?: number; bidsPerMonth?: number; priority?: boolean;
+      period?: string;
     },
     @CurrentUser() user: AuthUser,
   ): Promise<UserDocument> {
@@ -189,6 +190,27 @@ export class UsersController {
     if (custom && (!Number.isFinite(custom.hoursPerDay) || !Number.isFinite(custom.bidsPerMonth))) {
       throw new BadRequestException('custom pack requires numeric hoursPerDay and bidsPerMonth');
     }
-    return this.usersService.activateSubscription(id, tier, 30, custom);
+    const period = body?.period === 'annual' ? 'annual' : 'monthly';
+    if (period === 'annual' && tier === 'custom') {
+      throw new BadRequestException('Annual billing is available for fixed tiers only');
+    }
+    return this.usersService.activateSubscription(id, tier, period === 'annual' ? 365 : 30, custom, period);
+  }
+
+  /**
+   * POST /users/:id/subscription/extra-bids
+   * Purchase a 5-bid extra pack for 500 DA. Requires active subscription.
+   * One active pack at a time — must consume existing extra before buying again.
+   * Extra consumed first on next bid. Expiry = subscriptionUntil; if bought
+   * in last 7 days of cycle, remainder rolls over on next activation.
+   */
+  @Post(':id/subscription/extra-bids')
+  @HttpCode(HttpStatus.OK)
+  async purchaseExtraBids(
+    @Param('id') id: string,
+    @CurrentUser() user: AuthUser,
+  ): Promise<UserDocument> {
+    if (id !== user.uid) throw new ForbiddenException('You can only purchase extra bids for your own account');
+    return this.usersService.purchaseExtraBids(id);
   }
 }

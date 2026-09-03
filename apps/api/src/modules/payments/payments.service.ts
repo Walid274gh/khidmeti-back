@@ -8,6 +8,7 @@ import { SatimGateway } from './gateway/satim.gateway';
 import {
   TIER_PACKS, customPackEntitlements, portfolioQuotaForPrice,
   SUBSCRIPTION_TIERS, SubscriptionTier, PackEntitlements, CUSTOM_PACK,
+  ANNUAL_MULTIPLIER, ANNUAL_DAYS,
 } from '../../schemas/user.schema';
 import { InjectModel as InjectUserModel } from '@nestjs/mongoose';
 import { User, UserDocument } from '../../schemas/user.schema';
@@ -55,12 +56,20 @@ export class PaymentsService {
     }
 
     const tierTyped = tier as SubscriptionTier;
+    const period = body['period'] === 'annual' ? 'annual' : 'monthly';
+    if (period === 'annual' && tierTyped === 'custom') {
+      throw new BadRequestException('Annual billing is available for fixed tiers only');
+    }
     if (tierTyped === 'custom') {
       if (!Number.isFinite(Number(body['hoursPerDay'])) || !Number.isFinite(Number(body['bidsPerMonth']))) {
         throw new BadRequestException('custom requires hoursPerDay and bidsPerMonth');
       }
     }
     const ent = this.entitlementsFor(tierTyped, body);
+    const billedPrice = period === 'annual' && tierTyped !== 'custom'
+      ? TIER_PACKS[tierTyped as Exclude<SubscriptionTier, 'custom'>].price * ANNUAL_MULTIPLIER
+      : ent.price;
+    const billedDays = period === 'annual' ? ANNUAL_DAYS : 30;
 
     // B2B gate check early — fail fast before charging
     if (ent.b2bAccess) {
@@ -72,14 +81,15 @@ export class PaymentsService {
     const now = new Date();
     const paymentId = randomUUID();
     const gateway = await this.satim.createOrder({
-      amount: ent.price, orderId: paymentId, method: method as 'CIB' | 'EDAHABIA',
-      description: `Khidmeti ${tierTyped} — ${ent.price} DZD`,
+      amount: billedPrice, orderId: paymentId, method: method as 'CIB' | 'EDAHABIA',
+      description: `Khidmeti ${tierTyped} ${period} — ${billedPrice} DZD`,
     });
 
     const doc = await this.paymentModel.create({
       _id: paymentId,
-      userId, tier: tierTyped, entitlements: ent as unknown as Record<string, unknown>,
-      amount: ent.price, method, idempotencyKey,
+      userId, tier: tierTyped, period, billedDays,
+      entitlements: ent as unknown as Record<string, unknown>,
+      amount: billedPrice, method, idempotencyKey,
       status: 'pending', gatewayRef: gateway.gatewayRef,
       gatewayResponse: gateway.raw,
       createdAt: now, expiresAt: new Date(now.getTime() + INTENT_TTL_MS),
@@ -102,7 +112,10 @@ export class PaymentsService {
 
     const ent = p.entitlements as unknown as PackEntitlements;
     const now = new Date();
-    const until = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+    const stored = p as unknown as { billedDays?: number; period?: string; amount?: number };
+    const days = Number.isFinite(stored.billedDays) && (stored.billedDays as number) > 0 ? (stored.billedDays as number) : 30;
+    const until = new Date(now.getTime() + days * 24 * 60 * 60 * 1000);
+    const isAnnual = stored.period === 'annual';
 
     // Atomic: mark payment confirmed + activate subscription in same logical tx
     // Use findByIdAndUpdate for each — if second fails, reconciliation job retries
@@ -116,7 +129,9 @@ export class PaymentsService {
       subscriptionActive: true,
       subscriptionUntil: until,
       subscriptionTier: tier,
-      subscriptionPrice: ent.price,
+      subscriptionPrice: typeof stored.amount === 'number' ? stored.amount : ent.price,
+      subscriptionPeriod: isAnnual ? 'annual' : 'monthly',
+      subscriptionAnnual: isAnnual,
       dailyQuotaSeconds: ent.dailyQuotaSeconds,
       monthlyBidQuota: ent.monthlyBidQuota,
       searchPriority: ent.searchPriority,
@@ -180,7 +195,7 @@ export class PaymentsService {
   }
 
   async getSubscription(userId: string): Promise<Record<string, unknown> | null> {
-    const u = await this.userModel.findById(userId).select('subscriptionActive subscriptionUntil subscriptionTier subscriptionPrice dailyQuotaSeconds monthlyBidQuota searchPriority b2bAccess portfolioQuota').lean().exec();
+    const u = await this.userModel.findById(userId).select('subscriptionActive subscriptionUntil subscriptionTier subscriptionPrice subscriptionPeriod subscriptionAnnual dailyQuotaSeconds monthlyBidQuota searchPriority b2bAccess portfolioQuota').lean().exec();
     return u as unknown as Record<string, unknown> | null;
   }
 }

@@ -61,17 +61,18 @@ export enum UserRole {
   Business = 'business',
 }
 
-// Subscription packs (business model v2): the protected bid channel is the
-// real product, map visibility is the secondary one. All packs are 7/7 —
-// the bid quota is the differentiator, not calendar days. Four named presets
-// plus a slider-built custom pack:
-//   basic    500  — map 5 h/day, NO bids (sees direct requests)
-//   pro     1000  — map 10 h/day, 20 bids/month
-//   business 1500 — unlimited map + bids, search priority, Pro badge
-//   expert   2500 — everything business + B2B flux (requires verified docs)
-//   custom 500–2550 — sliders (hours 5–15, bids 0–30 at 25 DZD/unit) plus
-//   priority (+200) and B2B (+850, docs required) toggles. Full custom costs
-//   more than the Expert preset — presets stay the discounted bundles.
+// Subscription packs (business model v3 — Visibility + Access + Capacity):
+//   Visibility (map hours) + Access (priority/badge/B2B) are the pack;
+//   Bids are capacity. All packs are 7/7. Four named presets plus a
+//   slider-built custom pack for odd needs:
+//   basic    500  — 5 h/day,  5 bids/month,  5 photos
+//   pro     1000  — 10 h/day, 10 bids/month, 10 photos
+//   business 1500 — unlimited map, 30 bids/month, priority+badge, 15 photos ⭐
+//   expert   2500 — business + B2B flux (verified docs), 25 photos
+//   custom 500–2300 — sliders (hours 5–15, bids 0–20 at 25 DA/unit) plus
+//   priority (+200, requires ≥10 bids) and B2B (+850, docs required).
+//   Custom max 20 bids keeps Business (30) as the clear step-up.
+//   Extra bids: 5-pack for 500 DA, one active pack at a time, extra consumed first.
 export const SUBSCRIPTION_TIERS = ['basic', 'pro', 'business', 'expert', 'custom'] as const;
 export type SubscriptionTier = (typeof SUBSCRIPTION_TIERS)[number];
 
@@ -80,22 +81,22 @@ export type SubscriptionTier = (typeof SUBSCRIPTION_TIERS)[number];
 export interface PackEntitlements {
   price: number;                    // DZD/month
   dailyQuotaSeconds: number | null; // null = unlimited map time
-  monthlyBidQuota: number | null;   // null = unlimited bids; 0 = no bid access
+  monthlyBidQuota: number | null;   // null = unlimited (legacy); 0 = no bid access (custom 0 bids)
   searchPriority: boolean;          // ranking boost + Pro badge
   b2bAccess: boolean;               // B2B flux (requires verified docs)
 }
 
 export const TIER_PACKS: Record<Exclude<SubscriptionTier, 'custom'>, PackEntitlements> = {
-  basic:    { price: 500,  dailyQuotaSeconds: 5 * 3600,  monthlyBidQuota: 0,    searchPriority: false, b2bAccess: false },
-  pro:      { price: 1000, dailyQuotaSeconds: 10 * 3600, monthlyBidQuota: 20,   searchPriority: false, b2bAccess: false },
-  business: { price: 1500, dailyQuotaSeconds: null,      monthlyBidQuota: null, searchPriority: true,  b2bAccess: false },
-  expert:   { price: 2500, dailyQuotaSeconds: null,      monthlyBidQuota: null, searchPriority: true,  b2bAccess: true  },
+  basic:    { price: 500,  dailyQuotaSeconds: 5 * 3600,  monthlyBidQuota: 5,  searchPriority: false, b2bAccess: false },
+  pro:      { price: 1000, dailyQuotaSeconds: 10 * 3600, monthlyBidQuota: 10, searchPriority: false, b2bAccess: false },
+  business: { price: 1500, dailyQuotaSeconds: null,      monthlyBidQuota: 30, searchPriority: true,  b2bAccess: false },
+  expert:   { price: 2500, dailyQuotaSeconds: null,      monthlyBidQuota: 30, searchPriority: true,  b2bAccess: true  },
 };
 
 /**
  * Portfolio slots (photos of past work) granted by a pack, derived from its
  * price: 100 DZD = 1 photo. basic 500→5, pro 1000→10, business 1500→15,
- * expert 2500→25, custom 500–2550→5–26 (a fully-loaded custom outgrows the
+ * expert 2500→25, custom 500–2300→5–23 (a fully-loaded custom outgrows the
  * Expert preset here too, exactly as it does on price).
  *
  * WHY DERIVED AND NOT A PAID ADD-ON: the product sells VISIBILITY (map time +
@@ -118,18 +119,38 @@ export function portfolioQuotaForPrice(price: number): number {
 }
 
 // Custom pack pricing: 500 base (5 h/day, 0 bids) + 25/extra hour + 25/bid,
-// plus flat add-ons: priority +200, B2B +850.
+// plus flat add-ons: priority +200 (requires ≥10 bids), B2B +850.
 //   floor (5 h, 0 bids, no add-ons)            = 500
-//   sliders maxed (15 h, 30 bids)              = 1500
-//   everything on (15 h + 30 bids + both)      = 2550 > Expert preset 2500 —
-//   presets stay attractive as discounted bundles (Pro à la carte would be 1125).
+//   sliders maxed (15 h, 20 bids)              = 1250
+//   everything on (15 h + 20 bids + both)      = 2300 < Expert preset 2500 —
+//   presets stay attractive as discounted bundles. Max 20 bids keeps
+  Business (30) as the clear step-up.
 export const CUSTOM_PACK = {
   basePrice: 500, hourPrice: 25, bidPrice: 25,
   priorityPrice: 200, b2bPrice: 850,
-  hoursMin: 5, hoursMax: 15, bidsMin: 0, bidsMax: 30,
+  hoursMin: 5, hoursMax: 15, bidsMin: 0, bidsMax: 20,
 } as const;
 
-/** Build custom-pack entitlements; out-of-range slider values are clamped. */
+// Extra bids: 5-pack for 500 DA, one active pack at a time.
+export const EXTRA_BIDS_PACK_SIZE = 5;
+export const EXTRA_BIDS_PACK_PRICE = 500;
+
+// Annual billing: monthly × 10 (2 months free, ~16.7% off). Fixed tiers only —
+// Custom and Extra Bids stay monthly. Same entitlements; only duration changes
+// (30 → 365 days).
+export const BILLING_PERIODS = ['monthly', 'annual'] as const;
+export type BillingPeriod = (typeof BILLING_PERIODS)[number];
+export const ANNUAL_MULTIPLIER = 10;
+export const MONTHLY_DAYS = 30;
+export const ANNUAL_DAYS = 365;
+
+/** Annual price for a fixed tier = monthly × 10. Custom has no annual price. */
+export function annualPriceForTier(tier: Exclude<SubscriptionTier, 'custom'>): number {
+  return TIER_PACKS[tier].price * ANNUAL_MULTIPLIER;
+}
+
+/** Build custom-pack entitlements; out-of-range slider values are clamped.
+ *  Priority requires ≥10 bids — prevents cheap 5h+5bids+priority combos. */
 export function customPackEntitlements(
   hoursPerDay: number,
   bidsPerMonth: number,
@@ -138,7 +159,7 @@ export function customPackEntitlements(
   const clamp = (v: number, lo: number, hi: number) => Math.min(Math.max(Math.round(v), lo), hi);
   const h = clamp(hoursPerDay, CUSTOM_PACK.hoursMin, CUSTOM_PACK.hoursMax);
   const b = clamp(bidsPerMonth, CUSTOM_PACK.bidsMin, CUSTOM_PACK.bidsMax);
-  const priority = opts?.priority === true;
+  const priority = opts?.priority === true && b >= 10;
   const b2b      = opts?.b2b === true;
   return {
     price: CUSTOM_PACK.basePrice
@@ -475,9 +496,17 @@ export class User {
 
   // ── Stored entitlements (written at activation, read by the gates) ──────────
 
-  /** Pack price in DZD/month (informational — shown in the app). */
+  /** Pack price in DZD for the billed period (informational — shown in the app). */
   @Prop({ type: Number, default: null })
   subscriptionPrice: number | null;
+
+  /** Billing period: 'monthly' (30d) | 'annual' (365d). Defaults keep legacy docs monthly. */
+  @Prop({ type: String, default: 'monthly' })
+  subscriptionPeriod: string;
+
+  /** True when the current cycle was bought as an annual plan. */
+  @Prop({ default: false })
+  subscriptionAnnual: boolean;
 
   /** Daily map-visibility quota in seconds. null = unlimited. */
   @Prop({ type: Number, default: null })
@@ -517,6 +546,19 @@ export class User {
   /** Local month (YYYY-MM, Africa/Algiers) the bidsUsed belong to. */
   @Prop({ type: String, default: null })
   bidMonth: string | null;
+
+  // ── Extra bids (5-pack for 500 DA, one active pack at a time) ──────────────
+  /** Remaining extra bids from the active pack. 0 = no active pack. */
+  @Prop({ default: 0, min: 0 })
+  extraBidsRemaining: number;
+
+  /** Expiry of the active extra pack. null = no active pack. */
+  @Prop({ type: Date, default: null })
+  extraBidsExpiry: Date | null;
+
+  /** When the active extra pack was purchased (for 7-day rollover check). */
+  @Prop({ type: Date, default: null })
+  extraBidsPurchasedAt: Date | null;
 
   // ── Usage metering (worker online time, per-day) ─────────────────────────────
   // The worker's paid visibility is metered in online hours PER DAY — the

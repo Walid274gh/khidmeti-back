@@ -471,7 +471,7 @@ async function main() {
           subscriptionTier:   w.b2bAccess ? 'expert' : 'business',
           subscriptionPrice:  w.b2bAccess ? 2500 : 1500,
           dailyQuotaSeconds:  null,
-          monthlyBidQuota:    null,
+          monthlyBidQuota:    30,
           searchPriority:     true,
           b2bAccess:          w.b2bAccess,
           // Le gate B2B exige des docs vérifiés — cohérent pour les seeds Expert.

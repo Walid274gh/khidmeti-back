@@ -17,6 +17,14 @@ export class Payment {
   @Prop({ required: true })
   tier!: string;
 
+  /** Billing period: 'monthly' (30d) | 'annual' (365d). */
+  @Prop({ type: String, default: 'monthly' })
+  period!: string;
+
+  /** Days granted on confirm — 30 monthly, 365 annual. */
+  @Prop({ type: Number, default: 30 })
+  billedDays!: number;
+
   /** Snapshot of entitlements at intent time — server reprices, never trusts client price */
   @Prop({ type: Object, default: null })
   entitlements!: Record<string, unknown> | null;

@@ -1,6 +1,6 @@
 // Check for the visibility + pack logic in user.schema.ts:
 //   • Africa/Algiers day helpers (fixed UTC+1, no DST) — drive the 00:00 reset.
-//   • customPackEntitlements — slider + add-on pricing, 500 floor / 2550 max.
+//   • customPackEntitlements — slider + add-on pricing, 500 floor / 2300 max (20 bids cap).
 //   • subscriptionVisibilityFilter — the single Mongo filter both discovery
 //     paths (search + map) spread in: active sub + daily quota not exhausted
 //     (reads stored entitlement fields; all packs are 7/7).
@@ -41,23 +41,25 @@ describe('customPackEntitlements', () => {
     expect(e.b2bAccess).toBe(false);
   });
 
-  it('sliders maxed: 15 h / 30 bids = 1500 DZD', () => {
-    expect(customPackEntitlements(15, 30).price).toBe(1500);
+  it('sliders maxed: 15 h / 20 bids = 1250 DZD', () => {
+    expect(customPackEntitlements(15, 20).price).toBe(1250);
   });
 
-  it('add-ons: priority +200, b2b +850; fully loaded 2550 > expert 2500', () => {
-    expect(customPackEntitlements(5, 0, { priority: true }).price).toBe(700);
+  it('add-ons: priority +200 (requires >=10 bids), b2b +850; fully loaded 2300 < expert 2500', () => {
+    // priority with 0 bids is ignored — requires >=10 bids
+    expect(customPackEntitlements(5, 0, { priority: true }).price).toBe(500);
+    expect(customPackEntitlements(5, 10, { priority: true }).price).toBe(950);
     expect(customPackEntitlements(5, 0, { b2b: true }).price).toBe(1350);
-    const full = customPackEntitlements(15, 30, { priority: true, b2b: true });
-    expect(full.price).toBe(2550);
-    expect(full.price).toBeGreaterThan(TIER_PACKS.expert.price);
+    const full = customPackEntitlements(15, 20, { priority: true, b2b: true });
+    expect(full.price).toBe(2300);
+    expect(full.price).toBeLessThan(TIER_PACKS.expert.price);
     expect(full.searchPriority).toBe(true);
     expect(full.b2bAccess).toBe(true);
   });
 
   it('clamps out-of-range slider values to the floor/ceiling', () => {
     expect(customPackEntitlements(1, -5).price).toBe(500);
-    expect(customPackEntitlements(99, 999).price).toBe(1500);
+    expect(customPackEntitlements(99, 999).price).toBe(1250);
   });
 
   it('mid-range: 8 h / 10 bids = 500 + 75 + 250 = 825', () => {
@@ -67,10 +69,10 @@ describe('customPackEntitlements', () => {
 
 describe('TIER_PACKS', () => {
   it('matches the pack table (bid quota is the paid axis)', () => {
-    expect(TIER_PACKS.basic).toMatchObject({ price: 500,  monthlyBidQuota: 0,    searchPriority: false });
-    expect(TIER_PACKS.pro).toMatchObject({ price: 1000, monthlyBidQuota: 20,   searchPriority: false });
-    expect(TIER_PACKS.business).toMatchObject({ price: 1500, monthlyBidQuota: null, searchPriority: true, b2bAccess: false });
-    expect(TIER_PACKS.expert).toMatchObject({ price: 2500, monthlyBidQuota: null, searchPriority: true, b2bAccess: true });
+    expect(TIER_PACKS.basic).toMatchObject({ price: 500,  monthlyBidQuota: 5,  searchPriority: false });
+    expect(TIER_PACKS.pro).toMatchObject({ price: 1000, monthlyBidQuota: 10, searchPriority: false });
+    expect(TIER_PACKS.business).toMatchObject({ price: 1500, monthlyBidQuota: 30, searchPriority: true, b2bAccess: false });
+    expect(TIER_PACKS.expert).toMatchObject({ price: 2500, monthlyBidQuota: 30, searchPriority: true, b2bAccess: true });
   });
 });
 
@@ -82,14 +84,14 @@ describe('portfolioQuotaForPrice', () => {
     expect(portfolioQuotaForPrice(TIER_PACKS.expert.price)).toBe(25);
   });
 
-  it('covers custom packs on the same scale (floor 500 → 5, max 2550 → 26)', () => {
+  it('covers custom packs on the same scale (floor 500 → 5, max 2300 → 23)', () => {
     expect(portfolioQuotaForPrice(customPackEntitlements(5, 0).price)).toBe(5);
     expect(portfolioQuotaForPrice(customPackEntitlements(8, 10).price)).toBe(8);
     expect(
       portfolioQuotaForPrice(
-        customPackEntitlements(15, 30, { priority: true, b2b: true }).price,
+        customPackEntitlements(15, 20, { priority: true, b2b: true }).price,
       ),
-    ).toBe(26);
+    ).toBe(23);
   });
 
   it('no subscription (no price) grants nothing', () => {

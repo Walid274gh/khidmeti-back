@@ -48,6 +48,10 @@ import {
   algiersMonthKey,
   secondsSinceAlgiersMidnight,
   subscriptionVisibilityFilter,
+  EXTRA_BIDS_PACK_SIZE,
+  ANNUAL_MULTIPLIER,
+  MONTHLY_DAYS,
+  ANNUAL_DAYS,
 } from '../../schemas/user.schema';
 import { PushSenderService } from '../notifications/push-sender.service';
 import { VectorIndexService } from '../../qdrant/vector-index.service';
@@ -422,10 +426,14 @@ export class UsersService {
   async activateSubscription(
     id: string,
     tier: SubscriptionTier = 'business',
-    days = 30,
+    days = MONTHLY_DAYS,
     custom?: { hoursPerDay: number; bidsPerMonth: number; priority?: boolean; b2b?: boolean },
+    period: 'monthly' | 'annual' = 'monthly',
   ): Promise<UserDocument> {
     try {
+      if (tier === 'custom' && period === 'annual') {
+        throw new BadRequestException('Annual billing is available for fixed tiers only');
+      }
       const ent: PackEntitlements = tier === 'custom'
         ? customPackEntitlements(
             custom?.hoursPerDay ?? CUSTOM_PACK.hoursMin,
@@ -433,6 +441,10 @@ export class UsersService {
             { priority: custom?.priority, b2b: custom?.b2b },
           )
         : TIER_PACKS[tier];
+      const billedDays = period === 'annual' ? ANNUAL_DAYS : days;
+      const billedPrice = period === 'annual' && tier !== 'custom'
+        ? TIER_PACKS[tier as Exclude<SubscriptionTier, 'custom'>].price * ANNUAL_MULTIPLIER
+        : ent.price;
 
       if (ent.b2bAccess) {
         const w = await this.userModel
@@ -447,7 +459,24 @@ export class UsersService {
       }
 
       const now = new Date();
-      const until = new Date(now.getTime() + days * 24 * 60 * 60 * 1000);
+      const until = new Date(now.getTime() + billedDays * 24 * 60 * 60 * 1000);
+
+      // Extra rollover: if an extra pack was bought in the last 7 days of the
+      // previous cycle, carry its remaining bids into the new cycle.
+      const prev = await this.userModel.findById(id).select('extraBidsRemaining extraBidsExpiry extraBidsPurchasedAt subscriptionUntil').lean().exec() as { extraBidsRemaining?: number; extraBidsExpiry?: Date | null; extraBidsPurchasedAt?: Date | null; subscriptionUntil?: Date | null } | null;
+      let carryExtra = 0;
+      let carryExpiry: Date | null = null;
+      let carryPurchasedAt: Date | null = null;
+      if (prev && (prev.extraBidsRemaining ?? 0) > 0 && prev.extraBidsExpiry && prev.extraBidsPurchasedAt && prev.subscriptionUntil) {
+        const msUntilExpiry = new Date(prev.subscriptionUntil).getTime() - new Date(prev.extraBidsPurchasedAt).getTime();
+        const sevenDaysMs = 7 * 24 * 60 * 60 * 1000;
+        if (msUntilExpiry <= sevenDaysMs && new Date(prev.extraBidsExpiry).getTime() > now.getTime()) {
+          carryExtra = prev.extraBidsRemaining!;
+          carryExpiry = prev.extraBidsExpiry as Date;
+          carryPurchasedAt = prev.extraBidsPurchasedAt as Date;
+        }
+      }
+
       const doc = await this.userModel
         .findByIdAndUpdate(
           id,
@@ -455,14 +484,19 @@ export class UsersService {
             subscriptionActive: true,
             subscriptionUntil:  until,
             subscriptionTier:   tier,
-            subscriptionPrice:  ent.price,
+            subscriptionPrice:  billedPrice,
+            subscriptionPeriod: period,
+            subscriptionAnnual: period === 'annual',
             dailyQuotaSeconds:  ent.dailyQuotaSeconds,
             monthlyBidQuota:    ent.monthlyBidQuota,
             searchPriority:     ent.searchPriority,
             b2bAccess:          ent.b2bAccess,
-            portfolioQuota:     portfolioQuotaForPrice(ent.price),
+            portfolioQuota:     portfolioQuotaForPrice(ent.price), // monthly-equivalent price: gallery size follows the tier, not the billing period
             bidsUsed:           0,
             bidMonth:           algiersMonthKey(now),
+            extraBidsRemaining: carryExtra,
+            extraBidsExpiry:    carryExpiry,
+            extraBidsPurchasedAt: carryPurchasedAt,
             lastUpdated:        now,
           },
           { new: true },
@@ -489,6 +523,62 @@ export class UsersService {
    *   BID_NOT_INCLUDED      — pack has no bid access (Basic / custom 0 bids);
    *   BID_QUOTA_EXHAUSTED   — monthly quota used up.
    */
+  /**
+   * Purchase a 5-bid extra pack for 500 DA.
+   * Rules: active subscription required, no active extra pack (extraBidsRemaining must be 0),
+   * extra consumed first. Expiry = subscriptionUntil; if bought in last 7 days of cycle,
+   * remaining extra rolls over on next activation.
+   */
+  async purchaseExtraBids(id: string): Promise<UserDocument> {
+    const now = new Date();
+    const { EXTRA_BIDS_PACK_SIZE } = await import('../../schemas/user.schema');
+
+    // Atomic single-op: the "no active extra" check lives INSIDE the filter,
+    // so two concurrent purchases cannot both succeed. Active extra = remaining > 0
+    // AND not expired. An exhausted (0) or expired pack passes the filter.
+    // Aggregation-pipeline update copies subscriptionUntil -> extraBidsExpiry
+    // inside the SAME operation — no race window between claim and expiry set.
+    const res = await this.userModel.updateOne(
+      {
+        _id: id,
+        role: UserRole.Worker,
+        subscriptionActive: true,
+        subscriptionUntil: { $gt: now },
+        $or: [
+          { extraBidsRemaining: { $lte: 0 } },
+          { extraBidsRemaining: { $exists: false } },
+          { extraBidsExpiry: { $lte: now } },
+          { extraBidsExpiry: null },
+          { extraBidsExpiry: { $exists: false } },
+        ],
+      },
+      [
+        {
+          $set: {
+            extraBidsRemaining: EXTRA_BIDS_PACK_SIZE,
+            extraBidsExpiry: '$subscriptionUntil',
+            extraBidsPurchasedAt: now,
+            lastUpdated: now,
+          },
+        },
+      ],
+    ).exec();
+
+    if (res.modifiedCount === 1) {
+      const doc = await this.userModel.findById(id).exec();
+      if (!doc) throw new NotFoundException(`Worker ${id} not found`);
+      return doc;
+    }
+
+    // No match — read once to say WHY (mirrors consumeBid's error pattern)
+    const w = await this.userModel.findOne({ _id: id, role: UserRole.Worker }).lean().exec() as { subscriptionActive?: boolean; subscriptionUntil?: Date | null; extraBidsRemaining?: number; extraBidsExpiry?: Date | null } | null;
+    if (!w) throw new NotFoundException(`Worker ${id} not found`);
+    if (w.subscriptionActive !== true || !w.subscriptionUntil || new Date(w.subscriptionUntil).getTime() <= now.getTime()) {
+      throw new ForbiddenException('SUBSCRIPTION_REQUIRED');
+    }
+    throw new BadRequestException('EXTRA_ALREADY_ACTIVE');
+  }
+
   async consumeBid(id: string): Promise<void> {
     const now   = new Date();
     const month = algiersMonthKey(now);
@@ -498,7 +588,15 @@ export class UsersService {
       subscriptionActive: true,
       subscriptionUntil: { $gt: now },
     };
-    // Unlimited packs (legacy or business/expert) have monthlyBidQuota null.
+
+    // Extra bids consumed first — one active pack at a time, no accumulation.
+    // Guard: extra valid only if not expired (extraBidsExpiry > now).
+    const extraConsumed = await this.userModel.updateOne(
+      { ...subscribed, extraBidsRemaining: { $gt: 0 }, extraBidsExpiry: { $gt: now } },
+      { $inc: { extraBidsRemaining: -1 } },
+    ).exec();
+    if (extraConsumed.modifiedCount === 1) return;
+
     const quota = { $ifNull: ['$monthlyBidQuota', Number.MAX_SAFE_INTEGER] };
 
     // Fast path: same-month bucket with room left.
@@ -591,8 +689,29 @@ export class UsersService {
     return (w.portfolio ?? []).filter((u) => !kept.has(u));
   }
 
-  /** Return one bid to the bucket (compensation when a submit fails late). */
+  /** Return one bid to the bucket (compensation when a submit fails late).
+   *  Refunds to extra if an extra pack was partially consumed (extraRemaining < PACK_SIZE),
+   *  regardless of expiry — a bid consumed from extra must return there even if the
+   *  pack expired between consume and refund. Otherwise refunds to the monthly bucket. */
   async refundBid(id: string): Promise<void> {
+    const w = await this.userModel.findOne({ _id: id }).select('extraBidsRemaining extraBidsExpiry extraBidsPurchasedAt').lean().exec() as { extraBidsRemaining?: number; extraBidsExpiry?: Date | null; extraBidsPurchasedAt?: Date | null } | null;
+    // Extra was partially consumed → refund there (even if expired — the bid came from extra).
+    // Guarded $inc: concurrent refunds can never push remaining past PACK_SIZE.
+    if (w && w.extraBidsPurchasedAt != null) {
+      const r = await this.userModel.updateOne(
+        { _id: id, extraBidsRemaining: { $lt: EXTRA_BIDS_PACK_SIZE } },
+        { $inc: { extraBidsRemaining: 1 } },
+      ).exec();
+      if (r.modifiedCount === 1) {
+        // If extra had expired, revive expiry so the refunded bid is usable
+        const now = new Date();
+        if (!w.extraBidsExpiry || new Date(w.extraBidsExpiry).getTime() <= now.getTime()) {
+          const sub = await this.userModel.findById(id).select('subscriptionUntil').lean().exec() as { subscriptionUntil?: Date | null } | null;
+          await this.userModel.updateOne({ _id: id }, { $set: { extraBidsExpiry: sub?.subscriptionUntil ?? null } }).exec();
+        }
+        return;
+      }
+    }
     await this.userModel
       .updateOne({ _id: id, bidsUsed: { $gt: 0 } }, { $inc: { bidsUsed: -1 } })
       .exec();
