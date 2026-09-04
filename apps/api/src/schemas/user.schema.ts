@@ -420,6 +420,15 @@ export class User {
   @Prop({ default: false })
   aiDataConsent: boolean;
 
+  /**
+   * When the user accepted the Terms of Service + Privacy Policy (checkbox on
+   * the profile setup screen). Stamp-only legal record — written once, never
+   * cleared by any API path. Null = profile auto-created pre-setup (minimal
+   * login upsert) or predates this field.
+   */
+  @Prop({ type: Date, default: null })
+  termsAcceptedAt: Date | null;
+
   // ── Worker-specific ──────────────────────────────────────────────────────────
   // Defaults guarantee that client documents never satisfy worker-targeted
   // queries (e.g. { role: 'worker', isOnline: true }).

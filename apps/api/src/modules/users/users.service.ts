@@ -122,6 +122,12 @@ export class UsersService {
       if ('isOnline'   in dto && dto.isOnline != null) patch['isOnline']   = dto.isOnline;
       // '' clears the bio — only an absent field means "leave it alone".
       if ('bio'        in dto && dto.bio      != null) patch['bio']        = dto.bio;
+      // Terms stamp is write-once: only stamped when the setup checkbox sends
+      // it. Absent on every other path (auto-create, edit-profile) — never
+      // cleared, never overwritten.
+      if ('termsAcceptedAt' in dto && dto.termsAcceptedAt != null) {
+        patch['termsAcceptedAt'] = dto.termsAcceptedAt;
+      }
 
       // ── Document verification / approval ──────────────────────────────────
       // Business MUST submit documents; a worker MAY. When docs are present the
@@ -288,6 +294,8 @@ export class UsersService {
 
   async update(id: string, dto: UpdateUserDto): Promise<UserDocument> {
     try {
+      // NOTE: dto.termsAcceptedAt (inherited via PartialType) is deliberately
+      // NOT mapped here — the terms stamp is write-once via upsert only.
       const patch: Partial<Record<string, unknown>> = { lastUpdated: new Date() };
       if (dto.name             != null) patch['name']            = dto.name;
       if (dto.phoneNumber      != null) patch['phoneNumber']     = dto.phoneNumber;
@@ -718,6 +726,8 @@ export class UsersService {
 
   async updateWorker(id: string, dto: UpdateWorkerDto): Promise<UserDocument> {
     try {
+      // NOTE: dto.termsAcceptedAt (inherited via PartialType) is deliberately
+      // NOT mapped here — the terms stamp is write-once via upsert only.
       const patch: Partial<Record<string, unknown>> = { lastUpdated: new Date() };
       if (dto.name             != null) patch['name']            = dto.name;
       if (dto.phoneNumber      != null) patch['phoneNumber']     = dto.phoneNumber;

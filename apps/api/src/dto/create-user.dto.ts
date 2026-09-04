@@ -4,11 +4,11 @@
 // @IsOptional() يتجاهل null/undefined فقط — لا يتجاهل السلسلة الفارغة ''.
 // بدون هذا الـ transform، يُفشل @IsEmail() على '' رغم @IsOptional().
 
-import { Transform } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import {
   IsString, IsEmail, IsOptional, IsNumber, IsNotEmpty,
   IsEnum, IsIn, Matches, MinLength, MaxLength, Min, Max,
-  IsArray, IsUrl, ArrayMaxSize,
+  IsArray, IsUrl, ArrayMaxSize, IsDate,
 } from 'class-validator';
 import { UserRole } from '../schemas/user.schema';
 
@@ -87,4 +87,14 @@ export class CreateUserDto {
   @ArrayMaxSize(10)
   @IsUrl({}, { each: true })
   verificationDocs?: string[];
+
+  /**
+   * Terms+privacy acceptance timestamp, sent ONCE from the profile setup
+   * screen's checkbox. Optional so older clients and the auto-create upsert
+   * keep working; stamped into termsAcceptedAt server-side.
+   */
+  @Type(() => Date)
+  @IsDate()
+  @IsOptional()
+  termsAcceptedAt?: Date;
 }
