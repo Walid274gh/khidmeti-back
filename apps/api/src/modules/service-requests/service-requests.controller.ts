@@ -16,8 +16,6 @@ import { AuthUser } from '../../common/guards/firebase-auth.guard';
 import { ServiceRequestsService } from './service-requests.service';
 import { CreateServiceRequestDto } from '../../dto/create-service-request.dto';
 import { UpdateServiceRequestDto } from '../../dto/update-service-request.dto';
-import { CompleteJobDto } from '../../dto/complete-job.dto';
-import { SubmitRatingDto } from '../../dto/submit-rating.dto';
 import { ServiceRequestDocument } from '../../schemas/service-request.schema';
 
 @Controller('service-requests')
@@ -115,44 +113,6 @@ export class ServiceRequestsController {
     return this.service.decline(id, user.uid);
   }
 
-  /**
-   * POST /service-requests/:id/start
-   * Assigned worker marks job as in-progress.
-   */
-  @Post(':id/start')
-  @HttpCode(HttpStatus.NO_CONTENT)
-  async startJob(
-    @Param('id') id: string,
-    @CurrentUser() user: AuthUser,
-  ): Promise<void> {
-    return this.service.startJob(id, user.uid);
-  }
 
-  /**
-   * POST /service-requests/:id/complete
-   * Assigned worker marks job as completed.
-   */
-  @Post(':id/complete')
-  @HttpCode(HttpStatus.NO_CONTENT)
-  async completeJob(
-    @Param('id') id: string,
-    @Body() dto: CompleteJobDto,
-    @CurrentUser() user: AuthUser,
-  ): Promise<void> {
-    return this.service.completeJob(id, user.uid, dto.workerNotes, dto.finalPrice);
-  }
 
-  /**
-   * POST /service-requests/:id/rate
-   * Client submits a star rating after job completion.
-   */
-  @Post(':id/rate')
-  @HttpCode(HttpStatus.NO_CONTENT)
-  async submitRating(
-    @Param('id') id: string,
-    @Body() dto: SubmitRatingDto,
-    @CurrentUser() user: AuthUser,
-  ): Promise<void> {
-    return this.service.submitRating(id, user.uid, dto);
-  }
 }

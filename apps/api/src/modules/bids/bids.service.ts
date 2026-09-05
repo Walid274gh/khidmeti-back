@@ -24,10 +24,6 @@ export interface BidFilters {
   limit?: number;
 }
 
-// Bid TTL: accepted bids expire 7 days after acceptance.
-// Worker must start the job within this window or contact client for a new bid.
-const BID_TTL_DAYS = 7;
-
 @Injectable()
 export class BidsService {
   private readonly logger = new Logger(BidsService.name);
@@ -174,113 +170,6 @@ export class BidsService {
         .exec();
     } catch (err) {
       this.logger.error('BidsService.findMany failed', err);
-      throw err;
-    }
-  }
-
-  async accept(bidId: string, uid: string): Promise<void> {
-    try {
-      const bid = await this.bidModel.findById(bidId).exec();
-      if (!bid) throw new NotFoundException(`Bid ${bidId} not found`);
-
-      const request = await this.requestModel.findById(bid.serviceRequestId).exec();
-      if (!request) throw new NotFoundException(`Service request ${bid.serviceRequestId} not found`);
-      if (request.userId !== uid) throw new ForbiddenException('Only the request owner can accept a bid');
-
-      // ── Step 1: claim the bid atomically (Pending → Accepted). ──────────────
-      // The status filter loses cleanly against a concurrent withdraw(). A bid
-      // already Accepted falls through: either an idempotent client retry, or
-      // crash-repair for a previous attempt that died before step 2.
-      if (bid.status === BidStatus.Pending) {
-        const now = new Date();
-        const expiresAt = new Date(now.getTime() + BID_TTL_DAYS * 24 * 60 * 60 * 1000);
-        const bidClaim = await this.bidModel.updateOne(
-          { _id: bidId, status: BidStatus.Pending },
-          { status: BidStatus.Accepted, acceptedAt: now, expiresAt },
-        ).exec();
-        if (bidClaim.matchedCount === 0) {
-          throw new BadRequestException('Bid is not pending');
-        }
-      } else if (bid.status !== BidStatus.Accepted) {
-        throw new BadRequestException(`Bid is not pending (status: ${bid.status})`);
-      }
-
-      // ── Step 2: claim the request atomically. ────────────────────────────────
-      // Only one accept can flip Open/AwaitingSelection → BidSelected; the $or
-      // branch lets a retry of THIS bid pass (idempotent / crash-repair).
-      const reqClaim = await this.requestModel.updateOne(
-        {
-          _id: bid.serviceRequestId,
-          $or: [
-            { status: { $in: [ServiceStatus.Open, ServiceStatus.AwaitingSelection] } },
-            { status: ServiceStatus.BidSelected, selectedBidId: bidId },
-          ],
-        },
-        {
-          status:        ServiceStatus.BidSelected,
-          selectedBidId: bidId,
-          workerId:      bid.workerId,
-          workerName:    bid.workerName,
-          agreedPrice:   bid.proposedPrice,
-          bidSelectedAt: new Date(),
-        },
-      ).exec();
-
-      if (reqClaim.matchedCount === 0) {
-        // Lost to a concurrent accept/cancel — roll the bid back and report.
-        // ponytail: no transaction (standalone Mongo); a crash between the two
-        // claims is self-repairing via the Accepted fall-through above.
-        await this.bidModel.updateOne(
-          { _id: bidId, status: BidStatus.Accepted },
-          { status: BidStatus.Pending, acceptedAt: null },
-        ).exec();
-        const now = await this.requestModel.findById(bid.serviceRequestId).select('status').lean().exec();
-        throw new BadRequestException(
-          `Cannot accept bid on request in status: ${(now as { status?: string } | null)?.status ?? 'unknown'}`,
-        );
-      }
-
-      // ── Step 3: decline the other pending bids and tell their workers. ──────
-      const losers = await this.bidModel
-        .find({ serviceRequestId: bid.serviceRequestId, _id: { $ne: bidId }, status: BidStatus.Pending })
-        .select('workerId')
-        .lean()
-        .exec();
-
-      await this.bidModel.updateMany(
-        { serviceRequestId: bid.serviceRequestId, _id: { $ne: bidId }, status: BidStatus.Pending },
-        { status: BidStatus.Declined },
-      ).exec();
-
-      // → /requests → both client and assigned worker refresh the request view.
-      this.safeEmit(() =>
-        this.requestGateway.emitRequestUpdated(bid.serviceRequestId, {
-          status:   ServiceStatus.BidSelected,
-          workerId: bid.workerId,
-        }),
-      );
-      this.safeEmit(() =>
-        this.bidsGateway.emitBidAccepted(bid.serviceRequestId, bidId, bid.workerId),
-      );
-
-      // Inbox + FCM push to the winning worker, in the worker's language.
-      void this.pushSender.notify(bid.workerId, {
-        type: 'bid_accepted',
-        data: { requestId: bid.serviceRequestId },
-      });
-
-      // Losing bidders: realtime + inbox/push so their my-bids tab doesn't lie.
-      for (const loser of losers as Array<{ _id: string; workerId: string }>) {
-        this.safeEmit(() =>
-          this.bidsGateway.emitBidDeclined(loser.workerId, bid.serviceRequestId, loser._id),
-        );
-        void this.pushSender.notify(loser.workerId, {
-          type: 'bid_declined',
-          data: { requestId: bid.serviceRequestId },
-        });
-      }
-    } catch (err) {
-      this.logger.error(`BidsService.accept(${bidId}) failed`, err);
       throw err;
     }
   }

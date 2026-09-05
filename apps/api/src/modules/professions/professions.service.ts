@@ -116,6 +116,21 @@ export class ProfessionsService implements OnModuleInit {
 
   // ── Mappers ────────────────────────────────────────────────────────────────
 
+  /**
+   * Incrémente le score de demande d'un métier — appelé à chaque service
+   * request créée (fire-and-forget : la création ne doit jamais échouer
+   * à cause du compteur).
+   */
+  async bumpPopularity(key: string): Promise<void> {
+    try {
+      await this.professionModel
+        .updateOne({ key }, { $inc: { popularity: 1 } })
+        .exec();
+    } catch (err) {
+      this.logger.warn(`bumpPopularity(${key}) failed (non-fatal): ${(err as Error).message}`);
+    }
+  }
+
   private toDto(doc: Profession, lang: Lang): ProfessionDto {
     return {
       key:           doc.key,
@@ -124,6 +139,7 @@ export class ProfessionsService implements OnModuleInit {
       label:         doc.labels[lang],
       categoryLabel: doc.categoryLabels[lang],
       sortOrder:     doc.sortOrder,
+      popularity:    doc.popularity ?? 0,
       imageUrl:      doc.imageUrl,
     };
   }

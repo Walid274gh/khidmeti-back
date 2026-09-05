@@ -33,13 +33,12 @@ import { ServiceRequest, ServiceRequestDocument } from '../../schemas/service-re
 import { WorkerBid, WorkerBidDocument }           from '../../schemas/worker-bid.schema';
 import { CreateServiceRequestDto }  from '../../dto/create-service-request.dto';
 import { UpdateServiceRequestDto }  from '../../dto/update-service-request.dto';
-import { SubmitRatingDto }          from '../../dto/submit-rating.dto';
-import { ServiceStatus, ServicePriority, BidStatus } from '../../common/enums';
-import { UsersService }             from '../users/users.service';
+import { ServiceStatus, ServicePriority } from '../../common/enums';
 import { ServiceRequestGateway }    from '../gateway/service-request.gateway';
 import { PushSenderService }        from '../notifications/push-sender.service';
 import { VectorIndexService }       from '../../qdrant/vector-index.service';
 import { FlywheelService }          from '../ai/services/flywheel.service';
+import { ProfessionsService }       from '../professions/professions.service';
 
 export interface ServiceRequestFilters {
   userId?: string;
@@ -65,12 +64,11 @@ export class ServiceRequestsService {
     private readonly requestModel: Model<ServiceRequestDocument>,
     @InjectModel(WorkerBid.name)
     private readonly bidModel: Model<WorkerBidDocument>,
-    // UsersService instead of WorkersService — rating applied on unified collection
-    private readonly usersService: UsersService,
     private readonly requestGateway: ServiceRequestGateway,
     private readonly pushSender: PushSenderService,
     private readonly vectorIndex: VectorIndexService,
     private readonly flywheel: FlywheelService,
+    private readonly professions: ProfessionsService,
   ) {}
 
   /**
@@ -108,6 +106,10 @@ export class ServiceRequestsService {
       // latest consented AI query (fire-and-forget, consent re-checked by
       // the query itself: only logged queries can be labeled).
       this.flywheel.recordChoice(uid, dto.serviceType);
+
+      // Real-demand popularity — +1 per created request drives the home
+      // featured grid (fire-and-forget, never blocks creation).
+      if (dto.serviceType) void this.professions.bumpPopularity(dto.serviceType);
 
       // Push the new lead live to workers browsing this wilaya+service room.
       // Minimal payload (no client PII in the broadcast) — it only triggers a
@@ -188,10 +190,10 @@ export class ServiceRequestsService {
    * Fields a client is allowed to edit on their OWN request via PATCH.
    *
    * Workflow/state fields (status, workerId, workerName, agreedPrice,
-   * selectedBidId, bidSelectedAt, completedAt, workerNotes, finalPrice,
-   * clientRating, reviewComment, bidCount) are DELIBERATELY excluded — they may
-   * only change through the dedicated flow endpoints (accept-bid, start,
-   * complete, rate). The Flutter app sends the full model via `toMap()`, so we
+   * selectedBidId, bidSelectedAt, bidCount) are DELIBERATELY excluded — they may
+   * only change through the dedicated flow endpoints (ContactService.acceptQuote
+   * for accept, decline/cancel for the rest). The Flutter app sends the full
+   * model via `toMap()`, so we
    * accept those keys at the DTO layer but silently ignore them here instead of
    * letting a tampered payload corrupt the request's workflow state.
    */
@@ -283,7 +285,7 @@ export class ServiceRequestsService {
       throw new BadRequestException(`Cannot decline a job in status: ${request.status}`);
     }
 
-    // Atomic claim first: if a concurrent startJob()/cancel() won, do NOT
+    // Atomic claim first: if a concurrent accept()/cancel() won, do NOT
     // decline the bid or clear the assignment.
     const claim = await this.requestModel.updateOne(
       { _id: id, workerId: uid, status: ServiceStatus.BidSelected },
@@ -317,120 +319,4 @@ export class ServiceRequestsService {
     });
   }
 
-  async startJob(id: string, uid: string): Promise<void> {
-    const request = await this.requestModel.findById(id).exec();
-    if (!request) throw new NotFoundException(`Service request ${id} not found`);
-    if (request.workerId !== uid) throw new ForbiddenException('Only the assigned worker can start this job');
-    if (request.status !== ServiceStatus.BidSelected) {
-      throw new BadRequestException(`Cannot start job in status: ${request.status}`);
-    }
-
-    // TTL check: bid expires 7 days after acceptance. Auto-decline if stale.
-    const bid = await this.bidModel.findOne({
-      serviceRequestId: id,
-      workerId: uid,
-      status: BidStatus.Accepted,
-    }).exec();
-    if (bid?.expiresAt && bid.expiresAt.getTime() < Date.now()) {
-      throw new BadRequestException('Bid has expired (7 days since acceptance). Contact the client to accept a new bid.');
-    }
-
-    const claim = await this.requestModel
-      .updateOne(
-        { _id: id, workerId: uid, status: ServiceStatus.BidSelected },
-        { status: ServiceStatus.InProgress, acceptedAt: new Date() },
-      )
-      .exec();
-    if (claim.matchedCount === 0) {
-      throw new BadRequestException('Job is no longer in a startable state');
-    }
-
-    this.safeEmitUpdated(id, { status: ServiceStatus.InProgress });
-
-    // Inbox + FCM push to the client (in their language) that work has started.
-    void this.pushSender.notify(request.userId, {
-      type: 'job_started',
-      data: { requestId: id },
-    });
-  }
-
-  async completeJob(id: string, uid: string, workerNotes?: string, finalPrice?: number): Promise<void> {
-    const request = await this.requestModel.findById(id).exec();
-    if (!request) throw new NotFoundException(`Service request ${id} not found`);
-    if (request.workerId !== uid) throw new ForbiddenException('Only the assigned worker can complete this job');
-    if (
-      request.status !== ServiceStatus.BidSelected &&
-      request.status !== ServiceStatus.InProgress
-    ) {
-      throw new BadRequestException(`Cannot complete job in status: ${request.status}`);
-    }
-
-    const patch: Partial<Record<string, unknown>> = {
-      status: ServiceStatus.Completed,
-      completedAt: new Date(),
-    };
-    if (workerNotes) patch['workerNotes'] = workerNotes;
-    if (finalPrice != null) patch['finalPrice'] = finalPrice;
-
-    const claim = await this.requestModel.updateOne(
-      {
-        _id: id,
-        workerId: uid,
-        status: { $in: [ServiceStatus.BidSelected, ServiceStatus.InProgress] },
-      },
-      patch,
-    ).exec();
-    if (claim.matchedCount === 0) {
-      throw new BadRequestException('Job is no longer in a completable state');
-    }
-
-    // Server-side counter — jobsCompleted is not client-writable. Non-fatal:
-    // the completion is already committed.
-    try {
-      await this.usersService.incrementJobsCompleted(uid);
-    } catch (err) {
-      this.logger.warn(`incrementJobsCompleted(${uid}) failed (completion saved): ${(err as Error).message}`);
-    }
-
-    this.vectorIndex.removeRequest(id); // completed — never matched again
-    this.safeEmitUpdated(id, { status: ServiceStatus.Completed });
-
-    // Inbox + FCM push to the client (in their language); prompts them to rate.
-    void this.pushSender.notify(request.userId, {
-      type: 'job_completed',
-      data: { requestId: id },
-    });
-  }
-
-  async submitRating(id: string, uid: string, dto: SubmitRatingDto): Promise<void> {
-    const request = await this.requestModel.findById(id).exec();
-    if (!request) throw new NotFoundException(`Service request ${id} not found`);
-    if (request.userId !== uid) throw new ForbiddenException('Only the client can rate this request');
-    if (request.status !== ServiceStatus.Completed) throw new BadRequestException('Can only rate completed jobs');
-    if (request.clientRating != null) throw new BadRequestException('This request has already been rated');
-
-    const patch: Partial<Record<string, unknown>> = { clientRating: dto.stars };
-    if (dto.comment) patch['reviewComment'] = dto.comment;
-
-    // clientRating:null filter makes the once-only guard atomic — a concurrent
-    // double-submit matches zero documents instead of double-counting.
-    const claim = await this.requestModel
-      .updateOne({ _id: id, status: ServiceStatus.Completed, clientRating: null }, patch)
-      .exec();
-    if (claim.matchedCount === 0) {
-      throw new BadRequestException('This request has already been rated');
-    }
-
-    // Apply Bayesian rating on the unified users collection. Non-fatal: the
-    // rating is committed above; a vanished worker must not 500 the client.
-    if (request.workerId) {
-      try {
-        await this.usersService.applyRating(request.workerId, dto.stars);
-      } catch (err) {
-        this.logger.warn(`applyRating(${request.workerId}) failed (rating saved): ${(err as Error).message}`);
-      }
-    }
-
-    this.safeEmitUpdated(id, { rated: true });
-  }
 }

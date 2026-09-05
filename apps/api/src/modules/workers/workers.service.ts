@@ -106,13 +106,4 @@ export class WorkersService {
     return this.usersService.updateWorkerFcmToken(id, fcmToken);
   }
 
-  // ── Rating ────────────────────────────────────────────────────────────────
-
-  /**
-   * Apply Bayesian average rating update when a new review comes in.
-   * Delegates to UsersService — single authoritative implementation.
-   */
-  async applyRating(id: string, stars: number): Promise<void> {
-    return this.usersService.applyRating(id, stars);
-  }
 }

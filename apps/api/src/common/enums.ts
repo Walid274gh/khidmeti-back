@@ -2,7 +2,6 @@ export enum ServiceStatus {
   Open = 'open',
   AwaitingSelection = 'awaitingSelection',
   BidSelected = 'bidSelected',
-  InProgress = 'inProgress',
   Completed = 'completed',
   Cancelled = 'cancelled',
   Expired = 'expired',

@@ -19,6 +19,9 @@ export class ProfessionDto {
   /** Ordre d'affichage. */
   sortOrder: number;
 
+  /** Score de demande réel (0 = pas de données — Flutter utilise son ordre de lancement). */
+  popularity: number;
+
   /**
    * URL d'image Cloudinary (ou toute URL publique) pour la carte d'accueil.
    * Absent si non configurée — Flutter affiche l'icône accent en fallback.

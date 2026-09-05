@@ -91,30 +91,6 @@ export class ServiceRequest {
   @Prop({ type: Date, default: null })
   bidSelectedAt: Date | null;
 
-  @Prop({ type: Date, default: null })
-  acceptedAt: Date | null;
-
-  @Prop({ type: Date, default: null })
-  completedAt: Date | null;
-
-  @Prop({ type: String, default: null })
-  workerNotes: string | null;
-
-  @Prop({ type: Number, default: null })
-  finalPrice: number | null;
-
-  @Prop({ type: Number, default: null })
-  estimatedPrice: number | null;
-
-  @Prop({ type: Number, default: null })
-  estimatedDuration: number | null;
-
-  @Prop({ type: Number, default: null, min: 1, max: 5 })
-  clientRating: number | null;
-
-  @Prop({ type: String, default: null })
-  reviewComment: string | null;
-
   @Prop({ type: String, default: null, index: true })
   cellId: string | null;
 

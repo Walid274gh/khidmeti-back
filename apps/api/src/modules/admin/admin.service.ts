@@ -296,7 +296,7 @@ export class AdminService {
 
     // Requests where they were the assigned worker: unassign and reopen.
     await this.requestModel.updateMany(
-      { workerId: id, status: { $in: [ServiceStatus.BidSelected, ServiceStatus.InProgress] } },
+      { workerId: id, status: ServiceStatus.BidSelected },
       {
         $set:   { status: ServiceStatus.Open },
         $unset: { selectedBidId: '', workerId: '', workerName: '', agreedPrice: '', bidSelectedAt: '' },

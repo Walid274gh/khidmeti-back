@@ -55,6 +55,23 @@ export class AiQueryLog {
   @Prop({ type: Date, default: null })
   chosenAt: Date | null;
 
+  // ── Voice capture telemetry (Flutter VAD — additive, null for text/image) ──
+  // Lets the P6 retrain script slice "quiet" (vadPeakDb < −35) and "short"
+  // (vadSpeechSecs < 2.5) cohorts and oversample exactly the failing cases.
+  @Prop({ type: Number, default: null })
+  vadSpeechSecs: number | null;
+
+  @Prop({ type: Number, default: null })
+  vadPeakDb: number | null;
+
+  /** On-device live partial shown to the user (display-only, may differ). */
+  @Prop({ type: String, default: null })
+  interimText: string | null;
+
+  /** Raw upload size in bytes (stub rejection audit). */
+  @Prop({ type: Number, default: null })
+  audioBytes: number | null;
+
   @Prop({ required: true })
   createdAt: Date;
 }

@@ -14,6 +14,7 @@ import { UsersModule }              from './modules/users/users.module';
 import { WorkersModule }            from './modules/workers/workers.module';
 import { ServiceRequestsModule }    from './modules/service-requests/service-requests.module';
 import { BidsModule }               from './modules/bids/bids.module';
+import { ContactModule }            from './modules/contact/contact.module';
 import { LocationModule }           from './modules/location/location.module';
 import { NotificationsModule }      from './modules/notifications/notifications.module';
 import { GatewayModule }            from './modules/gateway/gateway.module';
@@ -60,6 +61,7 @@ import { HealthController }         from './health.controller';
     WorkersModule,
     ServiceRequestsModule,
     BidsModule,
+    ContactModule,
     LocationModule,
     NotificationsModule,
     GatewayModule,

@@ -60,6 +60,15 @@ export class Profession {
   sortOrder: number;
 
   /**
+   * Score de demande réel — +1 à chaque service request créée pour ce métier
+   * (voir ProfessionsService.bumpPopularity). Servi tel quel dans
+   * GET /professions ; Flutter classe les 4 cartes d'accueil par ce score
+   * dès qu'au moins une valeur est > 0, sinon ordre curated de lancement.
+   */
+  @Prop({ default: 0, min: 0 })
+  popularity: number;
+
+  /**
    * URL d'image pour la carte de la profession sur l'écran d'accueil.
    * Gérée par l'admin ou le script seed-professions.
    * Non requise — le client Flutter retombe sur l'icône accent si absente.
@@ -104,3 +113,4 @@ export const ProfessionSchema = SchemaFactory.createForClass(Profession);
 
 ProfessionSchema.index({ isActive: 1, sortOrder: 1 });
 ProfessionSchema.index({ categoryKey: 1, isActive: 1, sortOrder: 1 });
+ProfessionSchema.index({ isActive: 1, popularity: -1 });

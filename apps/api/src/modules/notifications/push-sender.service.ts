@@ -148,6 +148,7 @@ export class PushSenderService {
       type.startsWith('bid_') ||
       type.startsWith('job_') ||
       type.startsWith('request_') ||
+      type.startsWith('rating_') ||
       type === 'new_request'
     ) {
       return 'service_requests_channel';

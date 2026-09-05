@@ -737,7 +737,7 @@ export class UsersService {
       if (dto.geoHash          != null) patch['geoHash']         = dto.geoHash;
       if (dto.bio              != null) patch['bio']             = dto.bio;
       // averageRating / ratingCount / ratingSum / jobsCompleted / responseRate
-      // are server-derived trust data (applyRating, completeJob) — the Flutter
+      // are server-derived trust data (ContactService.resolve) — the Flutter
       // app sends them in toMap() but they must NEVER be client-writable.
       if (dto.lastActiveAt     != null) patch['lastActiveAt']    = dto.lastActiveAt;
 

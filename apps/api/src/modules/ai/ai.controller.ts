@@ -60,15 +60,27 @@ export class AiController {
   async extractIntentFromAudio(
     @UploadedFile() file: Express.Multer.File | undefined,
     @CurrentUser() user: AuthUser,
+    @Body() body: Record<string, string>,
   ): Promise<SearchIntent> {
     if (!file?.buffer?.length) {
       throw new BadRequestException('Fichier audio requis (m4a, wav, mp3, ogg)');
     }
     const result = await this.intentExtractor.extractFromAudio(file.buffer, file.mimetype, user.uid);
     // C1 flywheel — audio bytes + transcription = future Whisper LoRA pairs.
+    // Additive VAD telemetry (Flutter) — ignored when absent (old builds).
+    const vadSpeechSecs = body?.['vad_speech_secs'] ? parseFloat(body['vad_speech_secs']) : undefined;
+    const vadPeakDb     = body?.['vad_peak_db']     ? parseFloat(body['vad_peak_db'])     : undefined;
+    const interimText   = body?.['interim_text']    ?? undefined;
+    const audioBytes    = file.buffer.length;
     this.flywheel.log(
       user.uid, 'audio', result.transcribedText ?? '', result,
       file.buffer, (file.mimetype.split('/')[1] ?? 'bin'),
+      {
+        vadSpeechSecs: Number.isFinite(vadSpeechSecs) ? vadSpeechSecs : undefined,
+        vadPeakDb:     Number.isFinite(vadPeakDb)     ? vadPeakDb     : undefined,
+        interimText,
+        audioBytes,
+      },
     );
     return result;
   }

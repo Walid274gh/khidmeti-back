@@ -58,19 +58,6 @@ export class BidsController {
   }
 
   /**
-   * POST /bids/:id/accept
-   * Client accepts a bid — transitions request to bidSelected.
-   */
-  @Post(':id/accept')
-  @HttpCode(HttpStatus.NO_CONTENT)
-  async accept(
-    @Param('id') id: string,
-    @CurrentUser() user: AuthUser,
-  ): Promise<void> {
-    return this.bidsService.accept(id, user.uid);
-  }
-
-  /**
    * POST /bids/:id/withdraw
    * Worker withdraws their own pending bid.
    */

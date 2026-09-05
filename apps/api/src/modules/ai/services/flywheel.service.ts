@@ -29,6 +29,14 @@ const CHOICE_WINDOW_MS = 30 * 60 * 1000;
 /** Media larger than this is skipped (text row still logged) — bounds disk. */
 const MAX_MEDIA_BYTES = 16 * 1024 * 1024;
 
+/** Capture telemetry from the Flutter VAD (audio rows only, all optional). */
+export interface VoiceMeta {
+  vadSpeechSecs?: number;
+  vadPeakDb?: number;
+  interimText?: string;
+  audioBytes?: number;
+}
+
 @Injectable()
 export class FlywheelService {
   private readonly logger = new Logger(FlywheelService.name);
@@ -53,8 +61,9 @@ export class FlywheelService {
     intent:   SearchIntent,
     media?:   Buffer,
     ext?:     string,
+    voiceMeta?: VoiceMeta,
   ): void {
-    void this.write(uid, modality, text, intent, media, ext).catch((e) =>
+    void this.write(uid, modality, text, intent, media, ext, voiceMeta).catch((e) =>
       this.logger.warn(`flywheel log failed (non-fatal): ${(e as Error).message}`),
     );
   }
@@ -101,6 +110,7 @@ export class FlywheelService {
     intent:   SearchIntent,
     media?:   Buffer,
     ext?:     string,
+    voiceMeta?: VoiceMeta,
   ): Promise<void> {
     if (!(await this.hasConsent(uid))) return;
 
@@ -126,6 +136,10 @@ export class FlywheelService {
       mediaFile,
       chosenProfession: null,
       chosenAt:         null,
+      vadSpeechSecs:    voiceMeta?.vadSpeechSecs ?? null,
+      vadPeakDb:        voiceMeta?.vadPeakDb ?? null,
+      interimText:      (voiceMeta?.interimText ?? '').slice(0, 500) || null,
+      audioBytes:       voiceMeta?.audioBytes ?? null,
       createdAt:        new Date(),
     });
   }

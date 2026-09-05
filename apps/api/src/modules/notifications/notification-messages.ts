@@ -72,6 +72,26 @@ const TEMPLATES: Record<string, Record<NotificationLang, Template>> = {
       body: 'The client chose another bid for this request.',
     }),
   },
+  rating_reminder: {
+    fr: (p) => ({
+      title: 'Comment ça s’est passé ?',
+      body: p.workerName
+        ? `Votre échange avec ${p.workerName} date d’il y a 2 jours. L’avez-vous embauché ?`
+        : 'Un de vos contacts date d’il y a 2 jours. L’avez-vous embauché ?',
+    }),
+    ar: (p) => ({
+      title: 'كيف كانت التجربة؟',
+      body: p.workerName
+        ? `تواصلت مع ${p.workerName} قبل يومين. هل تم العمل؟`
+        : 'لديك تواصل منذ يومين. هل تم العمل؟',
+    }),
+    en: (p) => ({
+      title: 'How did it go?',
+      body: p.workerName
+        ? `You connected with ${p.workerName} 2 days ago. Did you hire them?`
+        : 'You have a contact from 2 days ago. Did you hire them?',
+    }),
+  },
   job_cancelled: {
     fr: () => ({
       title: 'Demande annulée',
@@ -84,34 +104,6 @@ const TEMPLATES: Record<string, Record<NotificationLang, Template>> = {
     en: () => ({
       title: 'Request cancelled',
       body: 'The client cancelled the request assigned to you.',
-    }),
-  },
-  job_started: {
-    fr: () => ({
-      title: 'Travail commencé',
-      body: 'Le prestataire a commencé votre demande.',
-    }),
-    ar: () => ({
-      title: 'بدأ العمل',
-      body: 'بدأ مقدّم الخدمة تنفيذ طلبك.',
-    }),
-    en: () => ({
-      title: 'Work started',
-      body: 'The provider has started your request.',
-    }),
-  },
-  job_completed: {
-    fr: () => ({
-      title: 'Travail terminé',
-      body: 'Votre demande est terminée. Notez le prestataire.',
-    }),
-    ar: () => ({
-      title: 'اكتمل العمل',
-      body: 'اكتملت خدمتك. قيّم مقدّم الخدمة.',
-    }),
-    en: () => ({
-      title: 'Work completed',
-      body: 'Your request is complete. Please rate the provider.',
     }),
   },
   job_declined: {

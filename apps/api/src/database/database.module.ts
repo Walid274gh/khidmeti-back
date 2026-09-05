@@ -13,6 +13,7 @@ import { MongooseModule }  from '@nestjs/mongoose';
 import { User, UserSchema }                     from '../schemas/user.schema';
 import { ServiceRequest, ServiceRequestSchema } from '../schemas/service-request.schema';
 import { WorkerBid, WorkerBidSchema }           from '../schemas/worker-bid.schema';
+import { ContactInteraction, ContactInteractionSchema } from '../schemas/contact-interaction.schema';
 import { Notification, NotificationSchema }     from '../schemas/notification.schema';
 import { GeographicCell, GeographicCellSchema } from '../schemas/geographic-cell.schema';
 import { Profession, ProfessionSchema }         from '../schemas/profession.schema';
@@ -22,6 +23,7 @@ const MODELS = MongooseModule.forFeature([
   { name: User.name,           schema: UserSchema           },
   { name: ServiceRequest.name, schema: ServiceRequestSchema },
   { name: WorkerBid.name,      schema: WorkerBidSchema      },
+  { name: ContactInteraction.name, schema: ContactInteractionSchema },
   { name: Notification.name,   schema: NotificationSchema   },
   { name: GeographicCell.name, schema: GeographicCellSchema },
   { name: Profession.name,     schema: ProfessionSchema     },

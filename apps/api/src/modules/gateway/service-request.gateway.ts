@@ -176,25 +176,7 @@ export class ServiceRequestGateway
     this.server.to(room).emit('request:created', { request, ts: Date.now() });
   }
 
-  /**
-   * Notify the worker and the client when a job is started.
-   */
-  emitJobStarted(requestId: string, workerId: string, clientUserId: string): void {
-    const event = { requestId, ts: Date.now() };
-    this.server.to(`request:${requestId}`).emit('request:started', event);
-    this.server.to(`user:${workerId}`).emit('request:started', event);
-    this.server.to(`user:${clientUserId}`).emit('request:started', event);
-  }
 
-  /**
-   * Notify both parties when a job is completed.
-   */
-  emitJobCompleted(requestId: string, workerId: string, clientUserId: string): void {
-    const event = { requestId, ts: Date.now() };
-    this.server.to(`request:${requestId}`).emit('request:completed', event);
-    this.server.to(`user:${workerId}`).emit('request:completed', event);
-    this.server.to(`user:${clientUserId}`).emit('request:completed', event);
-  }
 
   /**
    * Notify both parties when a request is cancelled.
